@@ -3,100 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zain Tech Hub - Premium Electronics</title>
+    <title>Zain Tech Hub | Premium Electronics</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; background-color: #f7f9fc; color: #333; }
-        .nav { background-color: #0d47a1; color: white; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-        .nav h1 { margin: 0; font-size: 26px; }
-        .container { padding: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .product { background-color: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 3px 8px rgba(0,0,0,0.1); transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; text-align: center; }
-        .product:hover { transform: translateY(-5px); box-shadow: 0 6px 15px rgba(0,0,0,0.15); }
-        .p-image-placeholder { width: 100%; height: 200px; background-color: #e3f2fd; display: flex; align-items: center; justify-content: center; font-size: 30px; color: #fff; }
-        .product-body { padding: 20px; flex-grow: 1; }
-        .p-name { font-size: 19px; font-weight: 600; margin-bottom: 8px; color: #212121; }
-        .p-price { font-size: 22px; font-weight: 700; color: #1976d2; margin-bottom: 12px; }
-        .p-desc { font-size: 14px; color: #757575; line-height: 1.5; margin-bottom: 18px; }
-        .btn-buy { background-color: #fdd835; color: #212121; text-decoration: none; padding: 12px 25px; border-radius: 5px; font-weight: 700; display: inline-block; font-size: 16px; transition: background-color 0.2s; }
-        .btn-buy:hover { background-color: #fbc02d; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background-color: #f0f2f5; color: #1c1e21; }
+        
+        /* Header */
+        header { background: linear-gradient(135deg, #0062cc, #003366); color: white; padding: 40px 20px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        header h1 { font-size: 2.5rem; letter-spacing: 1px; }
+        header p { opacity: 0.9; font-weight: 300; margin-top: 5px; }
+
+        /* Product Container */
+        .container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; padding: 40px 5%; max-width: 1400px; margin: auto; }
+
+        /* Card Design */
+        .card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.05); transition: all 0.3s ease; display: flex; flex-direction: column; border: 1px solid #eee; }
+        .card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
+
+        /* Image Placeholder */
+        .img-box { background: #f8f9fa; height: 220px; display: flex; align-items: center; justify-content: center; font-size: 60px; position: relative; }
+        .img-box::after { content: "Tech Gadget"; position: absolute; bottom: 10px; font-size: 12px; color: #aaa; text-transform: uppercase; }
+
+        /* Product Info */
+        .info { padding: 20px; text-align: center; flex-grow: 1; }
+        .category { font-size: 11px; color: #0062cc; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; display: block; }
+        .title { font-size: 1.2rem; font-weight: 600; margin-bottom: 10px; color: #333; }
+        .price { font-size: 1.4rem; font-weight: 700; color: #d9534f; margin-bottom: 20px; display: block; }
+
+        /* WhatsApp Button */
+        .wa-btn { background-color: #25D366; color: white; text-decoration: none; padding: 12px 20px; border-radius: 30px; display: inline-flex; align-items: center; justify-content: center; font-weight: 600; transition: 0.3s; width: 100%; gap: 10px; }
+        .wa-btn:hover { background-color: #128C7E; box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3); }
+
+        footer { text-align: center; padding: 40px; background: #333; color: white; margin-top: 50px; }
     </style>
 </head>
 <body>
-    <div class="nav">
-        <h1>Zain Tech Hub</h1>
+
+<header>
+    <h1>Zain Tech Hub</h1>
+    <p>Your Trusted Partner for Quality Gadgets</p>
+</header>
+
+<div class="container" id="product-list">
+    <div class="card">
+        <div class="img-box">📱</div>
+        <div class="info">
+            <span class="category">Smartphone</span>
+            <div class="title">Zain-X Pro Max (256GB)</div>
+            <span class="price">Rs. 85,000</span>
+            <a href="https://wa.me/923485491217?text=Salam! Mujhe Zain-X Pro Max Smartphone chahiye. Iski details bata dein." class="wa-btn">
+                <span>Order on WhatsApp</span>
+            </a>
+        </div>
     </div>
-    <div class="container">
-        <div class="product">
-            <div class="p-image-placeholder">&#128241;</div>
-            <div class="product-body">
-                <div class="p-name">Zain-X Pro Smartphone</div>
-                <div class="p-price">PKR 75,000</div>
-                <div class="p-desc">Flagship performance with 120Hz display, 108MP camera.</div>
-                <a href="#" class="btn-buy">Buy Now</a>
-            </div>
+
+    <div class="card">
+        <div class="img-box">💻</div>
+        <div class="info">
+            <span class="category">Laptop</span>
+            <div class="title">EliteBook G5 Core i7</div>
+            <span class="price">Rs. 125,000</span>
+            <a href="https://wa.me/923485491217?text=Salam! Mujhe EliteBook G5 Laptop chahiye. Iski details bata dein." class="wa-btn">
+                <span>Order on WhatsApp</span>
+            </a>
         </div>
-        <div class="product">
-            <div class="p-image-placeholder">&#128187;</div>
-            <div class="product-body">
-                <div class="p-name">Core LapBook Ultra</div>
-                <div class="p-price">PKR 145,000</div>
-                <div class="p-desc">Intel Core i7, 16GB RAM, 512GB SSD. Built for speed.</div>
-                <a href="#" class="btn-buy">Order Laptop</a>
-            </div>
+    </div>
+
+    <div class="card">
+        <div class="img-box">🎧</div>
+        <div class="info">
+            <span class="category">Audio</span>
+            <div class="title">Wireless Noise Cancelling Buds</div>
+            <span class="price">Rs. 8,500</span>
+            <a href="https://wa.me/923485491217?text=Salam! Mujhe Wireless Buds chahiye. Kya ye stock mein hai?" class="wa-btn">
+                <span>Order on WhatsApp</span>
+            </a>
         </div>
-        <div class="product">
-            <div class="p-image-placeholder">&#127911;</div>
-            <div class="product-body">
-                <div class="p-name">Zain Buds Air</div>
-                <div class="p-price">PKR 12,500</div>
-                <div class="p-desc">Crystal clear sound, active noise cancellation, 30hr battery.</div>
-                <a href="#" class="btn-buy">Get Buds</a>
-            </div>
+    </div>
+
+    <div class="card">
+        <div class="img-box">⌚</div>
+        <div class="info">
+            <span class="category">Accessories</span>
+            <div class="title">Smart Watch Series 9</div>
+            <span class="price">Rs. 15,000</span>
+            <a href="https://wa.me/923485491217?text=Salam! Mujhe Smart Watch chahiye. Delivery charges kitne hain?" class="wa-btn">
+                <span>Order on WhatsApp</span>
+            </a>
         </div>
-        <div class="product">
-            <div class="p-image-placeholder">&#128080;</div>
-            <div class="product-body">
-                <div class="p-name">SmartWatch Series Z</div>
-                <div class="p-price">PKR 25,000</div>
-                <div class="p-desc">Heart rate monitoring, fitness tracking, stylish design.</div>
-                <a href="#" class="btn-buy">View Watch</a>
-            </div>
-        </div>
-        <div class="product">
-            <div class="p-image-placeholder">&#128247;</div>
-            <div class="product-body">
-                <div class="p-name">Zain-X Pro Camera</div>
-                <div class="p-price">PKR 125,000</div>
-                <div class="p-desc">Flagship camera performance, 120Hz display, 108MP camera.</div>
-                <a href="#" class="btn-buy">Buy Camera</a>
-            </div>
-        </div>
-        <div class="product">
-            <div class="p-image-placeholder">&#128266;</div>
-            <div class="product-body">
-                <div class="p-name">Zain-X Speaker</div>
-                <div class="p-price">PKR 15,000</div>
-                <div class="p-desc">Crystal clear sound, active noise cancellation, 30hr battery.</div>
-                <a href="#" class="btn-buy">Buy Speaker</a>
-            </div>
-        </div>
-        <div class="product">
-            <div class="p-image-placeholder">&#128187;</div>
-            <div class="product-body">
-                <div class="p-name">Zain-X Power Bank</div>
-                <div class="p-price">PKR 10,000</div>
-                <div class="p-desc">Flagship power performance, 120Hz display, 108MP camera.</div>
-                <a href="#" class="btn-buy">Buy Power Bank</a>
-            </div>
-        </div>
-        <div class="product">
-            <div class="p-image-placeholder">&#127911;</div>
-            <div class="product-body">
-                <div class="p-name">Zain-X Headphones</div>
-                <div class="p-price">PKR 10,000</div>
-                <div class="p-desc">Crystal clear sound, active noise cancellation, 30hr battery.</div>
-                <a href="#" class="btn-buy">Buy Headphones</a>
-            </div>
-        </div>
-        </div>
+    </div>
+    
+    </div>
+
+<footer>
+    <p>&copy; 2026 Zain Tech Hub. All Rights Reserved.</p>
+</footer>
+
 </body>
 </html>

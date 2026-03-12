@@ -3,128 +3,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zain Store | Official</title>
+    <title>Zain Store | Official Pakistani Marketplace</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body { background-color: #eff0f5; font-family: 'Roboto', sans-serif; padding-bottom: 80px; }
         .daraz-orange { color: #f85606; }
         .daraz-bg-orange { background-color: #f85606; }
-        .page { display: none; animation: fadeIn 0.4s ease-in-out; }
-        .active-page { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        .page { display: none; }
+        .active-page { display: block; animation: fadeIn 0.4s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        /* Banner Slider Styling */
+        .slider-container { width: 100%; overflow: hidden; border-radius: 12px; position: relative; height: 160px; shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .slider-wrapper { display: flex; transition: transform 0.5s ease-in-out; height: 100%; }
+        .slide { min-width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; padding: 20px; color: white; }
+        
+        .product-card { background: white; border-radius: 8px; transition: 0.3s; border: 1px solid #f3f4f6; overflow: hidden; height: 100%; display: flex; flex-direction: column; }
+        .product-card:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.08); border-color: #f85606; }
         .nav-active { color: #f85606 !important; font-weight: bold; }
-        .cartoon-card { background: white; border-radius: 12px; overflow: hidden; transition: 0.3s; }
-        .cartoon-card:hover { transform: scale(1.02); shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
 </head>
 <body>
 
     <header class="bg-white sticky top-0 z-50 shadow-sm p-3">
         <div class="max-w-6xl mx-auto flex items-center justify-between gap-3">
-            <div onclick="showPage('home')" class="text-xl font-black daraz-orange italic cursor-pointer">ZAIN STORE</div>
+            <div onclick="showPage('home')" class="text-xl font-black daraz-orange italic cursor-pointer uppercase tracking-tighter">ZAIN STORE</div>
             <div class="flex-1 relative">
-                <input type="text" placeholder="Search products..." class="w-full bg-[#eff0f5] py-2 px-4 rounded-md text-sm outline-none">
+                <input type="text" placeholder="Search 500+ gadgets..." class="w-full bg-[#eff0f5] py-2 px-4 rounded-md text-sm outline-none border focus:border-orange-400">
                 <i class="fa fa-search absolute right-3 top-2.5 text-gray-400"></i>
             </div>
         </div>
     </header>
 
-    <main class="max-w-6xl mx-auto p-3">
+    <main class="max-w-6xl mx-auto p-2">
 
         <section id="home" class="page active-page">
-            <div class="w-full h-40 bg-gradient-to-r from-orange-500 to-red-600 rounded-lg flex flex-col justify-center px-6 text-white mb-6 shadow-md">
-                <h2 class="text-2xl font-black italic">BUMPER SALE</h2>
-                <p class="text-[10px] font-bold">EVERYTHING AT FACTORY PRICES</p>
+            
+            <div class="slider-container mb-6 shadow-lg">
+                <div class="slider-wrapper" id="mainSlider">
+                    <div class="slide bg-gradient-to-r from-orange-500 to-red-600">
+                        <span class="text-[10px] font-bold uppercase bg-white/20 w-max px-2 py-0.5 rounded">Special Offer</span>
+                        <h2 class="text-3xl font-black italic mt-1 uppercase">MEGA EID SALE</h2>
+                        <p class="text-xs opacity-90">Upto 60% OFF on Smart Watches</p>
+                    </div>
+                    <div class="slide bg-gradient-to-r from-blue-600 to-indigo-700">
+                        <span class="text-[10px] font-bold uppercase bg-white/20 w-max px-2 py-0.5 rounded">New Arrival</span>
+                        <h2 class="text-3xl font-black italic mt-1 uppercase">AUDIO WORLD</h2>
+                        <p class="text-xs opacity-90">Premium Wireless Buds & Speakers</p>
+                    </div>
+                    <div class="slide bg-gradient-to-r from-green-600 to-teal-700">
+                        <span class="text-[10px] font-bold uppercase bg-white/20 w-max px-2 py-0.5 rounded">Fast Delivery</span>
+                        <h2 class="text-3xl font-black italic mt-1 uppercase">FREE SHIPPING</h2>
+                        <p class="text-xs opacity-90">Across Pakistan on orders above Rs. 2,000</p>
+                    </div>
+                </div>
             </div>
 
             <div class="grid grid-cols-4 gap-2 mb-8 text-center">
-                <div onclick="showPage('shop')" class="cursor-pointer">
-                    <div class="bg-white p-4 rounded-2xl shadow-sm mb-1 text-orange-500 mx-auto w-max"><i class="fa fa-clock"></i></div>
+                <div onclick="showPage('home')" class="cursor-pointer group">
+                    <div class="bg-white p-4 rounded-2xl shadow-sm mb-1 text-orange-500 mx-auto w-max group-hover:bg-orange-50 transition"><i class="fa fa-clock text-lg"></i></div>
                     <span class="text-[10px] font-bold">Watches</span>
                 </div>
-                <div onclick="showPage('audio')" class="cursor-pointer">
-                    <div class="bg-white p-4 rounded-2xl shadow-sm mb-1 text-blue-500 mx-auto w-max"><i class="fa fa-headphones"></i></div>
-                    <span class="text-[10px] font-bold text-blue-600">Audio</span>
+                <div onclick="showPage('audio')" class="cursor-pointer group">
+                    <div class="bg-white p-4 rounded-2xl shadow-sm mb-1 text-blue-500 mx-auto w-max group-hover:bg-blue-50 transition"><i class="fa fa-headphones text-lg"></i></div>
+                    <span class="text-[10px] font-bold">Audio</span>
                 </div>
-                <div onclick="showPage('shop')" class="cursor-pointer">
-                    <div class="bg-white p-4 rounded-2xl shadow-sm mb-1 text-green-500 mx-auto w-max"><i class="fa fa-plug"></i></div>
+                <div onclick="showPage('home')" class="cursor-pointer group">
+                    <div class="bg-white p-4 rounded-2xl shadow-sm mb-1 text-green-500 mx-auto w-max group-hover:bg-green-50 transition"><i class="fa fa-plug text-lg"></i></div>
                     <span class="text-[10px] font-bold">Gadgets</span>
                 </div>
-                <div onclick="showPage('shop')" class="cursor-pointer">
-                    <div class="bg-white p-4 rounded-2xl shadow-sm mb-1 text-red-500 mx-auto w-max"><i class="fa fa-fire"></i></div>
+                <div onclick="showPage('home')" class="cursor-pointer group">
+                    <div class="bg-white p-4 rounded-2xl shadow-sm mb-1 text-red-500 mx-auto w-max group-hover:bg-red-50 transition"><i class="fa fa-fire text-lg"></i></div>
                     <span class="text-[10px] font-bold">Hot Sale</span>
                 </div>
             </div>
 
-            <h2 class="font-bold text-gray-800 mb-3 px-1">JUST FOR YOU</h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
-                <div class="bg-white p-2 rounded shadow-sm">
-                    <img src="watch.jpg" class="w-full h-32 object-contain">
-                    <h3 class="text-[11px] mt-2 h-8 overflow-hidden">Crown H30 Smartwatch</h3>
-                    <p class="daraz-orange font-bold text-sm">Rs. 2,500</p>
+            <div class="flex justify-between items-center mb-4 px-1">
+                <h2 class="font-bold text-gray-800 uppercase text-xs tracking-widest">Just For You</h2>
+                <span onclick="showPage('shop')" class="text-orange-500 text-[10px] font-bold cursor-pointer hover:underline">View All ></span>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2" id="homeProducts">
+                
+                <div class="product-card p-2">
+                    <div class="relative pt-[100%] rounded overflow-hidden">
+                        <img src="watch.jpg" class="absolute top-0 left-0 w-full h-full object-contain">
+                    </div>
+                    <div class="mt-2 flex flex-col flex-grow">
+                        <h3 class="text-[11px] h-8 overflow-hidden font-medium text-gray-700 leading-tight">Crown H30 Smartwatch Ultra 2 Series Premium</h3>
+                        <p class="daraz-orange font-bold text-sm mt-1">Rs. 2,500</p>
+                        <div class="text-[9px] text-gray-400"><span class="line-through">Rs. 4,500</span> <span class="font-bold text-gray-700">-44%</span></div>
+                        <a href="https://wa.me/923485491217?text=Assalam-o-Alaikum, I want to order Crown H30 Smartwatch" class="block w-full daraz-bg-orange text-white text-center py-2 mt-auto rounded text-[11px] font-bold uppercase shadow-sm">Buy Now</a>
+                    </div>
                 </div>
+
+                <script>
+                    const pList = [
+                        {name: "M10 Wireless Buds", price: "1,500", i: "fa-headphones-alt", c: "text-blue-400"},
+                        {name: "Magnetic Charging Cable", price: "450", i: "fa-bolt", c: "text-yellow-500"},
+                        {name: "Series 9 Ultra", price: "3,100", i: "fa-stopwatch", c: "text-orange-400"},
+                        {name: "Bluetooth Speaker Z4", price: "2,200", i: "fa-volume-up", c: "text-purple-400"},
+                        {name: "Portable Power Bank", price: "4,500", i: "fa-battery-full", c: "text-green-500"},
+                        {name: "Golden Watch Edition", price: "4,500", i: "fa-medal", c: "text-yellow-600"},
+                        {name: "Gaming Microphone G5", price: "3,500", i: "fa-microphone", c: "text-red-400"},
+                        {name: "Smart Band 7", price: "1,800", i: "fa-stream", c: "text-indigo-400"},
+                        {name: "Kids Drawing Tablet", price: "1,100", i: "fa-tablet-alt", c: "text-cyan-400"},
+                        {name: "Wireless Mouse X1", price: "1,350", i: "fa-mouse", c: "text-teal-400"},
+                        {name: "Universal Stylus Pen", price: "600", i: "fa-pen-fancy", c: "text-pink-400"}
+                    ];
+                    pList.forEach(item => {
+                        document.write(`
+                            <div class="product-card p-2">
+                                <div class="relative pt-[100%] bg-gray-50 rounded flex items-center justify-center">
+                                    <i class="fa ${item.i} text-4xl ${item.color} opacity-60 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ${item.c}"></i>
+                                </div>
+                                <div class="mt-2 flex flex-col flex-grow">
+                                    <h3 class="text-[11px] h-8 overflow-hidden font-medium text-gray-700 leading-tight">${item.name}</h3>
+                                    <p class="daraz-orange font-bold text-sm mt-1">Rs. ${item.price}</p>
+                                    <div class="text-[9px] text-gray-400 italic">Limited Stock</div>
+                                    <a href="https://wa.me/923485491217?text=Hi, I want to buy ${item.name}" class="block w-full daraz-bg-orange text-white text-center py-2 mt-auto rounded text-[11px] font-bold uppercase shadow-sm">Buy Now</a>
+                                </div>
+                            </div>
+                        `);
+                    });
+                </script>
             </div>
         </section>
 
         <section id="audio" class="page">
             <div class="flex items-center gap-2 mb-6">
                 <button onclick="showPage('home')" class="bg-white p-2 rounded-full shadow-sm text-gray-500"><i class="fa fa-arrow-left"></i></button>
-                <h2 class="text-xl font-black text-gray-800 italic">AUDIO WORLD</h2>
+                <h2 class="text-lg font-black text-gray-800 italic uppercase tracking-tighter">Audio Collection</h2>
             </div>
-            
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div class="cartoon-card p-3 shadow-sm border border-blue-50">
-                    <div class="w-full h-32 bg-blue-50 rounded-lg flex items-center justify-center text-blue-400 mb-2">
-                        <i class="fa fa-headphones text-5xl"></i>
-                    </div>
-                    <h3 class="text-[12px] font-bold text-gray-700">M10 Cartoon Buds</h3>
-                    <p class="daraz-orange font-black text-sm">Rs. 1,500</p>
-                    <button class="w-full daraz-bg-orange text-white text-[10px] font-bold py-2 mt-2 rounded-md uppercase">Add to Cart</button>
-                </div>
-
-                <div class="cartoon-card p-3 shadow-sm border border-purple-50">
-                    <div class="w-full h-32 bg-purple-50 rounded-lg flex items-center justify-center text-purple-400 mb-2">
-                        <i class="fa fa-music text-5xl"></i>
-                    </div>
-                    <h3 class="text-[12px] font-bold text-gray-700">Mini Bass Speaker</h3>
-                    <p class="daraz-orange font-black text-sm">Rs. 2,200</p>
-                    <button class="w-full daraz-bg-orange text-white text-[10px] font-bold py-2 mt-2 rounded-md uppercase">Add to Cart</button>
-                </div>
-
-                <div class="cartoon-card p-3 shadow-sm border border-green-50">
-                    <div class="w-full h-32 bg-green-50 rounded-lg flex items-center justify-center text-green-400 mb-2">
-                        <i class="fa fa-microphone-alt text-5xl"></i>
-                    </div>
-                    <h3 class="text-[12px] font-bold text-gray-700">Gaming Mic Pro</h3>
-                    <p class="daraz-orange font-black text-sm">Rs. 3,500</p>
-                    <button class="w-full daraz-bg-orange text-white text-[10px] font-bold py-2 mt-2 rounded-md uppercase">Add to Cart</button>
+            <div class="grid grid-cols-2 gap-3">
+                <div class="bg-white p-4 rounded-xl shadow-sm text-center">
+                    <div class="w-20 h-20 bg-blue-50 rounded-full mx-auto flex items-center justify-center text-blue-500 text-3xl mb-3"><i class="fa fa-headphones"></i></div>
+                    <h3 class="text-xs font-bold uppercase">Cartoon Buds X</h3>
+                    <p class="daraz-orange font-black mt-1">Rs. 1,600</p>
                 </div>
             </div>
         </section>
 
-        <section id="shop" class="page text-center py-20 text-gray-400">Shop items coming soon...</section>
-        <section id="account" class="page text-center py-20 text-gray-400">Account details for Zain Ali...</section>
-
     </main>
 
-    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-3 z-50 shadow-lg">
-        <button onclick="showPage('home')" id="nav-home" class="nav-btn flex flex-col items-center nav-active"><i class="fa fa-home text-lg"></i><span class="text-[10px]">Home</span></button>
-        <button onclick="showPage('shop')" id="nav-shop" class="nav-btn flex flex-col items-center text-gray-400"><i class="fa fa-store text-lg"></i><span class="text-[10px]">Shop</span></button>
-        <button onclick="showPage('account')" id="nav-account" class="nav-btn flex flex-col items-center text-gray-400"><i class="fa fa-user text-lg"></i><span class="text-[10px]">Account</span></button>
-        <a href="https://wa.me/923485491217" class="flex flex-col items-center text-green-500"><i class="fab fa-whatsapp text-lg"></i><span class="text-[10px]">Chat</span></a>
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-3 z-50 shadow-inner">
+        <button onclick="showPage('home')" id="nav-home" class="nav-btn flex flex-col items-center nav-active"><i class="fa fa-home text-xl"></i><span class="text-[10px] mt-0.5">Home</span></button>
+        <button onclick="showPage('shop')" id="nav-shop" class="nav-btn flex flex-col items-center text-gray-400"><i class="fa fa-th-large text-xl"></i><span class="text-[10px] mt-0.5">Shop</span></button>
+        <button onclick="showPage('account')" id="nav-account" class="nav-btn flex flex-col items-center text-gray-400"><i class="fa fa-user text-xl"></i><span class="text-[10px] mt-0.5">Account</span></button>
+        <a href="https://wa.me/923485491217" class="flex flex-col items-center text-green-500"><i class="fab fa-whatsapp text-xl"></i><span class="text-[10px] mt-0.5">Chat</span></a>
     </nav>
 
     <script>
+        // Banner Slider Logic (Automated)
+        let slideIndex = 0;
+        const slider = document.getElementById('mainSlider');
+        function rotateSlider() {
+            slideIndex = (slideIndex + 1) % 3; // Humare paas 3 banners hain
+            slider.style.transform = `translateX(-${slideIndex * 100}%)`;
+        }
+        setInterval(rotateSlider, 4000); // Har 4 second baad badlega
+
+        // Page Switching
         function showPage(pageId) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
             document.getElementById(pageId).classList.add('active-page');
-            
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('nav-active'));
-            const activeBtn = document.getElementById('nav-' + pageId);
-            if(activeBtn) activeBtn.classList.add('nav-active');
-            
-            window.scrollTo(0, 0);
+            const btn = document.getElementById('nav-' + pageId);
+            if(btn) btn.classList.add('nav-active');
+            window.scrollTo(0, 0); // Page top par scroll karein
         }
     </script>
 </body>

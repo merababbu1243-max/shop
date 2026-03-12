@@ -3,147 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zain Store | Professional Shop</title>
+    <title>Zain Store | Official</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { background-color: #eff0f5; font-family: 'Helvetica', sans-serif; overflow-x: hidden; }
+        body { background-color: #eff0f5; font-family: 'Roboto', sans-serif; padding-bottom: 70px; }
         .daraz-orange { color: #f85606; }
         .daraz-bg-orange { background-color: #f85606; }
-        .ep-green { color: #1fb463; }
-        .ep-bg-green { background-color: #1fb463; }
-        
-        .slider-container { overflow: hidden; width: 100%; border-radius: 8px; position: relative; }
-        .banner-slider { display: flex; transition: transform 0.5s ease-in-out; }
-        .banner-item { min-width: 100%; height: 160px; display: flex; flex-direction: column; justify-content: center; }
-        
-        .timer-box { background: #f85606; color: white; padding: 2px 5px; border-radius: 3px; font-weight: bold; font-family: monospace; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .page { display: none; animation: fadeIn 0.3s ease-in-out; }
+        .active-page { display: block; }
+        .nav-active { color: #f85606; font-weight: bold; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <header class="bg-white sticky top-0 z-50 shadow-sm">
-        <div class="max-w-5xl mx-auto px-3 py-3 flex items-center justify-between gap-3">
-            <div class="text-xl font-extrabold daraz-orange italic tracking-tighter">ZAIN STORE</div>
-            <div class="flex-1 relative">
-                <input type="text" placeholder="Search in Zain Store" class="w-full bg-[#eff0f5] py-2 px-4 rounded-md text-sm outline-none border focus:border-orange-500">
-                <button class="absolute right-3 top-2 daraz-orange"><i class="fa fa-search"></i></button>
-            </div>
-            <div class="relative cursor-pointer" onclick="alert('Cart is empty')">
-                <i class="fa fa-shopping-cart text-2xl text-gray-700"></i>
-                <span id="cart-count" class="absolute -top-2 -right-2 bg-orange-600 text-white text-[10px] rounded-full px-1.5 font-bold">0</span>
-            </div>
-        </div>
-        
-        <div class="bg-white border-t flex gap-6 overflow-x-auto px-4 py-2 text-[12px] text-gray-600 font-bold no-scrollbar">
-            <span class="daraz-orange">All</span>
-            <span>Smart Watches</span>
-            <span>Wireless Buds</span>
-            <span>Easypaisa Pay</span>
+    <header class="bg-white sticky top-0 z-50 shadow-sm border-b hidden md:block">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="text-2xl font-black daraz-orange italic">ZAIN STORE</div>
+            <nav class="flex gap-8 font-bold text-gray-600">
+                <button onclick="showPage('home')" class="hover:text-orange-500">HOME</button>
+                <button onclick="showPage('shop')" class="hover:text-orange-500">SHOP</button>
+                <button onclick="showPage('account')" class="hover:text-orange-500">ACCOUNT</button>
+            </nav>
         </div>
     </header>
 
-    <main class="max-w-5xl mx-auto p-2">
-        
-        <div class="slider-container mb-4 shadow-md">
-            <div class="banner-slider" id="mainSlider">
-                <div class="banner-item bg-gradient-to-r from-orange-500 to-red-600 text-white p-6">
-                    <h2 class="text-3xl font-black italic">MEGA EID SALE</h2>
-                    <p class="text-sm font-bold bg-white text-orange-600 w-max px-3 py-0.5 rounded-full mt-1">UP TO 50% OFF</p>
-                </div>
-                <div class="banner-item bg-gradient-to-r from-green-600 to-green-800 text-white p-6">
-                    <h2 class="text-2xl font-bold italic text-white">EASYPAISA ACCEPTED</h2>
-                    <p class="text-xs mt-1 text-green-100 uppercase tracking-widest font-bold">Fast & Secure Payment</p>
-                </div>
-            </div>
-        </div>
+    <main class="max-w-6xl mx-auto p-4">
 
-        <div class="bg-white p-4 rounded-lg mb-4 shadow-sm border-l-4 border-green-500">
-            <div class="flex items-center gap-2 mb-2">
-                <i class="fa fa-wallet ep-green text-xl"></i>
-                <h3 class="font-bold text-gray-800 text-sm uppercase">Payment Method: Easypaisa</h3>
-            </div>
-            <div class="bg-green-50 p-3 rounded-md border border-green-100">
-                <div class="flex justify-between items-center mb-1">
-                    <span class="text-xs text-gray-600">Account Title:</span>
-                    <span class="text-sm font-bold text-gray-800 uppercase">Zain Store / Zain Ali</span>
+        <section id="home" class="page active-page">
+            <div class="w-full h-48 bg-gradient-to-r from-orange-500 to-red-600 rounded-lg flex items-center justify-center text-white mb-6 shadow-lg">
+                <div class="text-center">
+                    <h1 class="text-3xl font-black italic uppercase">Mega Eid Sale</h1>
+                    <p class="text-sm">Welcome to Zain Store Official</p>
                 </div>
-                <div class="flex justify-between items-center">
-                    <span class="text-xs text-gray-600">Easypaisa Number:</span>
-                    <span class="text-sm font-bold ep-green font-mono">0348-5491217</span>
-                </div>
-                <p class="text-[10px] text-gray-400 mt-2 italic">* Payment bhej kar screenshot WhatsApp par lazmi share karein.</p>
             </div>
-        </div>
+            <h2 class="font-bold text-gray-700 mb-4">FEATURED CATEGORIES</h2>
+            <div class="grid grid-cols-3 gap-2">
+                <div onclick="showPage('shop')" class="bg-white p-4 rounded text-center shadow-sm cursor-pointer"><i class="fa fa-clock text-orange-500 mb-2"></i><p class="text-[10px] font-bold">WATCHES</p></div>
+                <div onclick="showPage('shop')" class="bg-white p-4 rounded text-center shadow-sm cursor-pointer"><i class="fa fa-headphones text-blue-500 mb-2"></i><p class="text-[10px] font-bold">BUDS</p></div>
+                <div onclick="showPage('shop')" class="bg-white p-4 rounded text-center shadow-sm cursor-pointer"><i class="fa fa-mobile text-green-500 mb-2"></i><p class="text-[10px] font-bold">ACCESSORIES</p></div>
+            </div>
+        </section>
 
-        <div class="bg-white p-3 rounded-t-lg flex justify-between items-center border-b">
-            <div class="flex items-center gap-3">
-                <span class="daraz-orange font-bold text-sm uppercase">Flash Sale</span>
-                <div class="flex gap-1 items-center text-[12px]">
-                    <span class="timer-box" id="h">02</span> :
-                    <span class="timer-box" id="m">45</span> :
-                    <span class="timer-box" id="s">10</span>
+        <section id="shop" class="page">
+            <h2 class="text-xl font-bold mb-4">All Products</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div class="bg-white p-2 rounded shadow-sm">
+                    <img src="20260312_083356.jpg" class="w-full h-32 object-contain mb-2">
+                    <h3 class="text-[10px] font-medium h-8 overflow-hidden">Crown H30 Smartwatch Ultra 2</h3>
+                    <p class="daraz-orange font-bold text-sm mt-1">Rs. 2,500</p>
+                    <a href="https://wa.me/923485491217" class="block w-full daraz-bg-orange text-white text-center py-1.5 rounded text-[10px] font-bold mt-2 uppercase">Buy Now</a>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2 bg-white p-2 rounded-b-lg">
-            <div class="flex flex-col border border-gray-50 rounded p-1 hover:shadow-md transition bg-white">
-                <div class="relative pt-[100%]">
-                    <img src="20260312_083356.jpg" class="absolute top-0 left-0 w-full h-full object-contain">
+        <section id="account" class="page">
+            <div class="bg-white rounded-lg shadow-sm p-6 text-center">
+                <div class="w-20 h-20 bg-gray-200 rounded-full mx-auto mb-4 flex items-center justify-center text-3xl text-gray-400">
+                    <i class="fa fa-user"></i>
                 </div>
-                <div class="mt-2 flex flex-col flex-grow px-1">
-                    <h3 class="text-[11px] text-gray-800 line-clamp-2 h-8">Crown H30 Smartwatch Ultra 2 Series</h3>
-                    <div class="mt-2">
-                        <span class="daraz-orange text-lg font-bold">Rs. 2,500</span>
-                    </div>
-                    <div class="mt-3 space-y-1">
-                        <button onclick="addToCart()" class="w-full border border-orange-500 daraz-orange py-1 rounded-sm text-[10px] font-bold uppercase">Add To Cart</button>
-                        <a href="https://wa.me/923485491217?text=Assalam-o-Alaikum, I want to order Crown H30 Smartwatch (Rs 2500). Payment via Easypaisa." 
-                           class="w-full daraz-bg-orange text-white text-center block py-2 rounded-sm text-[11px] font-bold uppercase shadow-sm">
-                           BUY NOW
-                        </a>
-                    </div>
+                <h2 class="text-xl font-bold">Zain Ali</h2>
+                <p class="text-gray-500 text-sm">zainstore.customer@example.com</p>
+                <div class="mt-8 space-y-3 text-left">
+                    <div class="flex items-center gap-4 p-3 border-b border-gray-100"><i class="fa fa-box text-orange-500"></i> My Orders</div>
+                    <div class="flex items-center gap-4 p-3 border-b border-gray-100"><i class="fa fa-wallet text-green-500"></i> Easypaisa: 0348-5491217</div>
+                    <div class="flex items-center gap-4 p-3"><i class="fa fa-sign-out text-red-500"></i> Logout</div>
                 </div>
             </div>
-        </div>
+        </section>
+
     </main>
 
-    <div class="fixed bottom-6 right-6 z-50">
-        <a href="https://wa.me/923485491217" class="bg-green-500 text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center text-3xl">
-            <i class="fab fa-whatsapp"></i>
-        </a>
-    </div>
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-3 md:hidden z-50">
+        <button onclick="showPage('home')" id="nav-home" class="flex flex-col items-center text-gray-400 nav-active">
+            <i class="fa fa-home text-xl"></i><span class="text-[10px] mt-1">Home</span>
+        </button>
+        <button onclick="showPage('shop')" id="nav-shop" class="flex flex-col items-center text-gray-400">
+            <i class="fa fa-store text-xl"></i><span class="text-[10px] mt-1">Shop</span>
+        </button>
+        <button onclick="showPage('account')" id="nav-account" class="flex flex-col items-center text-gray-400">
+            <i class="fa fa-user text-xl"></i><span class="text-[10px] mt-1">Account</span>
+        </button>
+    </nav>
 
     <script>
-        // Banner Slider Logic
-        let currentSlide = 0;
-        const slider = document.getElementById('mainSlider');
-        setInterval(() => {
-            currentSlide = (currentSlide + 1) % 2;
-            slider.style.transform = `translateX(-${currentSlide * 100}%)`;
-        }, 5000);
+        function showPage(pageId) {
+            // All pages hide karein
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(p => p.classList.remove('active-page'));
+            
+            // Selected page show karein
+            document.getElementById(pageId).classList.add('active-page');
 
-        // Timer Logic
-        function startTimer() {
-            let h = 2, m = 45, s = 10;
-            setInterval(() => {
-                s--; if(s < 0) { s = 59; m--; } if(m < 0) { m = 59; h--; }
-                document.getElementById('h').innerText = h < 10 ? '0'+h : h;
-                document.getElementById('m').innerText = m < 10 ? '0'+m : m;
-                document.getElementById('s').innerText = s < 10 ? '0'+s : s;
-            }, 1000);
-        }
-        startTimer();
-
-        // Cart Logic
-        let count = 0;
-        function addToCart() {
-            count++;
-            document.getElementById('cart-count').innerText = count;
-            alert('Item added to cart!');
+            // Bottom Nav color change karein
+            const navButtons = document.querySelectorAll('nav button');
+            navButtons.forEach(btn => btn.classList.remove('nav-active'));
+            document.getElementById('nav-' + pageId).classList.add('nav-active');
+            
+            // Page top par scroll karein
+            window.scrollTo(0, 0);
         }
     </script>
+
 </body>
 </html>

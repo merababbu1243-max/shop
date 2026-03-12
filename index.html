@@ -1,61 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ur">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zain Tech Hub</title>
+    <title>Zain Tech Hub - Store</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f4f4f4; text-align: center; margin: 0; padding: 0; }
-        .header { background: #1a1a1a; color: white; padding: 25px; font-size: 26px; font-weight: bold; }
-        .container { display: flex; flex-wrap: wrap; justify-content: center; padding: 20px; gap: 20px; }
-        .card { background: white; border-radius: 15px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); width: 300px; overflow: hidden; }
-        .img-box { width: 100%; height: 250px; background: #eee; }
-        .img-box img { width: 100%; height: 100%; object-fit: cover; }
-        .info { padding: 20px; }
-        .title { font-size: 20px; font-weight: bold; color: #333; margin-bottom: 10px; }
-        .price { font-size: 24px; color: #2ecc71; font-weight: bold; margin-bottom: 20px; }
-        .wa-btn { display: inline-block; background: #25d366; color: white; text-decoration: none; padding: 12px 30px; border-radius: 50px; font-weight: bold; width: 80%; transition: 0.3s; }
-        .wa-btn:hover { background: #1ebe57; }
+        body { background-color: #f4f4f4; font-family: sans-serif; }
+        .product-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .btn-whatsapp { background-color: #25D366; color: white; font-weight: bold; transition: 0.3s; }
+        .btn-whatsapp:hover { background-color: #128C7E; }
     </style>
 </head>
 <body>
 
-<div class="header">ZAIN TECH HUB</div>
+    <header class="bg-black text-white text-center py-6 shadow-lg">
+        <h1 class="text-3xl font-bold tracking-widest uppercase">Zain Tech Hub</h1>
+    </header>
 
-<div class="container">
-    <div class="card">
-        <div class="img-box">
-            <img src="buds.jpg" alt="Wireless Buds">
-        </div>
-        <div class="info">
-            <div class="title">Wireless Buds Pro</div>
-            <div class="price">PKR 12,500</div>
-            <a href="https://wa.me/923485491217?text=Salam! Mujhe ye Buds chahiye" class="wa-btn">Order on WhatsApp</a>
-        </div>
-    </div>
+    <main class="max-w-4xl mx-auto p-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            
+            <div class="product-card p-4 flex flex-col items-center text-center">
+                <img src="20260312_083356.jpg" alt="Crown H30 Smartwatch" class="w-full h-64 object-contain mb-4">
+                <h2 class="text-xl font-semibold text-gray-800">Crown H30 Smartwatch</h2>
+                <p class="text-gray-500 text-sm mb-4 italic">7+1 Seven In One | Ultra 2 Series</p>
+                <p class="text-2xl font-bold text-green-600 mb-6 font-mono text-lg">PKR 15,500</p>
+                <a href="https://wa.me/your-number-here" class="btn-whatsapp w-full py-3 rounded-full text-center">
+                    Order on WhatsApp
+                </a>
+            </div>
 
-    <div class="card">
-        <div class="img-box">
-            <img src="mobile.jpg" alt="Smart Phone">
-        </div>
-        <div class="info">
-            <div class="title">Smart Phone Ultra</div>
-            <div class="price">PKR 95,000</div>
-            <a href="https://wa.me/923485491217?text=Salam! Mujhe ye Phone chahiye" class="wa-btn">Order on WhatsApp</a>
-        </div>
-    </div>
+            <div class="product-card p-4 flex flex-col items-center text-center">
+                <img src="buds.jpg" alt="Wireless Buds Pro" class="w-full h-64 object-contain mb-4 bg-gray-100 rounded">
+                <h2 class="text-xl font-semibold text-gray-800">Wireless Buds Pro</h2>
+                <p class="text-gray-500 text-sm mb-4 italic">Premium Sound Quality</p>
+                <p class="text-2xl font-bold text-green-600 mb-6 font-mono text-lg">PKR 12,500</p>
+                <a href="https://wa.me/your-number-here" class="btn-whatsapp w-full py-3 rounded-full text-center">
+                    Order on WhatsApp
+                </a>
+            </div>
 
-    <div class="card">
-        <div class="img-box">
-            <img src="watch.jpg" alt="Smart Watch">
         </div>
-        <div class="info">
-            <div class="title">Smart Watch 8</div>
-            <div class="price">PKR 8,000</div>
-            <a href="https://wa.me/923485491217?text=Salam! Mujhe ye Watch chahiye" class="wa-btn">Order on WhatsApp</a>
-        </div>
-    </div>
-</div>
+    </main>
+
+    <footer class="text-center py-10 text-gray-400 text-sm">
+        &copy; 2026 Zain Tech Hub. All Rights Reserved.
+    </footer>
 
 </body>
 </html>

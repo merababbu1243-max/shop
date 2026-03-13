@@ -7,87 +7,114 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { background-color: #f4f4f7; font-family: sans-serif; padding-bottom: 80px; }
+        body { background-color: #f1f1f4; font-family: sans-serif; padding-bottom: 90px; }
         .daraz-orange { color: #f85606; }
-        .product-card { background: white; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; height: 100%; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid #eee; }
-        .eid-banner { background: linear-gradient(135deg, #1a472a 0%, #2d5a27 100%); border-bottom: 4px solid #fbbf24; }
+        .product-card { background: white; border-radius: 8px; overflow: hidden; position: relative; border: 1px solid #e2e2e2; cursor: pointer; }
+        .discount-tag { position: absolute; top: 8px; left: 8px; background: #ff4d4d; color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: bold; z-index: 10; }
+        
+        /* Detail Popup Styles */
+        #detailModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 100; align-items: center; justify-content: center; padding: 20px; }
+        .modal-content { background: white; width: 100%; max-width: 400px; border-radius: 15px; overflow: hidden; animation: slideUp 0.3s ease-out; }
+        @keyframes slideUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <header class="bg-white p-4 shadow-sm sticky top-0 z-50 text-center">
-        <h1 class="text-2xl font-black daraz-orange italic tracking-tighter uppercase">ZAIN STORE</h1>
+    <header class="bg-white sticky top-0 z-50 shadow-sm p-3">
+        <div class="flex justify-between items-center mb-2">
+            <h1 class="text-xl font-black daraz-orange italic tracking-tighter uppercase">ZAIN STORE</h1>
+            <i class="fa fa-shopping-cart text-gray-600"></i>
+        </div>
+        <div class="flex items-center bg-gray-100 rounded-full px-3 py-1 border border-orange-500">
+            <i class="fa fa-search text-gray-400 mr-2"></i>
+            <input type="text" id="searchInput" onkeyup="searchProduct()" placeholder="Search items..." class="bg-transparent w-full outline-none text-sm py-1">
+        </div>
     </header>
 
-    <main class="max-w-6xl mx-auto p-4">
-
-        <div class="eid-banner w-full rounded-2xl p-6 text-white mb-6 shadow-xl text-center">
-            <h2 class="text-3xl font-black italic">🌙 EID MUBARAK</h2>
-            <p class="text-yellow-400 font-bold uppercase tracking-widest text-xs">Premium Tech Collection</p>
+    <main class="max-w-6xl mx-auto p-3">
+        <div class="grid grid-cols-3 gap-2 mb-4 text-[9px] font-bold text-gray-500 text-center uppercase">
+            <div class="bg-white p-2 rounded shadow-sm"><i class="fa fa-bolt daraz-orange"></i> Fast Delivery</div>
+            <div class="bg-white p-2 rounded shadow-sm"><i class="fa fa-check-circle daraz-orange"></i> Top Quality</div>
+            <div class="bg-white p-2 rounded shadow-sm"><i class="fa fa-sync daraz-orange"></i> Easy Return</div>
         </div>
 
-        <h2 class="font-bold text-gray-800 text-lg mb-4 flex items-center gap-2">
-            <span class="w-1.5 h-6 bg-orange-500 rounded-full"></span> LATEST PRODUCTS
-        </h2>
-
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-
-            <div class="product-card p-2 text-center">
-                <img src="IMG-20260312-WA0038.PNG" class="w-full h-36 object-contain rounded-lg" alt="Earbuds">
-                <h3 class="text-[10px] font-bold mt-2 text-gray-700 h-8">Ultra Wireless Earbuds</h3>
-                <p class="text-orange-600 font-black text-xs">Rs. 1,250</p>
-                <a href="https://wa.me/923485491217" class="block bg-green-500 text-white py-2 mt-2 rounded-lg text-[10px] font-bold uppercase">Order Now</a>
+        <div id="productGrid" class="grid grid-cols-2 md:grid-cols-4 gap-3">
+            
+            <div class="product-card p-2" onclick="openDetail('Ultra Bass Earbuds', '1,250', 'IMG-20260312-WA0038.PNG', 'High quality sound with long battery life. Touch controls and water resistant.')">
+                <span class="discount-tag">20% OFF</span>
+                <img src="IMG-20260312-WA0038.PNG" class="w-full h-32 object-contain" alt="Earbuds">
+                <h3 class="text-[11px] font-semibold mt-2 h-8 overflow-hidden">Ultra Bass Wireless Earbuds</h3>
+                <p class="text-orange-600 font-bold text-sm">Rs. 1,250</p>
             </div>
 
-            <div class="product-card p-2 text-center">
-                <img src="IMG-20260312-WA0037.jpg" class="w-full h-36 object-contain rounded-lg" alt="Watch">
-                <h3 class="text-[10px] font-bold mt-2 text-gray-700 h-8">Crown Ultra 2 Smartwatch</h3>
-                <p class="text-orange-600 font-black text-xs">Rs. 2,500</p>
-                <a href="https://wa.me/923485491217" class="block bg-green-500 text-white py-2 mt-2 rounded-lg text-[10px] font-bold uppercase">Order Now</a>
+            <div class="product-card p-2" onclick="openDetail('Crown Ultra Watch', '2,500', 'IMG-20260312-WA0037.jpg', 'Series 9 Ultra with Amoled display. Bluetooth calling and heart rate monitor.')">
+                <span class="discount-tag">HOT</span>
+                <img src="IMG-20260312-WA0037.jpg" class="w-full h-32 object-contain" alt="Watch">
+                <h3 class="text-[11px] font-semibold mt-2 h-8 overflow-hidden">Crown Ultra 2 Smartwatch</h3>
+                <p class="text-orange-600 font-bold text-sm">Rs. 2,500</p>
             </div>
 
-            <div class="product-card p-2 text-center">
-                <img src="IMG-20260312-WA0058.jpg" class="w-full h-36 object-contain rounded-lg" alt="Remote">
-                <h3 class="text-[10px] font-bold mt-2 text-gray-700 h-8">Universal LED/LCD Remote</h3>
-                <p class="text-orange-600 font-black text-xs">Rs. 450</p>
-                <a href="https://wa.me/923485491217" class="block bg-green-500 text-white py-2 mt-2 rounded-lg text-[10px] font-bold uppercase">Order Now</a>
+            <div class="product-card p-2" onclick="openDetail('Solar Wall Light', '899', 'IMG-20260312-WA0059.jpg', 'Automatic sensor light. Charges by sun and works all night. Best for garden/outdoor.')">
+                <img src="IMG-20260312-WA0059.jpg" class="w-full h-32 object-contain" alt="Solar">
+                <h3 class="text-[11px] font-semibold mt-2 h-8 overflow-hidden">Solar Emergency Light</h3>
+                <p class="text-orange-600 font-bold text-sm">Rs. 899</p>
             </div>
 
-            <div class="product-card p-2 text-center">
-                <img src="IMG-20260312-WA0057.jpg" class="w-full h-36 object-contain rounded-lg" alt="Tasbeeh">
-                <h3 class="text-[10px] font-bold mt-2 text-gray-700 h-8">Digital Tally Counter</h3>
-                <p class="text-orange-600 font-black text-xs">Rs. 180</p>
-                <a href="https://wa.me/923485491217" class="block bg-green-500 text-white py-2 mt-2 rounded-lg text-[10px] font-bold uppercase">Order Now</a>
-            </div>
-
-            <div class="product-card p-2 text-center">
-                <img src="IMG-20260312-WA0059.jpg" class="w-full h-36 object-contain rounded-lg" alt="Solar 1">
-                <h3 class="text-[10px] font-bold mt-2 text-gray-700 h-8">Solar Emergency Light</h3>
-                <p class="text-orange-600 font-black text-xs">Rs. 899</p>
-                <a href="https://wa.me/923485491217" class="block bg-green-500 text-white py-2 mt-2 rounded-lg text-[10px] font-bold uppercase">Order Now</a>
-            </div>
-
-            <div class="product-card p-2 text-center">
-                <img src="IMG-20260312-WA0060.jpg" class="w-full h-36 object-contain rounded-lg" alt="Solar 2">
-                <h3 class="text-[10px] font-bold mt-2 text-gray-700 h-8">Solar Flashlight Torch</h3>
-                <p class="text-orange-600 font-black text-xs">Rs. 899</p>
-                <a href="https://wa.me/923485491217" class="block bg-green-500 text-white py-2 mt-2 rounded-lg text-[10px] font-bold uppercase">Order Now</a>
-            </div>
-
-            <div class="product-card p-2 text-center">
-                <img src="IMG-20260312-WA0061.jpg" class="w-full h-36 object-contain rounded-lg" alt="Solar 3">
-                <h3 class="text-[10px] font-bold mt-2 text-gray-700 h-8">Portable Solar Lantern</h3>
-                <p class="text-orange-600 font-black text-xs">Rs. 899</p>
-                <a href="https://wa.me/923485491217" class="block bg-green-500 text-white py-2 mt-2 rounded-lg text-[10px] font-bold uppercase">Order Now</a>
+            <div class="product-card p-2" onclick="openDetail('LED Remote', '450', 'IMG-20260312-WA0058.jpg', 'Universal remote for all LED/LCD TVs. High quality build and easy setup.')">
+                <img src="IMG-20260312-WA0058.jpg" class="w-full h-32 object-contain" alt="Remote">
+                <h3 class="text-[11px] font-semibold mt-2 h-8 overflow-hidden">Universal LED Remote</h3>
+                <p class="text-orange-600 font-bold text-sm">Rs. 450</p>
             </div>
 
         </div>
     </main>
 
-    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-3 shadow-lg z-50">
-        <div class="flex flex-col items-center daraz-orange font-bold"><i class="fa fa-home"></i><span class="text-[9px]">Home</span></div>
-        <a href="https://wa.me/923485491217" class="flex flex-col items-center text-green-500 font-bold"><i class="fab fa-whatsapp"></i><span class="text-[9px]">Chat</span></a>
+    <div id="detailModal">
+        <div class="modal-content p-5 relative">
+            <button onclick="closeDetail()" class="absolute top-3 right-4 text-2xl text-gray-500">&times;</button>
+            <img id="modalImg" src="" class="w-full h-48 object-contain mb-4">
+            <h2 id="modalTitle" class="text-xl font-bold text-gray-800"></h2>
+            <p id="modalPrice" class="text-orange-600 font-black text-lg my-2"></p>
+            <p id="modalDesc" class="text-gray-600 text-sm mb-6"></p>
+            
+            <button id="modalBtn" onclick="" class="w-full bg-green-500 text-white py-3 rounded-lg font-bold flex items-center justify-center gap-2">
+                <i class="fab fa-whatsapp"></i> Order on WhatsApp
+            </button>
+        </div>
+    </div>
+
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-3 shadow-lg z-50 text-[10px] font-bold uppercase text-gray-400">
+        <div class="flex flex-col items-center daraz-orange"><i class="fa fa-home text-lg"></i><span>Home</span></div>
+        <div class="flex flex-col items-center"><i class="fa fa-truck text-lg"></i><span>Orders</span></div>
+        <div class="flex flex-col items-center"><i class="fa fa-user text-lg"></i><span>Account</span></div>
     </nav>
 
+    <script>
+        function openDetail(name, price, img, desc) {
+            document.getElementById('modalTitle').innerText = name;
+            document.getElementById('modalPrice').innerText = 'Rs. ' + price;
+            document.getElementById('modalImg').src = img;
+            document.getElementById('modalDesc').innerText = desc;
+            
+            // Set WhatsApp Link
+            const msg = `Assalam-o-Alaikum, I want to buy ${name} for Rs. ${price}.`;
+            document.getElementById('modalBtn').setAttribute("onclick", `window.open('https://wa.me/923485491217?text=${encodeURIComponent(msg)}', '_blank')`);
+            
+            document.getElementById('detailModal').style.display = 'flex';
+        }
+
+        function closeDetail() {
+            document.getElementById('detailModal').style.display = 'none';
+        }
+
+        function searchProduct() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let cards = document.getElementsByClassName('product-card');
+            for (let i = 0; i < cards.length; i++) {
+                let title = cards[i].getElementsByTagName('h3')[0].innerText.toLowerCase();
+                cards[i].style.display = title.includes(input) ? "" : "none";
+            }
+        }
+    </script>
 </body>
 </html>

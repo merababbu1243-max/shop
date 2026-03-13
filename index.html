@@ -3,69 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zain Store | Eid Special</title>
+    <title>Funny Tone Store</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body { background-color: #f4f4f7; font-family: sans-serif; padding-bottom: 80px; }
         .daraz-orange { color: #f85606; }
-        .eid-banner { background: linear-gradient(135deg, #1a472a 0%, #2d5a27 100%); border-bottom: 4px solid #fbbf24; }
+        /* Eid/Brand Banner Style */
+        .brand-banner { 
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%); 
+            border-bottom: 5px solid #fbbf24;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
         .product-card { background: white; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; height: 100%; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
     </style>
 </head>
 <body>
 
-    <header class="bg-white p-4 shadow-sm sticky top-0 z-50 flex justify-between items-center text-center">
-        <h1 class="text-2xl font-black daraz-orange italic tracking-tighter">ZAIN STORE</h1>
+    <header class="bg-white p-4 shadow-sm sticky top-0 z-50 flex justify-between items-center">
+        <h1 class="text-2xl font-black text-blue-800 italic tracking-tighter uppercase">FUNNY TONE</h1>
+        <i class="fa fa-shopping-cart text-gray-600 text-xl"></i>
     </header>
 
     <main class="p-4 max-w-6xl mx-auto">
-        <div class="eid-banner w-full rounded-2xl p-6 text-white mb-6 shadow-xl text-center">
-            <h2 class="text-3xl font-black italic">🌙 EID MUBARAK</h2>
-            <p class="text-yellow-400 font-bold uppercase tracking-widest">Mega Sale Live!</p>
-            <p class="text-[10px] opacity-80 mt-1">Visit our funny-tone collection</p>
+        
+        <div class="brand-banner w-full rounded-2xl p-8 text-white mb-6 shadow-xl text-center relative overflow-hidden">
+            <h2 class="text-4xl font-black italic tracking-widest mb-2">FUNNY TONE</h2>
+            <div class="h-1 w-20 bg-yellow-400 mx-auto mb-3"></div>
+            <p class="text-yellow-400 font-bold text-lg uppercase tracking-widest">🌙 Eid Mubarak Sale</p>
+            <p class="text-[10px] opacity-80 mt-1 uppercase">Best Quality Gadgets & Cosmetics</p>
         </div>
 
         <h2 class="font-bold text-gray-800 text-lg mb-4 flex items-center gap-2">
-            <span class="w-1.5 h-6 bg-orange-500 rounded-full"></span> TOP DEALS
+            <span class="w-1.5 h-6 bg-blue-700 rounded-full"></span> FEATURED PRODUCTS
         </h2>
 
         <div class="grid grid-cols-2 gap-3">
 
             <div class="product-card p-2">
                 <img src="funny-tone/IMG-20260312-WA0056.jpg.jpg" class="w-full h-36 object-contain" alt="Cream">
-                <h3 class="text-[10px] font-bold mt-2 text-gray-700 h-8">Beauty Cream</h3>
-                <p class="text-orange-600 font-black text-xs">Rs. 450</p>
-                <a href="https://wa.me/923485491217" class="block bg-green-500 text-white text-center py-2 mt-2 rounded-lg text-[10px] font-bold uppercase">Order Now</a>
+                <h3 class="text-[10px] font-bold mt-2 text-gray-700 h-8 text-center uppercase">Whitening Cream</h3>
+                <p class="text-blue-700 font-black text-sm text-center">Rs. 450</p>
+                <a href="https://wa.me/923485491217" class="block bg-green-500 text-white text-center py-2 mt-2 rounded-lg text-[10px] font-bold">BUY ON WHATSAPP</a>
             </div>
 
             <div class="product-card p-2">
                 <img src="funny-tone/IMG-20260312-WA0037.jpg.jpg" class="w-full h-36 object-contain" alt="Watch">
-                <h3 class="text-[10px] font-bold mt-2 text-gray-700 h-8">Smart Watch</h3>
-                <p class="text-orange-600 font-black text-xs">Rs. 2,500</p>
-                <a href="https://wa.me/923485491217" class="block bg-green-500 text-white text-center py-2 mt-2 rounded-lg text-[10px] font-bold uppercase">Order Now</a>
+                <h3 class="text-[10px] font-bold mt-2 text-gray-700 h-8 text-center uppercase">Smart Watch</h3>
+                <p class="text-blue-700 font-black text-sm text-center">Rs. 2,500</p>
+                <a href="https://wa.me/923485491217" class="block bg-green-500 text-white text-center py-2 mt-2 rounded-lg text-[10px] font-bold">BUY ON WHATSAPP</a>
             </div>
 
             <div class="product-card p-2">
                 <img src="funny-tone/IMG-20260312-WA0058.jpg.jpg" class="w-full h-36 object-contain" alt="Remote">
-                <h3 class="text-[10px] font-bold mt-2 text-gray-700 h-8">Universal Remote</h3>
-                <p class="text-orange-600 font-black text-xs">Rs. 350</p>
-                <a href="https://wa.me/923485491217" class="block bg-green-500 text-white text-center py-2 mt-2 rounded-lg text-[10px] font-bold uppercase">Order Now</a>
+                <h3 class="text-[10px] font-bold mt-2 text-gray-700 h-8 text-center uppercase">Universal Remote</h3>
+                <p class="text-blue-700 font-black text-sm text-center">Rs. 350</p>
+                <a href="https://wa.me/923485491217" class="block bg-green-500 text-white text-center py-2 mt-2 rounded-lg text-[10px] font-bold">BUY ON WHATSAPP</a>
             </div>
 
             <div class="product-card p-2">
                 <img src="funny-tone/IMG-20260312-WA0061.jpg.jpg" class="w-full h-36 object-contain" alt="Light">
-                <h3 class="text-[10px] font-bold mt-2 text-gray-700 h-8">Solar Light</h3>
-                <p class="text-orange-600 font-black text-xs">Rs. 899</p>
-                <a href="https://wa.me/923485491217" class="block bg-green-500 text-white text-center py-2 mt-2 rounded-lg text-[10px] font-bold uppercase">Order Now</a>
+                <h3 class="text-[10px] font-bold mt-2 text-gray-700 h-8 text-center uppercase">Solar Light</h3>
+                <p class="text-blue-700 font-black text-sm text-center">Rs. 899</p>
+                <a href="https://wa.me/923485491217" class="block bg-green-500 text-white text-center py-2 mt-2 rounded-lg text-[10px] font-bold">BUY ON WHATSAPP</a>
             </div>
 
         </div>
     </main>
 
     <nav class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-3 shadow-lg z-50">
-        <div class="flex flex-col items-center daraz-orange font-bold"><i class="fa fa-home"></i><span class="text-[9px]">Home</span></div>
-        <a href="https://wa.me/923485491217" class="flex flex-col items-center text-green-500 font-bold"><i class="fab fa-whatsapp"></i><span class="text-[9px]">Chat</span></a>
+        <div class="flex flex-col items-center text-blue-800 font-bold"><i class="fa fa-home"></i><span class="text-[9px]">Home</span></div>
+        <a href="https://wa.me/923485491217" class="flex flex-col items-center text-green-500 font-bold"><i class="fab fa-whatsapp"></i><span class="text-[9px]">Contact Us</span></a>
     </nav>
 
 </body>

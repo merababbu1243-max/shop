@@ -7,99 +7,62 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { background-color: #f7f7fa; font-family: sans-serif; padding-bottom: 80px; }
+        body { background-color: #f7f7fa; font-family: sans-serif; }
         .daraz-orange { color: #f85606; }
-        .side-menu { position: fixed; inset-y: 0; left: 0; width: 260px; background: white; z-index: 2000; transform: translateX(-100%); transition: 0.3s; box-shadow: 5px 0 15px rgba(0,0,0,0.1); }
-        .side-menu.active { transform: translateX(0); }
-        .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1500; }
-        .overlay.active { display: block; }
-        .product-card { background: white; border-radius: 12px; overflow: hidden; border: 1px solid #eee; transition: 0.3s; cursor: pointer; }
+        .product-card { background: white; border-radius: 12px; border: 1px solid #eee; transition: 0.3s; }
     </style>
 </head>
 <body>
 
-    <div id="overlay" class="overlay" onclick="toggleMenu()"></div>
-
-    <div id="sideMenu" class="side-menu">
-        <div class="bg-orange-600 p-6 text-white text-center">
-            <div class="w-16 h-16 bg-white rounded-full mx-auto mb-2 flex items-center justify-center text-orange-600 text-2xl font-bold">Z</div>
-            <p class="font-bold">Zain Store Official</p>
-        </div>
-        <div class="p-4 space-y-4 text-sm font-bold">
-            <div onclick="location.reload()" class="flex items-center gap-3 text-gray-700 border-b pb-2"><i class="fa fa-home text-orange-500"></i> Home</div>
-            <div onclick="window.open('https://wa.me/923485491217')" class="flex items-center gap-3 text-green-600 border-b pb-2"><i class="fab fa-whatsapp"></i> Contact Support</div>
-        </div>
-    </div>
-
-    <header class="bg-white p-4 flex justify-between items-center sticky top-0 z-50 shadow-sm">
-        <div class="flex items-center gap-4">
-            <button onclick="toggleMenu()" class="text-xl text-gray-700"><i class="fa fa-bars"></i></button>
-            <h1 class="text-2xl font-black daraz-orange italic tracking-tighter uppercase">ZAIN STORE</h1>
-        </div>
-        <i class="fa fa-shopping-bag text-gray-500 text-xl"></i>
+    <header class="bg-white p-4 flex justify-between items-center shadow-sm sticky top-0 z-50">
+        <h1 class="text-2xl font-black daraz-orange italic uppercase">ZAIN STORE</h1>
+        <i class="fa fa-shopping-cart text-gray-400"></i>
     </header>
 
     <main class="p-4">
-        <div class="bg-gradient-to-r from-orange-500 to-red-600 rounded-2xl p-6 text-white text-center mb-6 shadow-xl">
-            <h2 class="text-2xl font-bold uppercase">Flash Sale</h2>
-            <p class="text-[10px] opacity-90 tracking-widest uppercase mt-1 text-orange-100">Live from Google Sheets</p>
+        <div class="bg-orange-500 rounded-2xl p-6 text-white text-center mb-6 shadow-lg">
+            <h2 class="text-xl font-bold uppercase">Our Products</h2>
+            <p class="text-[10px] opacity-80 uppercase mt-1">Managed via Google Sheets</p>
         </div>
 
         <div id="productGrid" class="grid grid-cols-2 gap-4">
-            <div class="col-span-2 text-center py-20 text-gray-400">
-                <i class="fa fa-spinner fa-spin text-2xl mb-2"></i>
-                <p class="text-xs uppercase tracking-widest">Updating Inventory...</p>
-            </div>
+            <p id="loadingText" class="col-span-2 text-center py-10 text-gray-400">Loading shop items...</p>
         </div>
     </main>
 
-    <footer class="bg-[#111] text-white p-8 mt-12 text-center rounded-t-[40px]">
-        <h3 class="text-orange-500 font-black italic mb-2 uppercase">Zain Store Official</h3>
-        <p class="text-[9px] text-gray-500 tracking-[5px] mb-6">03485491217</p>
-    </footer>
-
     <script>
-        function toggleMenu() {
-            document.getElementById('sideMenu').classList.toggle('active');
-            document.getElementById('overlay').classList.toggle('active');
-        }
-
-        // Updated Direct Connection Method
+        // Aapki Sheet ka ID
         const ssID = '1WWBuGylAgkewrUXS99CbJV3g3ZsM8nGz4fyA5g6Bp4s';
-        const query = encodeURIComponent('Select *');
-        const url = `https://docs.google.com/spreadsheets/d/${ssID}/gviz/tq?tqx=out:json&tq=${query}`;
+        const url = `https://docs.google.com/spreadsheets/d/${ssID}/gviz/tq?tqx=out:json`;
 
         fetch(url)
             .then(res => res.text())
             .then(data => {
+                // Google Sheets ka ajeeb format saaf karne ke liye
                 const json = JSON.parse(data.substring(47).slice(0, -2));
                 const rows = json.table.rows;
                 const grid = document.getElementById('productGrid');
                 grid.innerHTML = ''; 
 
                 rows.forEach((row, i) => {
-                    if (i === 0) return; // Skip headers
+                    if (i === 0) return; // Pehli line skip karein
                     
                     const name = row.c[0] ? row.c[0].v : 'Product';
-                    const price = row.c[1] ? row.c[1].v : 'Price on Request';
-                    const img = row.c[2] ? row.c[2].v : 'placeholder.jpg';
-                    const desc = row.c[4] ? row.c[4].v : 'Quality product from Zain Store.';
-
+                    const price = row.c[1] ? row.c[1].v : '0';
+                    const imgName = row.c[2] ? row.c[2].v : '';
+                    
                     const card = `
-                        <div class="product-card p-3 shadow-sm border border-gray-100" onclick="window.open('https://wa.me/923485491217?text=Assalam-o-Alaikum Zain Store, I want to buy: ${name}')">
-                            <div class="h-32 flex items-center justify-center bg-gray-50 rounded-lg mb-2 overflow-hidden">
-                                <img src="${img}" class="max-h-full max-w-full object-contain" onerror="this.src='https://via.placeholder.com/150?text=Image+Missing'">
-                            </div>
-                            <h4 class="text-[10px] font-bold text-gray-600 uppercase truncate">${name}</h4>
-                            <p class="text-orange-600 font-black text-sm mt-1">Rs. ${price}</p>
-                            <button class="w-full bg-orange-50 text-[8px] font-bold text-orange-600 py-1 rounded mt-2 border border-orange-200">BUY NOW</button>
+                        <div class="product-card p-3" onclick="window.open('https://wa.me/923485491217?text=Order: ${name}')">
+                            <img src="${imgName}" class="w-full h-32 object-contain mb-2" onerror="this.src='https://via.placeholder.com/150?text=Wait+for+Image'">
+                            <h4 class="text-[11px] font-bold text-gray-700">${name}</h4>
+                            <p class="text-orange-600 font-black text-sm">Rs. ${price}</p>
                         </div>
                     `;
                     grid.innerHTML += card;
                 });
             })
-            .catch(error => {
-                document.getElementById('productGrid').innerHTML = '<p class="col-span-2 text-center text-red-500 text-xs">Connection Error. Please check Sheet Access.</p>';
+            .catch(err => {
+                document.getElementById('loadingText').innerText = "Error! Make sure Sheet is Public.";
             });
     </script>
 </body>

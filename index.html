@@ -22,41 +22,40 @@
 
     <div id="sideMenu" class="side-menu">
         <div class="bg-orange-600 p-6 text-white text-center">
-            <div class="w-16 h-16 bg-white rounded-full mx-auto mb-2 flex items-center justify-center text-orange-600 text-2xl font-bold italic">Z</div>
+            <div class="w-16 h-16 bg-white rounded-full mx-auto mb-2 flex items-center justify-center text-orange-600 text-2xl font-bold">Z</div>
             <p class="font-bold">Zain Store Official</p>
         </div>
-        <div class="p-4 space-y-4">
-            <div onclick="location.reload()" class="flex items-center gap-3 text-gray-700 border-b pb-2"><i class="fa fa-home"></i> Home</div>
-            <div onclick="window.open('https://wa.me/923485491217')" class="flex items-center gap-3 text-green-600 font-bold border-b pb-2"><i class="fab fa-whatsapp"></i> Contact Us</div>
+        <div class="p-4 space-y-4 text-sm font-bold">
+            <div onclick="location.reload()" class="flex items-center gap-3 text-gray-700 border-b pb-2"><i class="fa fa-home text-orange-500"></i> Home</div>
+            <div onclick="window.open('https://wa.me/923485491217')" class="flex items-center gap-3 text-green-600 border-b pb-2"><i class="fab fa-whatsapp"></i> Contact Support</div>
         </div>
     </div>
 
     <header class="bg-white p-4 flex justify-between items-center sticky top-0 z-50 shadow-sm">
         <div class="flex items-center gap-4">
-            <button onclick="toggleMenu()" class="text-xl text-gray-600"><i class="fa fa-bars"></i></button>
+            <button onclick="toggleMenu()" class="text-xl text-gray-700"><i class="fa fa-bars"></i></button>
             <h1 class="text-2xl font-black daraz-orange italic tracking-tighter uppercase">ZAIN STORE</h1>
         </div>
-        <i class="fa fa-shopping-cart text-gray-500 text-xl"></i>
+        <i class="fa fa-shopping-bag text-gray-500 text-xl"></i>
     </header>
 
     <main class="p-4">
-        <div class="bg-gradient-to-r from-orange-500 to-red-600 rounded-2xl p-6 text-white text-center mb-6 shadow-lg">
-            <h2 class="text-2xl font-bold uppercase tracking-tight">Official Shop</h2>
-            <p class="text-[10px] opacity-90">Google Sheets Managed Inventory</p>
+        <div class="bg-gradient-to-r from-orange-500 to-red-600 rounded-2xl p-6 text-white text-center mb-6 shadow-xl">
+            <h2 class="text-2xl font-bold uppercase">Flash Sale</h2>
+            <p class="text-[10px] opacity-90 tracking-widest uppercase mt-1 text-orange-100">Live from Google Sheets</p>
         </div>
 
-        <div id="productGrid" class="grid grid-cols-2 gap-4 text-center">
-            <p class="col-span-2 text-gray-400 py-10">Loading Products...</p>
+        <div id="productGrid" class="grid grid-cols-2 gap-4">
+            <div class="col-span-2 text-center py-20 text-gray-400">
+                <i class="fa fa-spinner fa-spin text-2xl mb-2"></i>
+                <p class="text-xs uppercase tracking-widest">Updating Inventory...</p>
+            </div>
         </div>
     </main>
 
-    <footer class="bg-black text-white p-8 mt-10 text-center rounded-t-3xl">
-        <h3 class="text-orange-500 font-black italic mb-2">ZAIN STORE</h3>
-        <p class="text-[10px] text-gray-500 mb-4 tracking-widest">PAYMENT: 03485491217</p>
-        <div class="flex justify-center gap-4 opacity-30">
-            <i class="fa fa-truck text-xl"></i>
-            <i class="fa fa-shield-alt text-xl"></i>
-        </div>
+    <footer class="bg-[#111] text-white p-8 mt-12 text-center rounded-t-[40px]">
+        <h3 class="text-orange-500 font-black italic mb-2 uppercase">Zain Store Official</h3>
+        <p class="text-[9px] text-gray-500 tracking-[5px] mb-6">03485491217</p>
     </footer>
 
     <script>
@@ -65,36 +64,42 @@
             document.getElementById('overlay').classList.toggle('active');
         }
 
-        // --- GOOGLE SHEETS LOGIC ---
-        const sheetID = '1WWBuGylAgkewrUXS99CbJV3g3ZsM8nGz4fyA5g6Bp4s';
-        const base = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:json`;
+        // Updated Direct Connection Method
+        const ssID = '1WWBuGylAgkewrUXS99CbJV3g3ZsM8nGz4fyA5g6Bp4s';
+        const query = encodeURIComponent('Select *');
+        const url = `https://docs.google.com/spreadsheets/d/${ssID}/gviz/tq?tqx=out:json&tq=${query}`;
 
-        fetch(base)
+        fetch(url)
             .then(res => res.text())
             .then(data => {
-                const temp = data.substring(47).slice(0, -2);
-                const json = JSON.parse(temp);
+                const json = JSON.parse(data.substring(47).slice(0, -2));
                 const rows = json.table.rows;
                 const grid = document.getElementById('productGrid');
-                grid.innerHTML = ''; // Clear loading text
+                grid.innerHTML = ''; 
 
-                rows.forEach((row, index) => {
-                    if(index === 0) return; // Skip headers
+                rows.forEach((row, i) => {
+                    if (i === 0) return; // Skip headers
                     
                     const name = row.c[0] ? row.c[0].v : 'Product';
-                    const price = row.c[1] ? row.c[1].v : '0';
-                    const img = row.c[2] ? row.c[2].v : '';
-                    const desc = row.c[4] ? row.c[4].v : '';
+                    const price = row.c[1] ? row.c[1].v : 'Price on Request';
+                    const img = row.c[2] ? row.c[2].v : 'placeholder.jpg';
+                    const desc = row.c[4] ? row.c[4].v : 'Quality product from Zain Store.';
 
                     const card = `
-                        <div class="product-card p-3" onclick="window.open('https://wa.me/923485491217?text=Order: ${name}')">
-                            <img src="${img}" class="w-full h-32 object-contain mb-2">
-                            <h4 class="text-[11px] font-bold text-gray-700">${name}</h4>
-                            <p class="text-orange-600 font-black text-sm">Rs. ${price}</p>
+                        <div class="product-card p-3 shadow-sm border border-gray-100" onclick="window.open('https://wa.me/923485491217?text=Assalam-o-Alaikum Zain Store, I want to buy: ${name}')">
+                            <div class="h-32 flex items-center justify-center bg-gray-50 rounded-lg mb-2 overflow-hidden">
+                                <img src="${img}" class="max-h-full max-w-full object-contain" onerror="this.src='https://via.placeholder.com/150?text=Image+Missing'">
+                            </div>
+                            <h4 class="text-[10px] font-bold text-gray-600 uppercase truncate">${name}</h4>
+                            <p class="text-orange-600 font-black text-sm mt-1">Rs. ${price}</p>
+                            <button class="w-full bg-orange-50 text-[8px] font-bold text-orange-600 py-1 rounded mt-2 border border-orange-200">BUY NOW</button>
                         </div>
                     `;
                     grid.innerHTML += card;
                 });
+            })
+            .catch(error => {
+                document.getElementById('productGrid').innerHTML = '<p class="col-span-2 text-center text-red-500 text-xs">Connection Error. Please check Sheet Access.</p>';
             });
     </script>
 </body>

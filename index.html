@@ -3,98 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zain Store</title>
+    <title>Zain Store | Eid Special</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { background-color: #f4f4f7; font-family: sans-serif; padding-bottom: 70px; }
+        body { background-color: #f4f4f7; font-family: sans-serif; padding-bottom: 80px; }
         .daraz-orange { color: #f85606; }
-        .product-card { background: white; border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; height: 100%; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .product-card { background: white; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; height: 100%; box-shadow: 0 2px 8px rgba(0,0,0,0.06); transition: 0.3s; }
+        .product-card:hover { transform: translateY(-3px); }
+        .eid-banner { background: linear-gradient(135deg, #004d40 0%, #00796b 100%); position: relative; overflow: hidden; }
+        .eid-banner::after { content: '⭐'; position: absolute; right: 10px; top: 10px; opacity: 0.3; font-size: 40px; }
     </style>
 </head>
 <body>
 
-    <header class="bg-white p-3 shadow-sm sticky top-0 z-50">
-        <div class="flex items-center justify-between">
-            <h1 class="text-xl font-black daraz-orange italic">ZAIN STORE</h1>
-            <div class="bg-gray-100 rounded px-3 py-1 flex-1 mx-3 flex items-center">
-                <i class="fa fa-search text-gray-400 text-xs"></i>
-                <input type="text" placeholder="Search products..." class="bg-transparent text-xs ml-2 outline-none w-full">
+    <header class="bg-white p-4 shadow-sm sticky top-0 z-50">
+        <div class="flex items-center justify-between max-w-6xl mx-auto">
+            <h1 class="text-2xl font-black daraz-orange italic tracking-tighter">ZAIN STORE</h1>
+            <div class="bg-gray-100 rounded-lg px-4 py-2 flex-1 mx-4 max-w-md hidden md:flex items-center">
+                <i class="fa fa-search text-gray-400 text-sm"></i>
+                <input type="text" placeholder="Search..." class="bg-transparent text-sm outline-none ml-2 w-full">
             </div>
-            <i class="fa fa-shopping-cart text-gray-600 text-lg"></i>
+            <div class="flex gap-4 text-gray-600">
+                <i class="fa fa-search md:hidden"></i>
+                <i class="fa fa-shopping-cart"></i>
+            </div>
         </div>
     </header>
 
-    <main class="p-4 max-w-lg mx-auto">
-        <div class="w-full bg-gradient-to-r from-orange-500 to-red-600 rounded-xl p-6 text-white mb-6 shadow-md">
-            <h2 class="text-3xl font-black italic italic">BUMPER SALE</h2>
-            <p class="text-[10px] opacity-90 mb-3 uppercase tracking-widest">Everything at Factory Prices</p>
-            <button class="bg-white text-orange-600 px-4 py-1.5 rounded-lg font-bold text-[10px] uppercase">Explore All</button>
+    <main class="max-w-6xl mx-auto p-4">
+
+        <div class="eid-banner w-full rounded-2xl p-6 text-white mb-6 shadow-xl border-b-4 border-yellow-500">
+            <div class="flex flex-col">
+                <span class="text-[10px] font-bold uppercase tracking-[3px] bg-yellow-500 text-black w-max px-2 py-0.5 rounded-full mb-2">Festive Sale</span>
+                <h2 class="text-3xl font-black italic tracking-tight">EID MUBARAK <br><span class="text-yellow-400">MEGA SALE!</span></h2>
+                <p class="text-xs opacity-90 mt-1">Upto 70% OFF on Everything</p>
+                <div class="mt-4 flex gap-2">
+                    <span class="bg-white/20 px-3 py-1 rounded text-[10px] font-bold">Limited Offer</span>
+                    <span class="bg-white/20 px-3 py-1 rounded text-[10px] font-bold">Free Delivery</span>
+                </div>
+            </div>
         </div>
 
-        <div class="grid grid-cols-4 gap-2 mb-6 text-center">
-            <div class="flex flex-col items-center"><div class="bg-white p-3 rounded-xl shadow-sm mb-1"><i class="fa fa-clock text-orange-500"></i></div><span class="text-[9px] font-bold">Watches</span></div>
-            <div class="flex flex-col items-center"><div class="bg-white p-3 rounded-xl shadow-sm mb-1"><i class="fa fa-headphones text-blue-500"></i></div><span class="text-[9px] font-bold">Audio</span></div>
-            <div class="flex flex-col items-center"><div class="bg-white p-3 rounded-xl shadow-sm mb-1"><i class="fa fa-plug text-green-500"></i></div><span class="text-[9px] font-bold">Gadgets</span></div>
-            <div class="flex flex-col items-center"><div class="bg-white p-3 rounded-xl shadow-sm mb-1"><i class="fa fa-fire text-red-500"></i></div><span class="text-[9px] font-bold">Hot Sale</span></div>
+        <div class="grid grid-cols-4 gap-3 mb-8 text-center">
+            <div class="flex flex-col items-center"><div class="bg-white w-14 h-14 rounded-2xl shadow-sm flex items-center justify-center mb-2"><i class="fa fa-clock text-orange-500 text-xl"></i></div><span class="text-[10px] font-bold text-gray-600">Watches</span></div>
+            <div class="flex flex-col items-center"><div class="bg-white w-14 h-14 rounded-2xl shadow-sm flex items-center justify-center mb-2"><i class="fa fa-headphones text-blue-500 text-xl"></i></div><span class="text-[10px] font-bold text-gray-600">Audio</span></div>
+            <div class="flex flex-col items-center"><div class="bg-white w-14 h-14 rounded-2xl shadow-sm flex items-center justify-center mb-2"><i class="fa fa-plug text-green-500 text-xl"></i></div><span class="text-[10px] font-bold text-gray-600">Gadgets</span></div>
+            <div class="flex flex-col items-center"><div class="bg-white w-14 h-14 rounded-2xl shadow-sm flex items-center justify-center mb-2"><i class="fa fa-fire text-red-500 text-xl"></i></div><span class="text-[10px] font-bold text-gray-600">Hot Sale</span></div>
         </div>
 
-        <h2 class="font-bold text-gray-800 mb-4 flex items-center gap-2">
-            <span class="w-1 h-5 bg-orange-500 rounded-full"></span> JUST FOR YOU
+        <h2 class="font-bold text-gray-800 text-lg mb-4 flex items-center gap-2 uppercase tracking-tighter">
+            <span class="w-1.5 h-6 bg-orange-500 rounded-full"></span> Just For You
         </h2>
 
-        <div class="grid grid-cols-2 gap-3">
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3">
 
-            <div class="product-card p-2">
-                <img src="IMG-20260312-WA0037.jpg" class="w-full h-32 object-contain" alt="Watch">
-                <h3 class="text-[10px] font-bold mt-2 text-gray-700 h-8">Crown H30 Ultra 2 Smartwatch</h3>
-                <p class="daraz-orange font-black text-xs">Rs. 2,500</p>
-                <a href="https://wa.me/923485491217?text=Hi, Crown Watch chahiye" class="bg-green-500 text-white text-center py-2 mt-2 rounded-lg text-[10px] font-bold uppercase"><i class="fab fa-whatsapp"></i> Order Now</a>
+            <div class="product-card p-3">
+                <img src="IMG-20260312-WA0037.jpg" class="w-full h-36 object-contain rounded-lg" alt="Watch">
+                <div class="mt-3">
+                    <h3 class="text-[11px] font-bold text-gray-700 h-8 leading-tight">Crown H30 Ultra 2 Series Smartwatch</h3>
+                    <p class="text-orange-600 font-black text-sm mt-1">Rs. 2,500</p>
+                    <a href="https://wa.me/923485491217?text=Hi, Crown Watch chahiye" class="block bg-green-500 text-white text-center py-2 mt-2 rounded-lg text-[10px] font-bold uppercase"><i class="fab fa-whatsapp"></i> Order on WhatsApp</a>
+                </div>
             </div>
 
-            <div class="product-card p-2">
-                <img src="IMG-20260312-WA0041.jpg" class="w-full h-32 object-contain" alt="Tasbeeh">
-                <h3 class="text-[10px] font-bold mt-2 text-gray-700 h-8">Digital Tally Counter (Tasbeeh)</h3>
-                <p class="daraz-orange font-black text-xs">Rs. 180</p>
-                <a href="https://wa.me/923485491217?text=Hi, Tasbeeh chahiye" class="bg-green-500 text-white text-center py-2 mt-2 rounded-lg text-[10px] font-bold uppercase"><i class="fab fa-whatsapp"></i> Order Now</a>
+            <div class="product-card p-3">
+                <img src="IMG-20260312-WA0041.jpg" class="w-full h-36 object-contain rounded-lg" alt="Tasbeeh">
+                <div class="mt-3">
+                    <h3 class="text-[11px] font-bold text-gray-700 h-8 leading-tight">Digital Tally Counter (Multi Colors)</h3>
+                    <p class="text-orange-600 font-black text-sm mt-1">Rs. 180</p>
+                    <a href="https://wa.me/923485491217?text=Hi, Tasbeeh chahiye" class="block bg-green-500 text-white text-center py-2 mt-2 rounded-lg text-[10px] font-bold uppercase"><i class="fab fa-whatsapp"></i> Order on WhatsApp</a>
+                </div>
             </div>
 
-            <div class="product-card p-2">
-                <img src="IMG-20260312-WA0058.jpg" class="w-full h-32 object-contain" alt="Remote">
-                <h3 class="text-[10px] font-bold mt-2 text-gray-700 h-8">HUAYU Universal LED Remote</h3>
-                <p class="daraz-orange font-black text-xs">Rs. 450</p>
-                <a href="https://wa.me/923485491217?text=Hi, Remote chahiye" class="bg-green-500 text-white text-center py-2 mt-2 rounded-lg text-[10px] font-bold uppercase"><i class="fab fa-whatsapp"></i> Order Now</a>
+            <div class="product-card p-3">
+                <img src="IMG-20260312-WA0058.jpg" class="w-full h-36 object-contain rounded-lg" alt="Remote">
+                <div class="mt-3">
+                    <h3 class="text-[11px] font-bold text-gray-700 h-8 leading-tight">Universal LED/LCD TV Remote (HUAYU)</h3>
+                    <p class="text-orange-600 font-black text-sm mt-1">Rs. 450</p>
+                    <a href="https://wa.me/923485491217?text=Hi, Remote chahiye" class="block bg-green-500 text-white text-center py-2 mt-2 rounded-lg text-[10px] font-bold uppercase"><i class="fab fa-whatsapp"></i> Order on WhatsApp</a>
+                </div>
             </div>
 
-            <div class="product-card p-2">
-                <img src="IMG-20260312-WA0061.jpg" class="w-full h-32 object-contain" alt="Solar Light">
-                <h3 class="text-[10px] font-bold mt-2 text-gray-700 h-8">Ruilang Solar Emergency Light</h3>
-                <p class="daraz-orange font-black text-xs">Rs. 850</p>
-                <a href="https://wa.me/923485491217?text=Hi, Solar Light chahiye" class="bg-green-500 text-white text-center py-2 mt-2 rounded-lg text-[10px] font-bold uppercase"><i class="fab fa-whatsapp"></i> Order Now</a>
+            <div class="product-card p-3">
+                <img src="IMG-20260312-WA0061.jpg" class="w-full h-36 object-contain rounded-lg" alt="Solar Light">
+                <div class="mt-3">
+                    <h3 class="text-[11px] font-bold text-gray-700 h-8 leading-tight">Ruilang Solar Emergency Rechargeable Light</h3>
+                    <p class="text-orange-600 font-black text-sm mt-1">Rs. 899</p>
+                    <a href="https://wa.me/923485491217?text=Hi, Solar Light chahiye" class="block bg-green-500 text-white text-center py-2 mt-2 rounded-lg text-[10px] font-bold uppercase"><i class="fab fa-whatsapp"></i> Order on WhatsApp</a>
+                </div>
             </div>
 
-            <div class="product-card p-2">
-                <img src="IMG-20260312-WA0045.jpg" class="w-full h-32 object-contain" alt="Colors">
-                <h3 class="text-[10px] font-bold mt-2 text-gray-700 h-8">Goldfish Flupa 12 Colour Pencils</h3>
-                <p class="daraz-orange font-black text-xs">Rs. 290</p>
-                <a href="https://wa.me/923485491217?text=Hi, Colors chahiye" class="bg-green-500 text-white text-center py-2 mt-2 rounded-lg text-[10px] font-bold uppercase"><i class="fab fa-whatsapp"></i> Order Now</a>
-            </div>
-
-            <div class="product-card p-2">
-                <img src="IMG-20260312-WA0042.jpg" class="w-full h-32 object-contain" alt="Cards">
-                <h3 class="text-[10px] font-bold mt-2 text-gray-700 h-8">Premium Golden Playing Cards</h3>
-                <p class="daraz-orange font-black text-xs">Rs. 399</p>
-                <a href="https://wa.me/923485491217?text=Hi, Golden Cards chahiye" class="bg-green-500 text-white text-center py-2 mt-2 rounded-lg text-[10px] font-bold uppercase"><i class="fab fa-whatsapp"></i> Order Now</a>
+            <div class="product-card p-3">
+                <img src="IMG-20260312-WA0042.jpg" class="w-full h-36 object-contain rounded-lg" alt="Cards">
+                <div class="mt-3">
+                    <h3 class="text-[11px] font-bold text-gray-700 h-8 leading-tight">Golden Luxe Edition Playing Cards</h3>
+                    <p class="text-orange-600 font-black text-sm mt-1">Rs. 399</p>
+                    <a href="https://wa.me/923485491217?text=Hi, Golden Cards chahiye" class="block bg-green-500 text-white text-center py-2 mt-2 rounded-lg text-[10px] font-bold uppercase"><i class="fab fa-whatsapp"></i> Order on WhatsApp</a>
+                </div>
             </div>
 
         </div>
     </main>
 
-    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-3 shadow-lg">
-        <div class="flex flex-col items-center daraz-orange"><i class="fa fa-home"></i><span class="text-[9px] font-bold">Home</span></div>
-        <div class="flex flex-col items-center text-gray-400"><i class="fa fa-th-large"></i><span class="text-[9px]">Shop</span></div>
-        <div class="flex flex-col items-center text-gray-400"><i class="fa fa-user"></i><span class="text-[9px]">Account</span></div>
-        <div class="flex flex-col items-center text-gray-400"><i class="fab fa-whatsapp"></i><span class="text-[9px]">Chat</span></div>
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-3 shadow-lg z-50">
+        <div class="flex flex-col items-center daraz-orange"><i class="fa fa-home text-lg"></i><span class="text-[9px] font-bold">Home</span></div>
+        <div class="flex flex-col items-center text-gray-400"><i class="fa fa-th-large text-lg"></i><span class="text-[9px]">Shop</span></div>
+        <div class="flex flex-col items-center text-gray-400"><i class="fa fa-user text-lg"></i><span class="text-[9px]">Account</span></div>
+        <a href="https://wa.me/923485491217" class="flex flex-col items-center text-green-500"><i class="fab fa-whatsapp text-lg"></i><span class="text-[9px]">Chat</span></a>
     </nav>
 
 </body>

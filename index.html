@@ -11,8 +11,6 @@
         .daraz-orange { color: #f85606; }
         .product-card { background: white; border-radius: 8px; overflow: hidden; position: relative; border: 1px solid #e2e2e2; cursor: pointer; }
         .discount-tag { position: absolute; top: 8px; left: 8px; background: #ff4d4d; color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: bold; z-index: 10; }
-        
-        /* Detail Popup Styles */
         #detailModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 100; align-items: center; justify-content: center; padding: 20px; }
         .modal-content { background: white; width: 100%; max-width: 400px; border-radius: 15px; overflow: hidden; animation: slideUp 0.3s ease-out; }
         @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
@@ -23,69 +21,87 @@
     <header class="bg-white sticky top-0 z-50 shadow-sm p-3">
         <div class="flex justify-between items-center mb-2">
             <h1 class="text-xl font-black daraz-orange italic tracking-tighter uppercase">ZAIN STORE</h1>
-            <i class="fa fa-shopping-cart text-gray-600"></i>
+            <i class="fa fa-shopping-cart text-gray-600 text-lg"></i>
         </div>
         <div class="flex items-center bg-gray-100 rounded-full px-3 py-1 border border-orange-500">
             <i class="fa fa-search text-gray-400 mr-2"></i>
-            <input type="text" id="searchInput" onkeyup="searchProduct()" placeholder="Search items..." class="bg-transparent w-full outline-none text-sm py-1">
+            <input type="text" id="searchInput" onkeyup="searchProduct()" placeholder="Search in Zain Store..." class="bg-transparent w-full outline-none text-sm py-1">
         </div>
     </header>
 
     <main class="max-w-6xl mx-auto p-3">
         <div class="w-full rounded-xl p-4 text-white mb-4 shadow-lg text-center bg-gradient-to-r from-orange-500 to-red-600">
-            <h2 class="text-xl font-bold italic">🌟 NEW PRODUCTS ADDED</h2>
-            <p class="text-[10px]">Click on any product for full details</p>
+            <h2 class="text-xl font-bold italic">🔥 BIG SALE IS LIVE</h2>
+            <p class="text-[10px]">Premium Gadgets at Best Prices</p>
         </div>
 
         <div id="productGrid" class="grid grid-cols-2 md:grid-cols-4 gap-3">
             
-            <div class="product-card p-2" onclick="openDetail('Crown Ultra 2 Watch', '2,500', 'IMG-20260312-WA0037.jpg', 'Series 9 Ultra with Amoled display. Bluetooth calling, sports modes and long battery.')">
+            <div class="product-card p-2" onclick="openDetail('Crown Ultra 2 Watch', '2,500', 'IMG-20260312-WA0037.jpg', 'Premium Series 9 Ultra with Amoled display. Health monitoring and calling features.')">
                 <span class="discount-tag">HOT</span>
-                <img src="IMG-20260312-WA0037.jpg" class="w-full h-32 object-contain" alt="Watch">
+                <img src="IMG-20260312-WA0037.jpg" class="w-full h-32 object-contain">
                 <h3 class="text-[11px] font-semibold mt-2 h-8 overflow-hidden">Crown Ultra 2 Smartwatch</h3>
                 <p class="text-orange-600 font-bold text-sm">Rs. 2,500</p>
             </div>
 
-            <div class="product-card p-2" onclick="openDetail('Ultra Wireless Earbuds', '1,250', 'IMG-20260312-WA0038.PNG', 'Crystal clear sound with bass. Type-C fast charging and touch sensors.')">
-                <span class="discount-tag">20% OFF</span>
-                <img src="IMG-20260312-WA0038.PNG" class="w-full h-32 object-contain" alt="Earbuds">
-                <h3 class="text-[11px] font-semibold mt-2 h-8 overflow-hidden">Ultra Bass Wireless Earbuds</h3>
+            <div class="product-card p-2" onclick="openDetail('Ultra Bass Earbuds', '1,250', 'IMG-20260312-WA0038.PNG', 'True wireless sound with deep bass. Type-C fast charging.')">
+                <span class="discount-tag">25% OFF</span>
+                <img src="IMG-20260312-WA0038.PNG" class="w-full h-32 object-contain">
+                <h3 class="text-[11px] font-semibold mt-2 h-8 overflow-hidden">Wireless Bass Earbuds</h3>
                 <p class="text-orange-600 font-bold text-sm">Rs. 1,250</p>
             </div>
 
-            <div class="product-card p-2" onclick="openDetail('Premium Gadget', '1,500', '20260313_092035.jpg', 'High performance and durable build quality. New Arrival at Zain Store.')">
+            <div class="product-card p-2" onclick="openDetail('Zain Tech Gadget v1', '1,850', '20260312_083356.jpg', 'Premium quality electronic item. Tested and approved for daily use.')">
                 <span class="discount-tag">NEW</span>
-                <img src="20260313_092035.jpg" class="w-full h-32 object-contain" alt="Gadget">
-                <h3 class="text-[11px] font-semibold mt-2 h-8 overflow-hidden">Zain Store Special Gadget</h3>
-                <p class="text-orange-600 font-bold text-sm">Rs. 1,500</p>
+                <img src="20260312_083356.jpg" class="w-full h-32 object-contain">
+                <h3 class="text-[11px] font-semibold mt-2 h-8 overflow-hidden">Exclusive Tech Gadget</h3>
+                <p class="text-orange-600 font-bold text-sm">Rs. 1,850</p>
             </div>
 
-            <div class="product-card p-2" onclick="openDetail('Solar Wall Light', '899', 'IMG-20260312-WA0059.jpg', 'Outdoor solar wall light with motion sensor. Auto day/night detection.')">
-                <img src="IMG-20260312-WA0059.jpg" class="w-full h-32 object-contain" alt="Solar">
+            <div class="product-card p-2" onclick="openDetail('Smart Tech Accessory', '1,400', '20260313_092134.jpg', 'Modern design and high-tech features. Limited stock available.')">
+                <img src="20260313_092134.jpg" class="w-full h-32 object-contain">
+                <h3 class="text-[11px] font-semibold mt-2 h-8 overflow-hidden">Smart Tech Accessory</h3>
+                <p class="text-orange-600 font-bold text-sm">Rs. 1,400</p>
+            </div>
+
+            <div class="product-card p-2" onclick="openDetail('Zain Store Special', '2,100', '20260313_092153.jpg', 'Top-selling premium product with extra durability.')">
+                <img src="20260313_092153.jpg" class="w-full h-32 object-contain">
+                <h3 class="text-[11px] font-semibold mt-2 h-8 overflow-hidden">Zain Store Special Edition</h3>
+                <p class="text-orange-600 font-bold text-sm">Rs. 2,100</p>
+            </div>
+
+            <div class="product-card p-2" onclick="openDetail('Solar Wall Light', '899', 'IMG-20260312-WA0059.jpg', 'Automatic sun charging. Motion sensor outdoor lighting.')">
+                <img src="IMG-20260312-WA0059.jpg" class="w-full h-32 object-contain">
                 <h3 class="text-[11px] font-semibold mt-2 h-8 overflow-hidden">Solar Emergency Light</h3>
                 <p class="text-orange-600 font-bold text-sm">Rs. 899</p>
             </div>
 
-            <div class="product-card p-2" onclick="openDetail('Portable Solar Flashlight', '950', 'IMG-20260312-WA0060.jpg', 'Heavy duty solar rechargeable torch. Very bright light and waterproof.')">
-                <img src="IMG-20260312-WA0060.jpg" class="w-full h-32 object-contain" alt="Solar 2">
-                <h3 class="text-[11px] font-semibold mt-2 h-8 overflow-hidden">Solar Flashlight Torch</h3>
+            <div class="product-card p-2" onclick="openDetail('Solar Flashlight', '950', 'IMG-20260312-WA0060.jpg', 'Bright solar rechargeable flashlight. Long range beam.')">
+                <img src="IMG-20260312-WA0060.jpg" class="w-full h-32 object-contain">
+                <h3 class="text-[11px] font-semibold mt-2 h-8 overflow-hidden">Solar Rechargeable Torch</h3>
                 <p class="text-orange-600 font-bold text-sm">Rs. 950</p>
             </div>
 
-            <div class="product-card p-2" onclick="openDetail('Solar Lantern', '1,100', 'IMG-20260312-WA0061.jpg', 'Portable solar lantern for camping and home. Dual charging (Sun + Electricity).')">
-                <img src="IMG-20260312-WA0061.jpg" class="w-full h-32 object-contain" alt="Solar 3">
-                <h3 class="text-[11px] font-semibold mt-2 h-8 overflow-hidden">Solar Rechargeable Lantern</h3>
+            <div class="product-card p-2" onclick="openDetail('Solar Lantern', '1,100', 'IMG-20260312-WA0061.jpg', 'Dual charging (Sun + USB). Best for camping and power cuts.')">
+                <img src="IMG-20260312-WA0061.jpg" class="w-full h-32 object-contain">
+                <h3 class="text-[11px] font-semibold mt-2 h-8 overflow-hidden">Solar Camping Lantern</h3>
                 <p class="text-orange-600 font-bold text-sm">Rs. 1,100</p>
             </div>
 
-            <div class="product-card p-2" onclick="openDetail('Universal LED Remote', '450', 'IMG-20260312-WA0058.jpg', 'Compatible with all LED/LCD TVs. Easy pairing and premium keys.')">
-                <img src="IMG-20260312-WA0058.jpg" class="w-full h-32 object-contain" alt="Remote">
+            <div class="product-card p-2" onclick="openDetail('Premium Device', '1,500', '20260313_092035.jpg', 'Professional quality gadget with multiple functions.')">
+                <img src="20260313_092035.jpg" class="w-full h-32 object-contain">
+                <h3 class="text-[11px] font-semibold mt-2 h-8 overflow-hidden">Premium Tech Device</h3>
+                <p class="text-orange-600 font-bold text-sm">Rs. 1,500</p>
+            </div>
+
+            <div class="product-card p-2" onclick="openDetail('LED Remote', '450', 'IMG-20260312-WA0058.jpg', 'Universal remote compatible with all LED/LCD brands.')">
+                <img src="IMG-20260312-WA0058.jpg" class="w-full h-32 object-contain">
                 <h3 class="text-[11px] font-semibold mt-2 h-8 overflow-hidden">Universal TV Remote</h3>
                 <p class="text-orange-600 font-bold text-sm">Rs. 450</p>
             </div>
 
-            <div class="product-card p-2" onclick="openDetail('Digital Counter', '180', 'IMG-20260312-WA0057.jpg', 'Mini digital tally counter. Adjustable finger strap and reset button.')">
-                <img src="IMG-20260312-WA0057.jpg" class="w-full h-32 object-contain" alt="Tasbeeh">
+            <div class="product-card p-2" onclick="openDetail('Digital Tasbeeh', '180', 'IMG-20260312-WA0057.jpg', 'Digital tally counter with adjustable finger strap.')">
+                <img src="IMG-20260312-WA0057.jpg" class="w-full h-32 object-contain">
                 <h3 class="text-[11px] font-semibold mt-2 h-8 overflow-hidden">Digital Tally Counter</h3>
                 <p class="text-orange-600 font-bold text-sm">Rs. 180</p>
             </div>
@@ -106,10 +122,10 @@
         </div>
     </div>
 
-    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-3 shadow-lg z-50 text-[10px] text-gray-400">
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-3 shadow-lg z-50 text-[10px] text-gray-400 font-bold">
         <div class="flex flex-col items-center daraz-orange"><i class="fa fa-home text-lg"></i><span>Home</span></div>
-        <div class="flex flex-col items-center"><i class="fa fa-heart text-lg"></i><span>Wishlist</span></div>
-        <div class="flex flex-col items-center"><i class="fa fa-user text-lg"></i><span>Profile</span></div>
+        <div class="flex flex-col items-center"><i class="fa fa-th-large text-lg"></i><span>Categories</span></div>
+        <div class="flex flex-col items-center"><i class="fa fa-user text-lg"></i><span>Account</span></div>
     </nav>
 
     <script>
@@ -118,13 +134,11 @@
             document.getElementById('modalPrice').innerText = 'Rs. ' + price;
             document.getElementById('modalImg').src = img;
             document.getElementById('modalDesc').innerText = desc;
-            const msg = `Assalam-o-Alaikum, I want to order: ${name} (Rs. ${price}).`;
+            const msg = `Assalam-o-Alaikum, I want to order: ${name} for Rs. ${price}.`;
             document.getElementById('modalBtn').setAttribute("onclick", `window.open('https://wa.me/923485491217?text=${encodeURIComponent(msg)}', '_blank')`);
             document.getElementById('detailModal').style.display = 'flex';
         }
-
         function closeDetail() { document.getElementById('detailModal').style.display = 'none'; }
-
         function searchProduct() {
             let input = document.getElementById('searchInput').value.toLowerCase();
             let cards = document.getElementsByClassName('product-card');

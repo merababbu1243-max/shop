@@ -1,45 +1,90 @@
-<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zain Store | Official</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background-color: #f4f4f7; font-family: sans-serif; padding-bottom: 80px; }
+        .daraz-orange { color: #f85606; }
+        .product-card { background: white; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .whatsapp-btn { background-color: #25d366; color: white; border-radius: 6px; font-size: 11px; padding: 8px; text-align: center; font-weight: bold; margin-top: 8px; display: block; }
+    </style>
+</head>
+<body>
 
-    <div class="product-card p-3 bg-white rounded-lg shadow">
-        <img src="IMG-20260312-WA0037.jpg" class="w-full h-32 object-contain" alt="Smartwatch">
-        <h3 class="text-xs font-bold mt-2">Crown H30 Ultra 2</h3>
-        <p class="text-orange-600 font-bold">Rs. 2,500</p>
-        <a href="https://wa.me/923485491217?text=Mujhe Watch chahiye" class="block bg-green-500 text-white text-center py-2 mt-2 rounded text-[10px] font-bold">ORDER ON WHATSAPP</a>
-    </div>
+    <header class="bg-white shadow-sm p-4 sticky top-0 z-50">
+        <div class="flex items-center justify-between max-w-6xl mx-auto">
+            <h1 class="text-2xl font-black daraz-orange italic tracking-tighter">ZAIN STORE</h1>
+            <div class="bg-gray-100 rounded-lg px-4 py-2 flex-1 mx-4 max-w-md">
+                <i class="fa fa-search text-gray-400 text-sm"></i>
+                <input type="text" placeholder="Search 500+ products..." class="bg-transparent text-sm outline-none ml-2 w-full">
+            </div>
+            <i class="fa fa-shopping-cart text-xl text-gray-600 relative">
+                <span class="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">2</span>
+            </i>
+        </div>
+    </header>
 
-    <div class="product-card p-3 bg-white rounded-lg shadow">
-        <img src="IMG-20260312-WA0041.jpg" class="w-full h-32 object-contain" alt="Tasbeeh">
-        <h3 class="text-xs font-bold mt-2">Digital Tally Counter</h3>
-        <p class="text-orange-600 font-bold">Rs. 180</p>
-        <a href="https://wa.me/923485491217?text=Mujhe Tasbeeh chahiye" class="block bg-green-500 text-white text-center py-2 mt-2 rounded text-[10px] font-bold">ORDER ON WHATSAPP</a>
-    </div>
+    <main class="max-w-6xl mx-auto p-4">
+        <div class="w-full bg-gradient-to-r from-orange-500 to-red-600 rounded-2xl p-8 text-white mb-8 shadow-lg">
+            <h2 class="text-4xl font-black italic mb-1 uppercase">BUMPER SALE</h2>
+            <p class="text-sm opacity-90 mb-4">EVERYTHING AT FACTORY PRICES</p>
+            <button class="bg-white text-orange-600 px-6 py-2 rounded-lg font-bold text-xs uppercase shadow-md">Explore All</button>
+        </div>
 
-    <div class="product-card p-3 bg-white rounded-lg shadow">
-        <img src="IMG-20260312-WA0045.jpg" class="w-full h-32 object-contain" alt="Colors">
-        <h3 class="text-xs font-bold mt-2">Goldfish Flupa 12 Colors</h3>
-        <p class="text-orange-600 font-bold">Rs. 290</p>
-        <a href="https://wa.me/923485491217?text=Mujhe Colors chahiye" class="block bg-green-500 text-white text-center py-2 mt-2 rounded text-[10px] font-bold">ORDER ON WHATSAPP</a>
-    </div>
+        <div class="grid grid-cols-4 gap-4 mb-8">
+            <div class="flex flex-col items-center"><div class="bg-white p-4 rounded-2xl shadow-sm mb-2"><i class="fa fa-clock text-orange-500 text-xl"></i></div><span class="text-[10px] font-bold text-gray-600">Watches</span></div>
+            <div class="flex flex-col items-center"><div class="bg-white p-4 rounded-2xl shadow-sm mb-2"><i class="fa fa-headphones text-blue-500 text-xl"></i></div><span class="text-[10px] font-bold text-gray-600">Audio</span></div>
+            <div class="flex flex-col items-center"><div class="bg-white p-4 rounded-2xl shadow-sm mb-2"><i class="fa fa-plug text-green-500 text-xl"></i></div><span class="text-[10px] font-bold text-gray-600">Gadgets</span></div>
+            <div class="flex flex-col items-center"><div class="bg-white p-4 rounded-2xl shadow-sm mb-2"><i class="fa fa-fire text-red-500 text-xl"></i></div><span class="text-[10px] font-bold text-gray-600">Hot Sale</span></div>
+        </div>
 
-    <div class="product-card p-3 bg-white rounded-lg shadow">
-        <img src="IMG-20260312-WA0058.jpg" class="w-full h-32 object-contain" alt="Remote">
-        <h3 class="text-xs font-bold mt-2">HUAYU Universal Remote</h3>
-        <p class="text-orange-600 font-bold">Rs. 450</p>
-        <a href="https://wa.me/923485491217?text=Mujhe Remote chahiye" class="block bg-green-500 text-white text-center py-2 mt-2 rounded text-[10px] font-bold">ORDER ON WHATSAPP</a>
-    </div>
+        <h2 class="font-bold text-gray-800 text-lg mb-4 flex items-center gap-2">
+            <span class="w-1 h-6 bg-orange-500 rounded-full"></span> JUST FOR YOU
+        </h2>
 
-    <div class="product-card p-3 bg-white rounded-lg shadow">
-        <img src="IMG-20260312-WA0061.jpg" class="w-full h-32 object-contain" alt="Solar Light">
-        <h3 class="text-xs font-bold mt-2">Ruilang Solar Light</h3>
-        <p class="text-orange-600 font-bold">Rs. 850</p>
-        <a href="https://wa.me/923485491217?text=Mujhe Solar Light chahiye" class="block bg-green-500 text-white text-center py-2 mt-2 rounded text-[10px] font-bold">ORDER ON WHATSAPP</a>
-    </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
 
-    <div class="product-card p-3 bg-white rounded-lg shadow">
-        <img src="IMG-20260312-WA0042.jpg" class="w-full h-32 object-contain" alt="Cards">
-        <h3 class="text-xs font-bold mt-2">Premium Playing Cards</h3>
-        <p class="text-orange-600 font-bold">Rs. 399</p>
-        <a href="https://wa.me/923485491217?text=Mujhe Cards chahiye" class="block bg-green-500 text-white text-center py-2 mt-2 rounded text-[10px] font-bold">ORDER ON WHATSAPP</a>
-    </div>
+            <div class="product-card p-3">
+                <img src="IMG-20260312-WA0037.jpg" class="w-full h-40 object-contain rounded-lg" alt="Smart Watch">
+                <h3 class="text-xs font-semibold mt-3 h-8 overflow-hidden text-gray-700">Crown H30 Ultra 2 Smartwatch</h3>
+                <p class="daraz-orange font-bold text-sm mt-1">Rs. 2,500</p>
+                <a href="https://wa.me/923485491217?text=Hi, I want to order Crown Watch" class="whatsapp-btn"><i class="fab fa-whatsapp mr-1"></i> ORDER NOW</a>
+            </div>
 
-</div>
+            <div class="product-card p-3">
+                <img src="IMG-20260312-WA0041.jpg" class="w-full h-40 object-contain rounded-lg" alt="Tasbeeh">
+                <h3 class="text-xs font-semibold mt-3 h-8 overflow-hidden text-gray-700">Digital Tally Counter (Tasbeeh)</h3>
+                <p class="daraz-orange font-bold text-sm mt-1">Rs. 180</p>
+                <a href="https://wa.me/923485491217?text=Hi, I want to order Tasbeeh" class="whatsapp-btn"><i class="fab fa-whatsapp mr-1"></i> ORDER NOW</a>
+            </div>
+
+            <div class="product-card p-3">
+                <img src="IMG-20260312-WA0058.jpg" class="w-full h-40 object-contain rounded-lg" alt="Remote">
+                <h3 class="text-xs font-semibold mt-3 h-8 overflow-hidden text-gray-700">HUAYU Universal LED TV Remote</h3>
+                <p class="daraz-orange font-bold text-sm mt-1">Rs. 450</p>
+                <a href="https://wa.me/923485491217?text=Hi, I want to order Remote" class="whatsapp-btn"><i class="fab fa-whatsapp mr-1"></i> ORDER NOW</a>
+            </div>
+
+            <div class="product-card p-3">
+                <img src="IMG-20260312-WA0061.jpg" class="w-full h-40 object-contain rounded-lg" alt="Solar Light">
+                <h3 class="text-xs font-semibold mt-3 h-8 overflow-hidden text-gray-700">Ruilang Solar Rechargeable Light</h3>
+                <p class="daraz-orange font-bold text-sm mt-1">Rs. 899</p>
+                <a href="https://wa.me/923485491217?text=Hi, I want to order Solar Light" class="whatsapp-btn"><i class="fab fa-whatsapp mr-1"></i> ORDER NOW</a>
+            </div>
+
+        </div>
+    </main>
+
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-3 z-50 shadow-[0_-2px_10px_rgba(0,0,0,0.05)]">
+        <div class="flex flex-col items-center daraz-orange"><i class="fa fa-home text-xl"></i><span class="text-[10px] font-bold">Home</span></div>
+        <div class="flex flex-col items-center text-gray-400"><i class="fa fa-th-large text-xl"></i><span class="text-[10px]">Shop</span></div>
+        <div class="flex flex-col items-center text-gray-400"><i class="fa fa-user text-xl"></i><span class="text-[10px]">Account</span></div>
+        <div class="flex flex-col items-center text-gray-400"><i class="fab fa-whatsapp text-xl"></i><span class="text-[10px]">Chat</span></div>
+    </nav>
+
+</body>
+</html>

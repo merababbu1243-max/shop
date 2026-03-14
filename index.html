@@ -10,21 +10,13 @@
         body { background-color: #f7f7fa; font-family: 'Inter', sans-serif; padding-bottom: 70px; overflow-x: hidden; }
         .daraz-orange { color: #f85606; }
         .bg-daraz { background-color: #f85606; }
-        
-        /* Side Menu Drawer */
-        .side-menu { position: fixed; inset-y: 0; left: 0; width: 280px; background: white; z-index: 2000; transform: translateX(-100%); transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 10px 0 20px rgba(0,0,0,0.1); }
+        .side-menu { position: fixed; inset-y: 0; left: 0; width: 280px; background: white; z-index: 2000; transform: translateX(-100%); transition: 0.3s; box-shadow: 10px 0 20px rgba(0,0,0,0.1); }
         .side-menu.active { transform: translateX(0); }
         .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1500; backdrop-filter: blur(3px); }
         .overlay.active { display: block; }
-
-        /* Banner & Cards */
         .hero-banner { background: linear-gradient(135deg, #f85606 0%, #ff8c00 100%); border-radius: 0 0 25px 25px; padding: 40px 20px; color: white; text-align: center; }
         .product-card { background: white; border-radius: 12px; overflow: hidden; border: 1px solid #eee; transition: 0.3s; }
-        .product-card:active { transform: scale(0.96); }
-        
-        /* Category Icons */
         .cat-icon { width: 55px; height: 55px; border-radius: 15px; display: flex; align-items: center; justify-content: center; background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.08); margin: 0 auto 8px; font-size: 22px; }
-        
         #detailModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 3000; align-items: center; justify-content: center; padding: 20px; }
     </style>
 </head>
@@ -32,148 +24,45 @@
 
     <div id="overlay" class="overlay" onclick="toggleMenu()"></div>
     <div id="sideMenu" class="side-menu">
-        <div class="bg-daraz p-8 text-white">
-            <div class="w-20 h-20 bg-white rounded-full mx-auto mb-3 flex items-center justify-center text-orange-600 text-4xl font-black border-4 border-orange-300">Z</div>
-            <p class="text-center font-bold text-lg">Zain Store Official</p>
-            <p class="text-center text-xs opacity-80 italic">Trusted Online Shopping</p>
+        <div class="bg-daraz p-8 text-white text-center">
+            <div class="w-20 h-20 bg-white rounded-full mx-auto mb-3 flex items-center justify-center text-orange-600 text-4xl font-black">Z</div>
+            <p class="font-bold text-lg">Zain Store Official</p>
         </div>
-        <div class="p-5 space-y-5">
-            <div onclick="filterCat('all'); toggleMenu()" class="flex items-center gap-4 text-gray-700 font-bold border-b pb-3"><i class="fa fa-home w-6 text-orange-500"></i> Home</div>
-            <div onclick="toggleMenu()" class="flex items-center gap-4 text-gray-700 font-bold border-b pb-3"><i class="fa fa-truck w-6 text-orange-500"></i> Track Order</div>
-            <div onclick="window.open('https://wa.me/923485491217')" class="flex items-center gap-4 text-green-600 font-black border-b pb-3"><i class="fab fa-whatsapp w-6 text-xl"></i> Contact Support</div>
-            <div class="pt-10 text-center">
-                <p class="text-[10px] text-gray-400">EasyPaisa: 03485491217</p>
-            </div>
+        <div class="p-5 space-y-5 font-bold text-gray-700">
+            <div onclick="toggleMenu()" class="border-b pb-3"><i class="fa fa-home text-orange-500 mr-2"></i> Home</div>
+            <div onclick="window.open('https://wa.me/923485491217')" class="text-green-600 border-b pb-3"><i class="fab fa-whatsapp mr-2"></i> WhatsApp Support</div>
         </div>
     </div>
 
     <header class="bg-white p-4 flex justify-between items-center sticky top-0 z-50 shadow-sm">
-        <div class="flex items-center gap-4">
-            <button onclick="toggleMenu()" class="text-2xl text-gray-700"><i class="fa fa-bars-staggered"></i></button>
-            <h1 class="text-2xl font-black daraz-orange italic tracking-tighter uppercase">ZAIN STORE</h1>
-        </div>
-        <div class="relative">
-            <i class="fa fa-shopping-bag text-gray-600 text-2xl"></i>
-            <span class="absolute -top-1 -right-1 bg-red-500 text-white text-[8px] px-1 rounded-full">13</span>
-        </div>
+        <button onclick="toggleMenu()" class="text-2xl text-gray-700"><i class="fa fa-bars-staggered"></i></button>
+        <h1 class="text-2xl font-black daraz-orange italic uppercase">ZAIN STORE</h1>
+        <i class="fa fa-shopping-bag text-gray-600 text-2xl"></i>
     </header>
 
     <section class="hero-banner mb-6 shadow-xl">
-        <h2 class="text-3xl font-black mb-1 italic tracking-widest">OFFICIAL STORE</h2>
-        <p class="text-[10px] font-bold opacity-80 tracking-[4px] mb-5 uppercase">Quality • Trust • Service</p>
-        <button onclick="filterCat('all')" class="bg-white text-orange-600 px-10 py-3 rounded-full font-black text-xs shadow-lg uppercase tracking-widest active:scale-90 transition">View Collection</button>
-    </section>
-
-    <section class="px-4 mb-8">
-        <div class="grid grid-cols-4 gap-4 text-center">
-            <div onclick="filterCat('beauty')"><div class="cat-icon text-pink-500"><i class="fa fa-magic"></i></div><span class="text-[10px] font-bold text-gray-500 uppercase">Beauty</span></div>
-            <div onclick="filterCat('watch')"><div class="cat-icon text-blue-500"><i class="fa fa-clock"></i></div><span class="text-[10px] font-bold text-gray-500 uppercase">Watches</span></div>
-            <div onclick="filterCat('solar')"><div class="cat-icon text-orange-400"><i class="fa fa-sun"></i></div><span class="text-[10px] font-bold text-gray-500 uppercase">Solar</span></div>
-            <div onclick="filterCat('gadget')"><div class="cat-icon text-purple-500"><i class="fa fa-plug"></i></div><span class="text-[10px] font-bold text-gray-500 uppercase">Gadgets</span></div>
-        </div>
+        <h2 class="text-3xl font-black mb-1 italic">OFFICIAL STORE</h2>
+        <p class="text-[10px] font-bold opacity-80 tracking-[4px] uppercase">Quality • Trust • Service</p>
     </section>
 
     <main class="px-4">
         <div class="flex justify-between items-center mb-6 border-l-4 border-orange-500 pl-3">
-            <h3 id="sectionTitle" class="font-black text-gray-800 tracking-tight uppercase">Flash Sale - All Items</h3>
+            <h3 class="font-black text-gray-800 uppercase">Flash Sale</h3>
             <span class="text-[10px] font-bold text-orange-500 animate-pulse italic">LIVE NOW</span>
         </div>
 
         <div id="productGrid" class="grid grid-cols-2 gap-4">
-            
-            <div class="product-card p-3" data-cat="beauty" onclick="openDetail('Sandal Beauty Cream', '450', '20260312_083356.jpg', 'Premium beauty cream for flawless skin.')">
-                <img src="20260312_083356.jpg" class="w-full h-32 object-contain mb-2">
-                <h4 class="text-[11px] font-bold text-gray-700">Premium Beauty Cream</h4>
-                <p class="text-orange-600 font-black text-sm">Rs. 450</p>
             </div>
-
-            <div class="product-card p-3" data-cat="beauty" onclick="openDetail('Air Freshener / Spray', '1,200', 'P1.jpg', 'Refreshing air spray for home and office.')">
-                <img src="20260313_092232.jpg" class="w-full h-32 object-contain mb-2">
-                <h4 class="text-[11px] font-bold text-gray-700">Air Freshener Set</h4>
-                <p class="text-orange-600 font-black text-sm">Rs. 1,200</p>
-            </div>
-
-            <div class="product-card p-3" data-cat="watch" onclick="openDetail('Crown Ultra 2 Watch', '2,500', 'IMG-20260312-WA0037.jpg', 'Latest Series 9 Ultra Smartwatch.')">
-                <img src="IMG-20260312-WA0037.jpg" class="w-full h-32 object-contain mb-2">
-                <h4 class="text-[11px] font-bold text-gray-700">Crown Ultra 2</h4>
-                <p class="text-orange-600 font-black text-sm">Rs. 2,500</p>
-            </div>
-
-            <div class="product-card p-3" data-cat="watch" onclick="openDetail('Digital Tasbeeh', '180', '20260313_092153.jpg', 'Tally counter with digital display.')">
-                <img src="20260313_092153.jpg" class="w-full h-32 object-contain mb-2">
-                <h4 class="text-[11px] font-bold text-gray-700">Digital Counter</h4>
-                <p class="text-orange-600 font-black text-sm">Rs. 180</p>
-            </div>
-
-            <div class="product-card p-3" data-cat="solar" onclick="openDetail('Solar Flashlight', '950', 'IMG-20260312-WA0060.jpg', 'High power solar rechargeable torch.')">
-                <img src="IMG-20260312-WA0060.jpg" class="w-full h-32 object-contain mb-2">
-                <h4 class="text-[11px] font-bold text-gray-700">Solar Torch</h4>
-                <p class="text-orange-600 font-black text-sm">Rs. 950</p>
-            </div>
-
-            <div class="product-card p-3" data-cat="solar" onclick="openDetail('Solar Camping Lantern', '1,100', 'IMG-20260312-WA0061.jpg', 'Solar + USB charging lantern.')">
-                <img src="IMG-20260312-WA0061.jpg" class="w-full h-32 object-contain mb-2">
-                <h4 class="text-[11px] font-bold text-gray-700">Solar Lantern</h4>
-                <p class="text-orange-600 font-black text-sm">Rs. 1,100</p>
-            </div>
-
-            <div class="product-card p-3" data-cat="gadget" onclick="openDetail('Universal LED Remote', '450', '20260313_092035.jpg', 'Compatible with all LED brands.')">
-                <img src="20260313_092035.jpg" class="w-full h-32 object-contain mb-2">
-                <h4 class="text-[11px] font-bold text-gray-700">TV Remote / Stand</h4>
-                <p class="text-orange-600 font-black text-sm">Rs. 450</p>
-            </div>
-
-            <div class="product-card p-3" data-cat="gadget" onclick="openDetail('Smart Gadget V1', '1,400', '20260313_092134.jpg', 'New tech accessory for modern home.')">
-                <img src="20260313_092134.jpg" class="w-full h-32 object-contain mb-2">
-                <h4 class="text-[11px] font-bold text-gray-700">Smart Accessory</h4>
-                <p class="text-orange-600 font-black text-sm">Rs. 1,400</p>
-            </div>
-
-            <div class="product-card p-3" data-cat="gadget" onclick="openDetail('Ultra Modern Item', '2,300', '20260313_092248.jpg', 'Premium item exclusive to Zain Store.')">
-                <img src="20260313_092248.jpg" class="w-full h-32 object-contain mb-2">
-                <h4 class="text-[11px] font-bold text-gray-700">Premium Gadget</h4>
-                <p class="text-orange-600 font-black text-sm">Rs. 2,300</p>
-            </div>
-
-        </div>
     </main>
 
-    <footer class="bg-[#111] text-white pt-12 pb-24 px-6 mt-12 rounded-t-[40px]">
-        <div class="text-center mb-8">
-            <h2 class="text-2xl font-black italic text-orange-500 mb-2 italic uppercase">ZAIN STORE</h2>
-            <p class="text-gray-500 text-[10px] leading-relaxed max-w-xs mx-auto">Pakistan ka sab se bharose mand online platform jahan aapko milengi behtreen products.</p>
-        </div>
-        
-        <div class="grid grid-cols-2 gap-6 mb-8 text-center border-y border-gray-800 py-6">
-            <div>
-                <h4 class="text-xs font-bold text-orange-500 mb-2">PAYMENT</h4>
-                <p class="text-[10px] text-gray-400">EasyPaisa<br>03485491217</p>
-            </div>
-            <div>
-                <h4 class="text-xs font-bold text-orange-500 mb-2">SUPPORT</h4>
-                <p class="text-[10px] text-gray-400">WhatsApp Active<br>24/7 Service</p>
-            </div>
-        </div>
-
-        <div class="flex justify-center gap-6 opacity-30 mb-6">
-            <i class="fab fa-cc-visa text-2xl"></i>
-            <i class="fa fa-truck text-2xl"></i>
-            <i class="fa fa-shield-alt text-2xl"></i>
-        </div>
-        <p class="text-center text-[8px] text-gray-600 tracking-widest uppercase">© 2026 Zain Store Official Site</p>
-    </footer>
-
     <div id="detailModal">
-        <div class="bg-white w-full max-w-sm rounded-[30px] overflow-hidden relative p-6 shadow-2xl">
-            <button onclick="closeDetail()" class="absolute top-5 right-5 text-2xl text-gray-300"><i class="fa fa-times-circle"></i></button>
-            <div class="bg-gray-50 rounded-2xl p-4 mb-4">
-                <img id="modalImg" src="" class="w-full h-52 object-contain">
-            </div>
-            <h2 id="modalTitle" class="text-xl font-bold text-gray-800 mb-1"></h2>
+        <div class="bg-white w-full max-w-sm rounded-[30px] p-6 relative">
+            <button onclick="closeDetail()" class="absolute top-5 right-5 text-gray-300 text-2xl"><i class="fa fa-times-circle"></i></button>
+            <img id="modalImg" src="" class="w-full h-52 object-contain mb-4">
+            <h2 id="modalTitle" class="text-xl font-bold mb-1"></h2>
             <p id="modalPrice" class="text-2xl font-black text-orange-600 mb-4"></p>
-            <p id="modalDesc" class="text-xs text-gray-500 leading-relaxed mb-6"></p>
-            <button id="modalBtn" class="w-full bg-green-500 text-white py-4 rounded-2xl font-black shadow-lg flex items-center justify-center gap-2 active:scale-95 transition">
-                <i class="fab fa-whatsapp text-xl"></i> ORDER ON WHATSAPP
+            <button id="modalBtn" class="w-full bg-green-500 text-white py-4 rounded-2xl font-black flex items-center justify-center gap-2">
+                <i class="fab fa-whatsapp"></i> ORDER ON WHATSAPP
             </button>
         </div>
     </div>
@@ -184,31 +73,45 @@
             document.getElementById('overlay').classList.toggle('active');
         }
 
-        function openDetail(name, price, img, desc) {
+        const sheetID = '1WWBuGylAgkewrUXS99CbJV3g3ZsM8nGz4fyA5g6Bp4s';
+        const user = 'merababbu1243-max';
+        const repo = 'mera';
+        
+        const url = `https://docs.google.com/spreadsheets/d/${sheetID}/export?format=csv&gid=0`;
+
+        fetch(url).then(res => res.text()).then(csv => {
+            const rows = csv.split('\n').map(r => r.split(','));
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = ''; 
+
+            for (let i = 1; i < rows.length; i++) {
+                const name = rows[i][0]?.replace(/"/g, '');
+                const price = rows[i][1]?.replace(/"/g, '');
+                const img = rows[i][2]?.replace(/"/g, '').trim();
+                
+                if(!name) continue;
+
+                const photoUrl = `https://raw.githubusercontent.com/${user}/${repo}/main/shop/${img}`;
+
+                grid.innerHTML += `
+                    <div class="product-card p-3" onclick="openDetail('${name}', '${price}', '${photoUrl}')">
+                        <img src="${photoUrl}" class="w-full h-32 object-contain mb-2" onerror="this.src='https://via.placeholder.com/150?text=Wait+Refresh'">
+                        <h4 class="text-[11px] font-bold text-gray-700 truncate">${name}</h4>
+                        <p class="text-orange-600 font-black text-sm">Rs. ${price}</p>
+                    </div>`;
+            }
+        });
+
+        function openDetail(name, price, img) {
             document.getElementById('modalTitle').innerText = name;
             document.getElementById('modalPrice').innerText = 'Rs. ' + price;
             document.getElementById('modalImg').src = img;
-            document.getElementById('modalDesc').innerText = desc;
-            const msg = `Assalam-o-Alaikum Zain Store, I want to order:\n\n*Item:* ${name}\n*Price:* Rs. ${price}\n\nPlease confirm my order.`;
-            document.getElementById('modalBtn').setAttribute("onclick", `window.open('https://wa.me/923485491217?text=${encodeURIComponent(msg)}', '_blank')`);
+            const msg = encodeURIComponent(`Assalam-o-Alaikum, I want to order: ${name} (Rs. ${price})`);
+            document.getElementById('modalBtn').setAttribute("onclick", `window.open('https://wa.me/923485491217?text=${msg}')`);
             document.getElementById('detailModal').style.display = 'flex';
         }
 
         function closeDetail() { document.getElementById('detailModal').style.display = 'none'; }
-
-        function filterCat(cat) {
-            const cards = document.querySelectorAll('.product-card');
-            const title = document.getElementById('sectionTitle');
-            title.innerText = cat === 'all' ? 'Flash Sale - All Items' : cat.toUpperCase() + ' COLLECTION';
-            cards.forEach(card => {
-                if(cat === 'all' || card.getAttribute('data-cat') === cat) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-            window.scrollTo({ top: 450, behavior: 'smooth' });
-        }
     </script>
 </body>
 </html>

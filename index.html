@@ -1,68 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zain Store | Official</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        body { background-color: #f7f7fa; font-family: sans-serif; }
-        .daraz-orange { color: #f85606; }
-        .product-card { background: white; border-radius: 12px; border: 1px solid #eee; transition: 0.3s; }
-    </style>
 </head>
-<body>
-
-    <header class="bg-white p-4 flex justify-between items-center shadow-sm sticky top-0 z-50">
-        <h1 class="text-2xl font-black daraz-orange italic uppercase">ZAIN STORE</h1>
-        <i class="fa fa-shopping-cart text-gray-400"></i>
+<body class="bg-gray-100">
+    <header class="bg-white p-4 shadow text-center">
+        <h1 class="text-2xl font-bold text-orange-600 uppercase">ZAIN STORE</h1>
     </header>
-
-    <main class="p-4">
-        <div class="bg-orange-500 rounded-2xl p-6 text-white text-center mb-6 shadow-lg">
-            <h2 class="text-xl font-bold uppercase">Our Products</h2>
-            <p class="text-[10px] opacity-80 uppercase mt-1">Managed via Google Sheets</p>
-        </div>
-
-        <div id="productGrid" class="grid grid-cols-2 gap-4">
-            <p id="loadingText" class="col-span-2 text-center py-10 text-gray-400">Loading shop items...</p>
-        </div>
-    </main>
+    
+    <div id="productGrid" class="p-4 grid grid-cols-2 gap-4">
+        <p id="msg" class="col-span-2 text-center text-gray-400">Loading products...</p>
+    </div>
 
     <script>
-        // Aapki Sheet ka ID
         const ssID = '1WWBuGylAgkewrUXS99CbJV3g3ZsM8nGz4fyA5g6Bp4s';
+        const githubUser = 'merababbu1243-max'; // Aapka username
+        const repoName = 'mera'; // Aapke repository ka naam
+        
         const url = `https://docs.google.com/spreadsheets/d/${ssID}/gviz/tq?tqx=out:json`;
 
         fetch(url)
             .then(res => res.text())
-            .then(data => {
-                // Google Sheets ka ajeeb format saaf karne ke liye
-                const json = JSON.parse(data.substring(47).slice(0, -2));
+            .then(text => {
+                const json = JSON.parse(text.substring(47).slice(0, -2));
                 const rows = json.table.rows;
                 const grid = document.getElementById('productGrid');
                 grid.innerHTML = ''; 
 
                 rows.forEach((row, i) => {
-                    if (i === 0) return; // Pehli line skip karein
-                    
+                    if (i === 0) return;
                     const name = row.c[0] ? row.c[0].v : 'Product';
                     const price = row.c[1] ? row.c[1].v : '0';
                     const imgName = row.c[2] ? row.c[2].v : '';
                     
-                    const card = `
-                        <div class="product-card p-3" onclick="window.open('https://wa.me/923485491217?text=Order: ${name}')">
-                            <img src="${imgName}" class="w-full h-32 object-contain mb-2" onerror="this.src='https://via.placeholder.com/150?text=Wait+for+Image'">
-                            <h4 class="text-[11px] font-bold text-gray-700">${name}</h4>
-                            <p class="text-orange-600 font-black text-sm">Rs. ${price}</p>
-                        </div>
-                    `;
-                    grid.innerHTML += card;
+                    // Image ka sahi link banana
+                    const fullImgPath = `https://raw.githubusercontent.com/${githubUser}/${repoName}/main/${imgName}`;
+                    
+                    grid.innerHTML += `
+                        <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-200" onclick="window.open('https://wa.me/923485491217?text=Salam, Order: ${name}')">
+                            <img src="${fullImgPath}" class="w-full h-32 object-contain mb-2" onerror="this.src='https://via.placeholder.com/150?text=Wait+for+Refresh'">
+                            <h4 class="text-[11px] font-bold text-gray-700 h-8 overflow-hidden">${name}</h4>
+                            <p class="text-orange-600 font-bold">Rs. ${price}</p>
+                            <button class="w-full mt-2 bg-orange-500 text-white text-[10px] py-1 rounded">Order Now</button>
+                        </div>`;
                 });
             })
-            .catch(err => {
-                document.getElementById('loadingText').innerText = "Error! Make sure Sheet is Public.";
+            .catch(err => { 
+                document.getElementById('msg').innerText = "Sheet data loading error!";
             });
     </script>
 </body>

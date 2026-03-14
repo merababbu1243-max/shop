@@ -9,60 +9,57 @@
 <body class="bg-gray-50">
 
     <header class="bg-white p-4 shadow-sm text-center sticky top-0 z-50">
-        <h1 class="text-2xl font-black text-orange-600 italic tracking-tighter">ZAIN STORE</h1>
+        <h1 class="text-2xl font-black text-orange-600 italic">ZAIN STORE</h1>
     </header>
 
     <main class="p-4">
-        <div class="bg-orange-500 rounded-2xl p-6 text-white text-center mb-6 shadow-md">
+        <div class="bg-orange-500 rounded-2xl p-6 text-white text-center mb-6">
             <h2 class="text-xl font-bold uppercase">Our Products</h2>
-            <p class="text-[10px] opacity-80 uppercase tracking-widest mt-1">Direct from Google Sheets</p>
+            <p class="text-[10px] opacity-80 mt-1 uppercase">Shop Now via WhatsApp</p>
         </div>
 
         <div id="productGrid" class="grid grid-cols-2 gap-4">
-            <p id="msg" class="col-span-2 text-center py-10 text-gray-400 italic">Checking inventory...</p>
+            <p id="msg" class="col-span-2 text-center py-10 text-gray-400">Loading Store Items...</p>
         </div>
     </main>
 
     <script>
-        // Aapka Sahi Data
+        // Sahi Sheet ID aur GitHub details
         const sheetID = '1WWBuGylAgkewrUXS99CbJV3g3ZsM8nGz4fyA5g6Bp4s';
         const githubUser = 'merababbu1243-max';
         const repoName = 'mera';
         
-        const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:json`;
+        // CSV format use kar rahe hain jo zyada reliable hai
+        const url = `https://docs.google.com/spreadsheets/d/${sheetID}/export?format=csv&gid=0`;
 
         fetch(url)
             .then(res => res.text())
-            .then(data => {
-                const json = JSON.parse(data.substring(47).slice(0, -2));
-                const rows = json.table.rows;
+            .then(csvText => {
+                const rows = csvText.split('\n').map(row => row.split(','));
                 const grid = document.getElementById('productGrid');
                 grid.innerHTML = ''; 
 
-                rows.forEach((row, i) => {
-                    if (i === 0) return; // Header row skip karein
+                // Row 1 header hai, Row 2 se start karenge
+                for (let i = 1; i < rows.length; i++) {
+                    const name = rows[i][0] ? rows[i][0].replace(/"/g, '') : '';
+                    const price = rows[i][1] ? rows[i][1].replace(/"/g, '') : '';
+                    const imgName = rows[i][2] ? rows[i][2].replace(/"/g, '').trim() : '';
                     
-                    const name = row.c[0] ? row.c[0].v : 'New Product';
-                    const price = row.c[1] ? row.c[1].v : '0';
-                    const imgName = row.c[2] ? row.c[2].v : '';
-                    
-                    // GitHub se photo ka link
+                    if(!name) continue;
+
                     const photoUrl = `https://raw.githubusercontent.com/${githubUser}/${repoName}/main/${imgName}`;
 
                     grid.innerHTML += `
-                        <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-100" onclick="window.open('https://wa.me/923485491217?text=Assalam-o-Alaikum Zain Store, I want to buy: ${name}')">
-                            <div class="h-32 flex items-center justify-center bg-gray-50 rounded-lg mb-2 overflow-hidden">
-                                <img src="${photoUrl}" class="max-h-full max-w-full object-contain" onerror="this.src='https://via.placeholder.com/150?text=Wait+for+Refresh'">
-                            </div>
-                            <h4 class="text-[10px] font-bold text-gray-700 uppercase truncate">${name}</h4>
-                            <p class="text-orange-600 font-black text-sm mt-1">Rs. ${price}</p>
-                            <div class="w-full bg-orange-50 text-[8px] font-bold text-orange-600 py-1 text-center rounded mt-2 border border-orange-100">ORDER ON WHATSAPP</div>
-                        </div>
-                    `;
-                });
+                        <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-100" onclick="window.open('https://wa.me/923485491217?text=Assalam-o-Alaikum, I want to buy: ${name}')">
+                            <img src="${photoUrl}" class="w-full h-32 object-contain mb-2" onerror="this.src='https://via.placeholder.com/150?text=Wait+for+Update'">
+                            <h4 class="text-[11px] font-bold text-gray-700 truncate">${name}</h4>
+                            <p class="text-orange-600 font-black text-sm">Rs. ${price}</p>
+                            <div class="mt-2 bg-orange-50 text-[8px] font-bold text-orange-600 py-1 text-center rounded border border-orange-100">ORDER NOW</div>
+                        </div>`;
+                }
             })
             .catch(err => {
-                document.getElementById('msg').innerText = "Error loading data. Check Sheet access.";
+                document.getElementById('msg').innerText = "Network Error. Please refresh.";
             });
     </script>
 </body>

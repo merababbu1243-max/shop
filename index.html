@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,7 +15,7 @@
         .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1500; backdrop-filter: blur(3px); }
         .overlay.active { display: block; }
         .hero-banner { background: linear-gradient(135deg, #f85606 0%, #ff8c00 100%); border-radius: 0 0 25px 25px; padding: 40px 20px; color: white; text-align: center; }
-        .product-card { background: white; border-radius: 12px; overflow: hidden; border: 1px solid #eee; transition: 0.3s; }
+        .product-card { background: white; border-radius: 12px; overflow: hidden; border: 1px solid #eee; transition: 0.3s; cursor: pointer; }
         #detailModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 3000; align-items: center; justify-content: center; padding: 20px; }
     </style>
 </head>
@@ -29,8 +28,8 @@
             <p class="font-bold text-lg">Zain Store Official</p>
         </div>
         <div class="p-5 space-y-5 font-bold text-gray-700">
-            <div onclick="toggleMenu()" class="border-b pb-3"><i class="fa fa-home text-orange-500 mr-2"></i> Home</div>
-            <div onclick="window.open('https://wa.me/923485491217')" class="text-green-600 border-b pb-3"><i class="fab fa-whatsapp mr-2"></i> WhatsApp Support</div>
+            <div onclick="toggleMenu()" class="border-b pb-3 cursor-pointer"><i class="fa fa-home text-orange-500 mr-2"></i> Home</div>
+            <div onclick="window.open('https://wa.me/923485491217')" class="text-green-600 border-b pb-3 cursor-pointer"><i class="fab fa-whatsapp mr-2"></i> WhatsApp Support</div>
         </div>
     </div>
 
@@ -59,8 +58,8 @@
         <div class="bg-white w-full max-w-sm rounded-[30px] p-6 relative">
             <button onclick="closeDetail()" class="absolute top-5 right-5 text-gray-300 text-2xl"><i class="fa fa-times-circle"></i></button>
             <img id="modalImg" src="" class="w-full h-52 object-contain mb-4">
-            <h2 id="modalTitle" class="text-xl font-bold mb-1"></h2>
-            <p id="modalPrice" class="text-2xl font-black text-orange-600 mb-4"></p>
+            <h2 id="modalTitle" class="text-xl font-bold mb-1 text-center"></h2>
+            <p id="modalPrice" class="text-2xl font-black text-orange-600 mb-4 text-center"></p>
             <button id="modalBtn" class="w-full bg-green-500 text-white py-4 rounded-2xl font-black flex items-center justify-center gap-2">
                 <i class="fab fa-whatsapp"></i> ORDER ON WHATSAPP
             </button>
@@ -73,6 +72,7 @@
             document.getElementById('overlay').classList.toggle('active');
         }
 
+        // Aapki details
         const sheetID = '1WWBuGylAgkewrUXS99CbJV3g3ZsM8nGz4fyA5g6Bp4s';
         const user = 'merababbu1243-max';
         const repo = 'mera';
@@ -84,29 +84,33 @@
             grid.innerHTML = ''; 
 
             for (let i = 1; i < rows.length; i++) {
-                const name = rows[i][0]?.replace(/"/g, '');
-                const price = rows[i][1]?.replace(/"/g, '');
-                const img = rows[i][2]?.replace(/"/g, '').trim();
+                const name = rows[i][0]?.replace(/"/g, '').trim();
+                const price = rows[i][1]?.replace(/"/g, '').trim();
+                let img = rows[i][2]?.replace(/"/g, '').trim();
                 
-                if(!name) continue;
+                if(!name || !img) continue;
 
-                // FIX: 'shop/' folder add kiya hai kyunke aapki images wahan hain
+                // Image URL fix: shop folder aur lowercase conversion
                 const photoUrl = `https://raw.githubusercontent.com/${user}/${repo}/main/shop/${img}`;
 
                 grid.innerHTML += `
-                    <div class="product-card p-3 shadow-sm border border-gray-100 text-center" onclick="openDetail('${name}', '${price}', '${photoUrl}')">
-                        <img src="${photoUrl}" class="w-full h-32 object-contain mb-2" onerror="this.src='https://via.placeholder.com/150?text=Wait+Refresh'">
-                        <h4 class="text-[11px] font-bold text-gray-700 truncate">${name}</h4>
+                    <div class="product-card p-3 shadow-sm border border-gray-100 flex flex-col items-center" onclick="openDetail('${name}', '${price}', '${photoUrl}')">
+                        <div class="h-32 w-full flex items-center justify-center mb-2 overflow-hidden">
+                            <img src="${photoUrl}" class="max-h-full max-w-full object-contain" onerror="this.src='https://via.placeholder.com/150?text=Image+Not+Found'">
+                        </div>
+                        <h4 class="text-[11px] font-bold text-gray-700 truncate w-full text-center">${name}</h4>
                         <p class="text-orange-600 font-black text-sm">Rs. ${price}</p>
                     </div>`;
             }
+        }).catch(err => {
+            console.error("Sheet loading error:", err);
         });
 
         function openDetail(name, price, img) {
             document.getElementById('modalTitle').innerText = name;
             document.getElementById('modalPrice').innerText = 'Rs. ' + price;
             document.getElementById('modalImg').src = img;
-            const msg = encodeURIComponent(`Assalam-o-Alaikum Zain Store, I want to order: ${name} (Rs. ${price})`);
+            const msg = encodeURIComponent(`Assalam-o-Alaikum, I want to order: ${name} (Price: Rs. ${price})`);
             document.getElementById('modalBtn').setAttribute("onclick", `window.open('https://wa.me/923485491217?text=${msg}')`);
             document.getElementById('detailModal').style.display = 'flex';
         }

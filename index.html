@@ -3,39 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZAIN STORE</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-50 text-gray-800">
-    <header class="bg-white p-4 shadow-sm text-center">
+<body class="bg-gray-100 text-gray-800">
+    <header class="bg-white p-4 shadow text-center">
         <h1 class="text-2xl font-bold text-orange-600">ZAIN STORE</h1>
     </header>
+
     <div id="productGrid" class="p-4 grid grid-cols-2 gap-4">
         <p id="msg" class="col-span-2 text-center text-gray-400">Loading Products...</p>
     </div>
+
     <script>
         const ssID = '1WWBuGylAgkewrUXS99CbJV3g3ZsM8nGz4fyA5g6Bp4s';
         const githubUser = 'merababbu1243-max';
         const repoName = 'mera';
+        const folderName = 'shop'; // Aapki photo 'shop' folder ke andar hai
+
         const url = `https://docs.google.com/spreadsheets/d/${ssID}/export?format=csv&gid=0`;
 
         fetch(url).then(res => res.text()).then(csv => {
             const rows = csv.split('\n').map(r => r.split(','));
             const grid = document.getElementById('productGrid');
             grid.innerHTML = ''; 
+
             for (let i = 1; i < rows.length; i++) {
                 const name = rows[i][0]?.replace(/"/g, '');
                 const price = rows[i][1]?.replace(/"/g, '');
-                const img = rows[i][2]?.replace(/"/g, '').trim();
+                let img = rows[i][2]?.replace(/"/g, '').trim();
+                
                 if(!name) continue;
-                const photoUrl = `https://raw.githubusercontent.com/${githubUser}/${repoName}/main/${img}`;
+
+                // Photo ka mukammal rasta
+                const photoUrl = `https://raw.githubusercontent.com/${githubUser}/${repoName}/main/${folderName}/${img}`;
+
                 grid.innerHTML += `
-                    <div class="bg-white p-3 rounded-xl shadow-sm border" onclick="window.open('https://wa.me/923485491217?text=Order: ${name}')">
-                        <img src="${photoUrl}" class="w-full h-32 object-contain mb-2" onerror="this.src='https://via.placeholder.com/150?text=Wait+for+Refresh'">
+                    <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-200" onclick="window.open('https://wa.me/923485491217?text=Order: ${name}')">
+                        <img src="${photoUrl}" class="w-full h-32 object-contain mb-2" onerror="this.src='https://via.placeholder.com/150?text=Wait+Refresh'">
                         <h4 class="text-xs font-bold">${name}</h4>
                         <p class="text-orange-600 font-bold text-sm">Rs. ${price}</p>
                     </div>`;
             }
-        }).catch(e => { document.getElementById('msg').innerText = "Check Sheet Settings!"; });
+        }).catch(e => { document.getElementById('msg').innerText = "Sheet Check Karein!"; });
     </script>
 </body>
 </html>

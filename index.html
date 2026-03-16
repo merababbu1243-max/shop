@@ -7,39 +7,35 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { background-color: #f4f4f9; font-family: 'Inter', sans-serif; }
-        .bg-orange-main { background-color: #f85606; }
-        .text-orange-main { color: #f85606; }
-        .product-card { background: white; border-radius: 15px; transition: 0.3s; overflow: hidden; }
+        body { background-color: #f8f9fa; font-family: 'Inter', sans-serif; }
+        .product-card { background: white; border-radius: 12px; overflow: hidden; border: 1px solid #eee; cursor: pointer; }
         #modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
     </style>
 </head>
 <body class="pb-10">
 
-    <header class="bg-white p-4 shadow-md sticky top-0 z-50 flex justify-between items-center">
-        <i class="fa fa-bars text-xl text-gray-700"></i>
-        <h1 class="text-2xl font-black text-orange-main italic">ZAIN STORE</h1>
-        <div class="relative"><i class="fa fa-shopping-bag text-2xl text-gray-600"></i></div>
+    <header class="bg-white p-4 shadow-sm sticky top-0 z-50 flex justify-between items-center text-orange-600">
+        <h1 class="text-2xl font-black italic uppercase">ZAIN STORE</h1>
+        <i class="fa fa-shopping-bag text-2xl text-gray-600"></i>
     </header>
 
     <div class="p-4">
-        <div class="bg-gradient-to-r from-orange-600 to-orange-400 rounded-2xl p-8 text-white text-center shadow-lg mb-6">
-            <h2 class="text-3xl font-black italic uppercase">Official Store</h2>
-            <p class="text-xs font-bold tracking-widest opacity-90 mt-2">QUALITY • TRUST • SERVICE</p>
+        <div class="bg-gradient-to-r from-orange-600 to-orange-400 rounded-2xl p-6 text-white text-center mb-6 shadow-lg">
+            <h2 class="text-2xl font-bold uppercase">Official Store</h2>
+            <p class="text-xs opacity-80 uppercase tracking-widest">Quality • Trust • Service</p>
         </div>
 
-        <h3 class="font-bold text-gray-800 border-l-4 border-orange-600 pl-3 mb-4">FLASH SALE</h3>
-        
         <div id="productGrid" class="grid grid-cols-2 gap-4">
-            </div>
+            <p class="col-span-2 text-center text-gray-400 py-10">Updating Products...</p>
+        </div>
     </div>
 
-    <div id="modal" onclick="closeModal()">
-        <div class="bg-white w-full max-w-sm rounded-3xl p-6" onclick="event.stopPropagation()">
-            <img id="modalImg" src="" class="w-full h-64 object-contain mb-4">
+    <div id="modal" onclick="this.style.display='none'">
+        <div class="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl" onclick="event.stopPropagation()">
+            <img id="modalImg" src="" class="w-full h-64 object-contain mb-4 bg-gray-50 rounded-xl">
             <h2 id="modalTitle" class="text-xl font-bold text-gray-800"></h2>
             <p id="modalPrice" class="text-2xl font-black text-orange-600 my-2"></p>
-            <button id="waBtn" class="w-full bg-green-500 text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2">
+            <button id="waBtn" class="w-full bg-green-500 text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 active:scale-95 transition">
                 <i class="fab fa-whatsapp text-xl"></i> ORDER ON WHATSAPP
             </button>
         </div>
@@ -51,29 +47,31 @@
         const repo = 'mera';
         const sheetUrl = `https://docs.google.com/spreadsheets/d/${sheetID}/export?format=csv&gid=0`;
 
-        fetch(sheetUrl).then(res => res.text()).then(data => {
-            const rows = data.split('\n').slice(1);
+        fetch(sheetUrl).then(res => res.text()).then(csvData => {
+            const rows = csvData.split('\n').slice(1);
             const grid = document.getElementById('productGrid');
             grid.innerHTML = '';
 
             rows.forEach(row => {
                 const cols = row.split(',');
-                const name = cols[0]?.replace(/"/g, '').trim();
-                const price = cols[1]?.replace(/"/g, '').trim();
-                const imgName = cols[2]?.replace(/"/g, '').trim();
+                if (cols.length < 3) return;
 
-                if (!name || !imgName) return;
+                const name = cols[0].replace(/"/g, '').trim();
+                const price = cols[1].replace(/"/g, '').trim();
+                const img = cols[2].replace(/"/g, '').trim();
 
-                // Aapki file bahar hai, isliye hum 'shop/' folder nahi laga rahe
-                const photoUrl = `https://raw.githubusercontent.com/${user}/${repo}/main/${imgName}`;
+                if (!name || !img) return;
+
+                // FIX: Seedha main repo se image link (Bina 'shop/' folder ke)
+                const photoUrl = `https://raw.githubusercontent.com/${user}/${repo}/main/${img}`;
 
                 grid.innerHTML += `
-                    <div class="product-card shadow-sm p-3 border border-gray-100" onclick="openModal('${name}', '${price}', '${photoUrl}')">
-                        <div class="h-32 flex items-center justify-center bg-gray-50 rounded-lg mb-2">
+                    <div class="product-card p-3 shadow-sm" onclick="openModal('${name}', '${price}', '${photoUrl}')">
+                        <div class="h-36 flex items-center justify-center bg-gray-50 rounded-lg mb-2 overflow-hidden">
                             <img src="${photoUrl}" class="max-h-full object-contain" onerror="this.src='https://via.placeholder.com/150?text=Wait+Refersh'">
                         </div>
-                        <h4 class="text-xs font-bold text-gray-700 truncate">${name}</h4>
-                        <p class="text-orange-600 font-black">Rs. ${price}</p>
+                        <h4 class="text-[10px] font-bold text-gray-800 truncate">${name}</h4>
+                        <p class="text-orange-600 font-black text-xs">Rs. ${price}</p>
                     </div>`;
             });
         });
@@ -86,8 +84,6 @@
             document.getElementById('waBtn').onclick = () => window.open(`https://wa.me/923485491217?text=${msg}`);
             document.getElementById('modal').style.display = 'flex';
         }
-
-        function closeModal() { document.getElementById('modal').style.display = 'none'; }
     </script>
 </body>
 </html>

@@ -3,116 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zain Store | Official Shop</title>
+    <title>ZAIN STORE | OFFICIAL</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { background-color: #f7f7fa; font-family: 'Inter', sans-serif; padding-bottom: 70px; overflow-x: hidden; }
-        .daraz-orange { color: #f85606; }
-        .bg-daraz { background-color: #f85606; }
-        .side-menu { position: fixed; inset-y: 0; left: 0; width: 280px; background: white; z-index: 2000; transform: translateX(-100%); transition: 0.3s; box-shadow: 10px 0 20px rgba(0,0,0,0.1); }
-        .side-menu.active { transform: translateX(0); }
-        .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1500; backdrop-filter: blur(3px); }
-        .overlay.active { display: block; }
-        .hero-banner { background: linear-gradient(135deg, #f85606 0%, #ff8c00 100%); border-radius: 0 0 25px 25px; padding: 40px 20px; color: white; text-align: center; }
-        .product-card { background: white; border-radius: 12px; overflow: hidden; border: 1px solid #eee; transition: 0.3s; cursor: pointer; }
-        #detailModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 3000; align-items: center; justify-content: center; padding: 20px; }
+        body { background-color: #f4f4f9; font-family: 'Inter', sans-serif; }
+        .bg-orange-main { background-color: #f85606; }
+        .text-orange-main { color: #f85606; }
+        .product-card { background: white; border-radius: 15px; transition: 0.3s; overflow: hidden; }
+        #modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
     </style>
 </head>
-<body>
+<body class="pb-10">
 
-    <div id="overlay" class="overlay" onclick="toggleMenu()"></div>
-    <div id="sideMenu" class="side-menu">
-        <div class="bg-daraz p-8 text-white text-center">
-            <div class="w-20 h-20 bg-white rounded-full mx-auto mb-3 flex items-center justify-center text-orange-600 text-4xl font-black">Z</div>
-            <p class="font-bold text-lg">Zain Store Official</p>
-        </div>
-        <div class="p-5 space-y-5 font-bold text-gray-700">
-            <div onclick="toggleMenu()" class="border-b pb-3 cursor-pointer"><i class="fa fa-home text-orange-500 mr-2"></i> Home</div>
-            <div onclick="window.open('https://wa.me/923485491217')" class="text-green-600 border-b pb-3 cursor-pointer"><i class="fab fa-whatsapp mr-2"></i> WhatsApp Support</div>
-        </div>
-    </div>
-
-    <header class="bg-white p-4 flex justify-between items-center sticky top-0 z-50 shadow-sm">
-        <button onclick="toggleMenu()" class="text-2xl text-gray-700"><i class="fa fa-bars-staggered"></i></button>
-        <h1 class="text-2xl font-black daraz-orange italic uppercase text-center flex-grow">ZAIN STORE</h1>
-        <i class="fa fa-shopping-bag text-gray-600 text-2xl"></i>
+    <header class="bg-white p-4 shadow-md sticky top-0 z-50 flex justify-between items-center">
+        <i class="fa fa-bars text-xl text-gray-700"></i>
+        <h1 class="text-2xl font-black text-orange-main italic">ZAIN STORE</h1>
+        <div class="relative"><i class="fa fa-shopping-bag text-2xl text-gray-600"></i></div>
     </header>
 
-    <section class="hero-banner mb-6 shadow-xl text-white">
-        <h2 class="text-3xl font-black mb-1 italic uppercase">Official Store</h2>
-        <p class="text-[10px] font-bold opacity-80 tracking-[4px] uppercase">Quality • Trust • Service</p>
-    </section>
-
-    <main class="px-4">
-        <div class="flex justify-between items-center mb-6 border-l-4 border-orange-500 pl-3">
-            <h3 class="font-black text-gray-800 uppercase tracking-tight">Flash Sale</h3>
-            <span class="text-[10px] font-bold text-orange-500 animate-pulse italic uppercase">Live Now</span>
+    <div class="p-4">
+        <div class="bg-gradient-to-r from-orange-600 to-orange-400 rounded-2xl p-8 text-white text-center shadow-lg mb-6">
+            <h2 class="text-3xl font-black italic uppercase">Official Store</h2>
+            <p class="text-xs font-bold tracking-widest opacity-90 mt-2">QUALITY • TRUST • SERVICE</p>
         </div>
 
+        <h3 class="font-bold text-gray-800 border-l-4 border-orange-600 pl-3 mb-4">FLASH SALE</h3>
+        
         <div id="productGrid" class="grid grid-cols-2 gap-4">
             </div>
-    </main>
+    </div>
 
-    <div id="detailModal">
-        <div class="bg-white w-full max-w-sm rounded-[30px] p-6 relative">
-            <button onclick="closeDetail()" class="absolute top-5 right-5 text-gray-300 text-2xl"><i class="fa fa-times-circle"></i></button>
-            <img id="modalImg" src="" class="w-full h-52 object-contain mb-4">
-            <h2 id="modalTitle" class="text-xl font-bold mb-1 text-center text-gray-800"></h2>
-            <p id="modalPrice" class="text-2xl font-black text-orange-600 mb-4 text-center"></p>
-            <button id="modalBtn" class="w-full bg-green-500 text-white py-4 rounded-2xl font-black flex items-center justify-center gap-2 active:scale-95 transition">
+    <div id="modal" onclick="closeModal()">
+        <div class="bg-white w-full max-w-sm rounded-3xl p-6" onclick="event.stopPropagation()">
+            <img id="modalImg" src="" class="w-full h-64 object-contain mb-4">
+            <h2 id="modalTitle" class="text-xl font-bold text-gray-800"></h2>
+            <p id="modalPrice" class="text-2xl font-black text-orange-600 my-2"></p>
+            <button id="waBtn" class="w-full bg-green-500 text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2">
                 <i class="fab fa-whatsapp text-xl"></i> ORDER ON WHATSAPP
             </button>
         </div>
     </div>
 
     <script>
-        function toggleMenu() {
-            document.getElementById('sideMenu').classList.toggle('active');
-            document.getElementById('overlay').classList.toggle('active');
-        }
-
         const sheetID = '1WWBuGylAgkewrUXS99CbJV3g3ZsM8nGz4fyA5g6Bp4s';
         const user = 'merababbu1243-max';
         const repo = 'mera';
-        const url = `https://docs.google.com/spreadsheets/d/${sheetID}/export?format=csv&gid=0`;
+        const sheetUrl = `https://docs.google.com/spreadsheets/d/${sheetID}/export?format=csv&gid=0`;
 
-        fetch(url).then(res => res.text()).then(csv => {
-            const rows = csv.split('\n').map(r => r.split(','));
+        fetch(sheetUrl).then(res => res.text()).then(data => {
+            const rows = data.split('\n').slice(1);
             const grid = document.getElementById('productGrid');
-            grid.innerHTML = ''; 
+            grid.innerHTML = '';
 
-            for (let i = 1; i < rows.length; i++) {
-                const name = rows[i][0]?.replace(/"/g, '').trim();
-                const price = rows[i][1]?.replace(/"/g, '').trim();
-                const img = rows[i][2]?.replace(/"/g, '').trim(); 
-                
-                if(!name || !img) continue;
+            rows.forEach(row => {
+                const cols = row.split(',');
+                const name = cols[0]?.replace(/"/g, '').trim();
+                const price = cols[1]?.replace(/"/g, '').trim();
+                const imgName = cols[2]?.replace(/"/g, '').trim();
 
-                // Simple path for small 'p'
-                const photoUrl = `https://raw.githubusercontent.com/${user}/${repo}/main/shop/${img}`;
+                if (!name || !imgName) return;
+
+                // Aapki file bahar hai, isliye hum 'shop/' folder nahi laga rahe
+                const photoUrl = `https://raw.githubusercontent.com/${user}/${repo}/main/${imgName}`;
 
                 grid.innerHTML += `
-                    <div class="product-card p-3 shadow-sm border border-gray-100 flex flex-col items-center" onclick="openDetail('${name}', '${price}', '${photoUrl}')">
-                        <div class="h-32 w-full flex items-center justify-center mb-2 overflow-hidden bg-gray-50 rounded-lg">
-                            <img src="${photoUrl}" class="max-h-full max-w-full object-contain" onerror="this.src='https://via.placeholder.com/150?text=Wait+Update'">
+                    <div class="product-card shadow-sm p-3 border border-gray-100" onclick="openModal('${name}', '${price}', '${photoUrl}')">
+                        <div class="h-32 flex items-center justify-center bg-gray-50 rounded-lg mb-2">
+                            <img src="${photoUrl}" class="max-h-full object-contain" onerror="this.src='https://via.placeholder.com/150?text=Wait+Refersh'">
                         </div>
-                        <h4 class="text-[11px] font-bold text-gray-700 truncate w-full text-center">${name}</h4>
-                        <p class="text-orange-600 font-black text-sm">Rs. ${price}</p>
+                        <h4 class="text-xs font-bold text-gray-700 truncate">${name}</h4>
+                        <p class="text-orange-600 font-black">Rs. ${price}</p>
                     </div>`;
-            }
+            });
         });
 
-        function openDetail(name, price, img) {
+        function openModal(name, price, img) {
             document.getElementById('modalTitle').innerText = name;
             document.getElementById('modalPrice').innerText = 'Rs. ' + price;
             document.getElementById('modalImg').src = img;
-            const msg = encodeURIComponent(`Assalam-o-Alaikum, I want to order: ${name} (Price: Rs. ${price})`);
-            document.getElementById('modalBtn').setAttribute("onclick", `window.open('https://wa.me/923485491217?text=${msg}')`);
-            document.getElementById('detailModal').style.display = 'flex';
+            const msg = encodeURIComponent(`Assalam-o-Alaikum, I want to order ${name} for Rs. ${price}`);
+            document.getElementById('waBtn').onclick = () => window.open(`https://wa.me/923485491217?text=${msg}`);
+            document.getElementById('modal').style.display = 'flex';
         }
 
-        function closeDetail() { document.getElementById('detailModal').style.display = 'none'; }
+        function closeModal() { document.getElementById('modal').style.display = 'none'; }
     </script>
 </body>
 </html>

@@ -1,89 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZAIN STORE | OFFICIAL</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        body { background-color: #f8f9fa; font-family: 'Inter', sans-serif; }
-        .product-card { background: white; border-radius: 12px; overflow: hidden; border: 1px solid #eee; cursor: pointer; }
-        #modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZAIN STORE | OFFICIAL</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<style>
+body{
+background:#f8f9fa;
+font-family:Arial;
+}
+
+.product-card{
+background:white;
+border-radius:12px;
+overflow:hidden;
+border:1px solid #eee;
+cursor:pointer;
+}
+
+#modal{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.8);
+z-index:1000;
+align-items:center;
+justify-content:center;
+padding:20px;
+}
+</style>
+
 </head>
+
 <body class="pb-10">
 
-    <header class="bg-white p-4 shadow-sm sticky top-0 z-50 flex justify-between items-center text-orange-600">
-        <h1 class="text-2xl font-black italic uppercase">ZAIN STORE</h1>
-        <i class="fa fa-shopping-bag text-2xl text-gray-600"></i>
-    </header>
+<header class="bg-white p-4 shadow-sm sticky top-0 z-50 flex justify-between items-center text-orange-600">
+<h1 class="text-2xl font-black italic uppercase">ZAIN STORE</h1>
+<i class="fa fa-shopping-bag text-2xl text-gray-600"></i>
+</header>
 
-    <div class="p-4">
-        <div class="bg-gradient-to-r from-orange-600 to-orange-400 rounded-2xl p-6 text-white text-center mb-6 shadow-lg">
-            <h2 class="text-2xl font-bold uppercase">Official Store</h2>
-            <p class="text-xs opacity-80 uppercase tracking-widest">Quality • Trust • Service</p>
-        </div>
+<div class="p-4">
 
-        <div id="productGrid" class="grid grid-cols-2 gap-4">
-            <p class="col-span-2 text-center text-gray-400 py-10">Updating Products...</p>
-        </div>
-    </div>
+<div class="bg-gradient-to-r from-orange-600 to-orange-400 rounded-2xl p-6 text-white text-center mb-6 shadow-lg">
+<h2 class="text-2xl font-bold uppercase">Official Store</h2>
+<p class="text-xs opacity-80 uppercase tracking-widest">Quality • Trust • Service</p>
+</div>
 
-    <div id="modal" onclick="this.style.display='none'">
-        <div class="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl" onclick="event.stopPropagation()">
-            <img id="modalImg" src="" class="w-full h-64 object-contain mb-4 bg-gray-50 rounded-xl">
-            <h2 id="modalTitle" class="text-xl font-bold text-gray-800"></h2>
-            <p id="modalPrice" class="text-2xl font-black text-orange-600 my-2"></p>
-            <button id="waBtn" class="w-full bg-green-500 text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 active:scale-95 transition">
-                <i class="fab fa-whatsapp text-xl"></i> ORDER ON WHATSAPP
-            </button>
-        </div>
-    </div>
+<div id="productGrid" class="grid grid-cols-2 gap-4">
+<p class="col-span-2 text-center text-gray-400 py-10">Updating Products...</p>
+</div>
 
-    <script>
-        const sheetID = '1WWBuGylAgkewrUXS99CbJV3g3ZsM8nGz4fyA5g6Bp4s';
-        const user = 'merababbu1243-max';
-        const repo = 'mera';
-        const sheetUrl = `https://docs.google.com/spreadsheets/d/${sheetID}/export?format=csv&gid=0`;
+</div>
 
-        fetch(sheetUrl).then(res => res.text()).then(csvData => {
-            const rows = csvData.split('\n').slice(1);
-            const grid = document.getElementById('productGrid');
-            grid.innerHTML = '';
+<div id="modal" onclick="this.style.display='none'">
+<div class="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl" onclick="event.stopPropagation()">
 
-            rows.forEach(row => {
-                const cols = row.split(',');
-                if (cols.length < 3) return;
+<img id="modalImg" src="" class="w-full h-64 object-contain mb-4 bg-gray-50 rounded-xl">
 
-                const name = cols[0].replace(/"/g, '').trim();
-                const price = cols[1].replace(/"/g, '').trim();
-                const img = cols[2].replace(/"/g, '').trim();
+<h2 id="modalTitle" class="text-xl font-bold text-gray-800"></h2>
 
-                if (!name || !img) return;
+<p id="modalPrice" class="text-2xl font-black text-orange-600 my-2"></p>
 
-                // FIX: Seedha main repo se image link (Bina 'shop/' folder ke)
-                const photoUrl = `https://raw.githubusercontent.com/${user}/${repo}/main/${img}`;
+<button id="waBtn" class="w-full bg-green-500 text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2">
 
-                grid.innerHTML += `
-                    <div class="product-card p-3 shadow-sm" onclick="openModal('${name}', '${price}', '${photoUrl}')">
-                        <div class="h-36 flex items-center justify-center bg-gray-50 rounded-lg mb-2 overflow-hidden">
-                            <img src="${photoUrl}" class="max-h-full object-contain" onerror="this.src='https://via.placeholder.com/150?text=Wait+Refersh'">
-                        </div>
-                        <h4 class="text-[10px] font-bold text-gray-800 truncate">${name}</h4>
-                        <p class="text-orange-600 font-black text-xs">Rs. ${price}</p>
-                    </div>`;
-            });
-        });
+<i class="fab fa-whatsapp text-xl"></i> ORDER ON WHATSAPP
 
-        function openModal(name, price, img) {
-            document.getElementById('modalTitle').innerText = name;
-            document.getElementById('modalPrice').innerText = 'Rs. ' + price;
-            document.getElementById('modalImg').src = img;
-            const msg = encodeURIComponent(`Assalam-o-Alaikum, I want to order ${name} for Rs. ${price}`);
-            document.getElementById('waBtn').onclick = () => window.open(`https://wa.me/923485491217?text=${msg}`);
-            document.getElementById('modal').style.display = 'flex';
-        }
-    </script>
+</button>
+
+</div>
+</div>
+
+<script>
+
+const sheetID = "13J6c7r2r6-1jN5czgo8fn0Tmn-XFj7BFhLaUHe4kkRY";
+
+const sheetUrl = `https://docs.google.com/spreadsheets/d/${sheetID}/export?format=csv&gid=0`;
+
+fetch(sheetUrl)
+.then(res=>res.text())
+.then(csv=>{
+
+const rows = csv.split("\n").slice(1);
+
+const grid = document.getElementById("productGrid");
+
+grid.innerHTML="";
+
+rows.forEach(row=>{
+
+const cols=row.split(",");
+
+if(cols.length<3) return;
+
+const name=cols[0].replace(/"/g,"").trim();
+
+const price=cols[1].replace(/"/g,"").trim();
+
+const img=cols[2].replace(/"/g,"").trim();
+
+if(!name || !img) return;
+
+grid.innerHTML +=`
+
+<div class="product-card p-3 shadow-sm" onclick="openModal('${name}','${price}','${img}')">
+
+<div class="h-36 flex items-center justify-center bg-gray-50 rounded-lg mb-2 overflow-hidden">
+
+<img src="${img}" class="max-h-full object-contain" onerror="this.src='https://via.placeholder.com/150?text=Image'">
+
+</div>
+
+<h4 class="text-[10px] font-bold text-gray-800 truncate">${name}</h4>
+
+<p class="text-orange-600 font-black text-xs">Rs. ${price}</p>
+
+</div>
+
+`;
+
+});
+
+});
+
+function openModal(name,price,img){
+
+document.getElementById("modalTitle").innerText=name;
+
+document.getElementById("modalPrice").innerText="Rs. "+price;
+
+document.getElementById("modalImg").src=img;
+
+const msg=encodeURIComponent(`Assalam-o-Alaikum, I want to order ${name} for Rs. ${price}`);
+
+document.getElementById("waBtn").onclick=()=>window.open(`https://wa.me/923485491217?text=${msg}`);
+
+document.getElementById("modal").style.display="flex";
+
+}
+
+</script>
+
 </body>
 </html>

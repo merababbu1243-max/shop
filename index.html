@@ -1,144 +1,446 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ZAIN STORE | OFFICIAL</title>
 
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<title>ZAIN STORE</title>
 
 <style>
+
 body{
-background:#f8f9fa;
+margin:0;
 font-family:Arial;
+background:#f5f5f5;
 }
 
-.product-card{
+/* NAVBAR */
+
+.navbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:#ff6a00;
+padding:15px;
+color:white;
+position:sticky;
+top:0;
+}
+
+.logo{
+font-size:22px;
+font-weight:bold;
+}
+
+.menu{
+display:flex;
+gap:15px;
+}
+
+.menu a{
+color:white;
+text-decoration:none;
+font-weight:bold;
+}
+
+.cart{
 background:white;
-border-radius:12px;
-overflow:hidden;
-border:1px solid #eee;
+color:#ff6a00;
+padding:5px 10px;
+border-radius:5px;
+}
+
+.menu-btn{
+display:none;
+font-size:25px;
 cursor:pointer;
 }
 
-#modal{
-display:none;
-position:fixed;
-inset:0;
-background:rgba(0,0,0,0.8);
-z-index:1000;
-align-items:center;
-justify-content:center;
+/* HERO */
+
+.hero{
+position:relative;
+overflow:hidden;
+}
+
+.slider{
+display:flex;
+animation:slide 12s infinite;
+}
+
+.slider img{
+width:100%;
+height:350px;
+object-fit:cover;
+}
+
+@keyframes slide{
+0%{transform:translateX(0)}
+33%{transform:translateX(-100%)}
+66%{transform:translateX(-200%)}
+100%{transform:translateX(0)}
+}
+
+/* SEARCH */
+
+.search{
+text-align:center;
 padding:20px;
 }
+
+.search input{
+width:60%;
+padding:10px;
+border-radius:5px;
+border:1px solid #ccc;
+}
+
+/* PRODUCTS */
+
+.products{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+padding:20px;
+}
+
+.product{
+background:white;
+padding:15px;
+border-radius:10px;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
+text-align:center;
+}
+
+.product img{
+width:100%;
+height:200px;
+object-fit:cover;
+border-radius:10px;
+}
+
+.price{
+color:#ff6a00;
+font-weight:bold;
+}
+
+.rating{
+color:gold;
+}
+
+.product button{
+background:#ff6a00;
+color:white;
+border:none;
+padding:8px 15px;
+border-radius:5px;
+cursor:pointer;
+margin-top:5px;
+}
+
+/* ABOUT */
+
+.about{
+background:white;
+padding:40px;
+text-align:center;
+}
+
+/* REVIEWS */
+
+.reviews{
+padding:40px;
+text-align:center;
+background:#fafafa;
+}
+
+.review{
+background:white;
+max-width:400px;
+margin:10px auto;
+padding:20px;
+border-radius:10px;
+box-shadow:0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* CONTACT */
+
+.contact{
+text-align:center;
+padding:40px;
+}
+
+/* FOOTER */
+
+.footer{
+background:#222;
+color:white;
+text-align:center;
+padding:30px;
+}
+
+/* WHATSAPP */
+
+.whatsapp{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#25D366;
+color:white;
+padding:12px 16px;
+border-radius:50px;
+text-decoration:none;
+font-weight:bold;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.menu{
+display:none;
+flex-direction:column;
+background:#ff6a00;
+position:absolute;
+top:60px;
+right:0;
+padding:20px;
+}
+
+.menu.show{
+display:flex;
+}
+
+.menu-btn{
+display:block;
+}
+
+}
+
 </style>
 
 </head>
 
-<body class="pb-10">
+<body>
 
-<header class="bg-white p-4 shadow-sm sticky top-0 z-50 flex justify-between items-center text-orange-600">
-<h1 class="text-2xl font-black italic uppercase">ZAIN STORE</h1>
-<i class="fa fa-shopping-bag text-2xl text-gray-600"></i>
-</header>
+<!-- NAVBAR -->
 
-<div class="p-4">
+<div class="navbar">
 
-<div class="bg-gradient-to-r from-orange-600 to-orange-400 rounded-2xl p-6 text-white text-center mb-6 shadow-lg">
-<h2 class="text-2xl font-bold uppercase">Official Store</h2>
-<p class="text-xs opacity-80 uppercase tracking-widest">Quality • Trust • Service</p>
-</div>
+<div class="logo">ZAIN STORE</div>
 
-<div id="productGrid" class="grid grid-cols-2 gap-4">
-<p class="col-span-2 text-center text-gray-400 py-10">Updating Products...</p>
-</div>
+<div class="menu" id="menu">
+
+<a href="#">Home</a>
+<a href="#">Products</a>
+<a href="#">About</a>
+<a href="#">Contact</a>
 
 </div>
 
-<div id="modal" onclick="this.style.display='none'">
-<div class="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl" onclick="event.stopPropagation()">
+<div class="cart">
+🛒 <span id="cart">0</span>
+</div>
 
-<img id="modalImg" src="" class="w-full h-64 object-contain mb-4 bg-gray-50 rounded-xl">
-
-<h2 id="modalTitle" class="text-xl font-bold text-gray-800"></h2>
-
-<p id="modalPrice" class="text-2xl font-black text-orange-600 my-2"></p>
-
-<button id="waBtn" class="w-full bg-green-500 text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2">
-
-<i class="fab fa-whatsapp text-xl"></i> ORDER ON WHATSAPP
-
-</button>
+<div class="menu-btn" onclick="toggleMenu()">☰</div>
 
 </div>
+
+<!-- HERO SLIDER -->
+
+<div class="hero">
+
+<div class="slider">
+
+<img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da">
+<img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30">
+<img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f">
+
 </div>
+
+</div>
+
+<!-- SEARCH -->
+
+<div class="search">
+
+<input type="text" id="search" placeholder="Search products..." onkeyup="searchProducts()">
+
+</div>
+
+<!-- PRODUCTS -->
+
+<div class="products" id="product-list">
+
+<div class="product">
+
+<img src="PASTE-IMAGE-LINK">
+
+<h3>Smart Watch</h3>
+
+<div class="rating">⭐⭐⭐⭐⭐</div>
+
+<p class="price">Rs 2500</p>
+
+<button onclick="addCart()">Add To Cart</button>
+
+</div>
+
+<div class="product">
+
+<img src="PASTE-IMAGE-LINK">
+
+<h3>Face Powder</h3>
+
+<div class="rating">⭐⭐⭐⭐</div>
+
+<p class="price">Rs 900</p>
+
+<button onclick="addCart()">Add To Cart</button>
+
+</div>
+
+<div class="product">
+
+<img src="PASTE-IMAGE-LINK">
+
+<h3>Beauty Cream</h3>
+
+<div class="rating">⭐⭐⭐⭐⭐</div>
+
+<p class="price">Rs 1500</p>
+
+<button onclick="addCart()">Add To Cart</button>
+
+</div>
+
+<div class="product">
+
+<img src="PASTE-IMAGE-LINK">
+
+<h3>Luxury Watch</h3>
+
+<div class="rating">⭐⭐⭐⭐</div>
+
+<p class="price">Rs 3000</p>
+
+<button onclick="addCart()">Add To Cart</button>
+
+</div>
+
+</div>
+
+<!-- ABOUT -->
+
+<div class="about">
+
+<h2>About ZAIN STORE</h2>
+
+<p>
+We provide high quality products at the best prices.
+Customer satisfaction is our priority.
+</p>
+
+</div>
+
+<!-- REVIEWS -->
+
+<div class="reviews">
+
+<h2>Customer Reviews</h2>
+
+<div class="review">
+
+⭐⭐⭐⭐⭐  
+Amazing products and fast delivery!
+
+</div>
+
+<div class="review">
+
+⭐⭐⭐⭐⭐  
+Very trusted store.
+
+</div>
+
+</div>
+
+<!-- CONTACT -->
+
+<div class="contact">
+
+<h2>Contact Us</h2>
+
+<p>Order directly on WhatsApp</p>
+
+</div>
+
+<!-- FOOTER -->
+
+<div class="footer">
+
+<h2>ZAIN STORE</h2>
+
+<p>Quality • Trust • Best Prices</p>
+
+<p>© 2026 Zain Store</p>
+
+</div>
+
+<!-- WHATSAPP -->
+
+<a class="whatsapp" href="https://wa.me/923485491217">
+
+Order on WhatsApp
+
+</a>
 
 <script>
 
-const sheetID = "13J6c7r2r6-1jN5czgo8fn0Tmn-XFj7BFhLaUHe4kkRY";
+/* CART */
 
-const sheetUrl = `https://docs.google.com/spreadsheets/d/${sheetID}/export?format=csv&gid=0`;
+let cart = 0;
 
-fetch(sheetUrl)
-.then(res=>res.text())
-.then(csv=>{
+function addCart(){
 
-const rows = csv.split("\n").slice(1);
+cart++;
 
-const grid = document.getElementById("productGrid");
+document.getElementById("cart").innerText = cart;
 
-grid.innerHTML="";
+}
 
-rows.forEach(row=>{
+/* SEARCH */
 
-const cols=row.split(",");
+function searchProducts(){
 
-if(cols.length<3) return;
+let input = document.getElementById("search").value.toLowerCase();
 
-const name=cols[0].replace(/"/g,"").trim();
+let products = document.getElementsByClassName("product");
 
-const price=cols[1].replace(/"/g,"").trim();
+for(let i=0;i<products.length;i++){
 
-const img=cols[2].replace(/"/g,"").trim();
+let title = products[i].getElementsByTagName("h3")[0].innerText.toLowerCase();
 
-if(!name || !img) return;
+if(title.includes(input)){
 
-grid.innerHTML +=`
+products[i].style.display="block";
 
-<div class="product-card p-3 shadow-sm" onclick="openModal('${name}','${price}','${img}')">
+}else{
 
-<div class="h-36 flex items-center justify-center bg-gray-50 rounded-lg mb-2 overflow-hidden">
+products[i].style.display="none";
 
-<img src="${img}" class="max-h-full object-contain" onerror="this.src='https://via.placeholder.com/150?text=Image'">
+}
 
-</div>
+}
 
-<h4 class="text-[10px] font-bold text-gray-800 truncate">${name}</h4>
+}
 
-<p class="text-orange-600 font-black text-xs">Rs. ${price}</p>
+/* MOBILE MENU */
 
-</div>
+function toggleMenu(){
 
-`;
-
-});
-
-});
-
-function openModal(name,price,img){
-
-document.getElementById("modalTitle").innerText=name;
-
-document.getElementById("modalPrice").innerText="Rs. "+price;
-
-document.getElementById("modalImg").src=img;
-
-const msg=encodeURIComponent(`Assalam-o-Alaikum, I want to order ${name} for Rs. ${price}`);
-
-document.getElementById("waBtn").onclick=()=>window.open(`https://wa.me/923485491217?text=${msg}`);
-
-document.getElementById("modal").style.display="flex";
+document.getElementById("menu").classList.toggle("show");
 
 }
 

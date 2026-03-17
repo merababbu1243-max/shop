@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>ZAIN STORE</title>
 
@@ -48,7 +47,7 @@ font-weight:bold;
 background:white;
 color:#ff6a00;
 padding:5px 10px;
-border-radius:5px;
+border-radius:6px;
 }
 
 .menu-btn{
@@ -57,29 +56,34 @@ font-size:25px;
 cursor:pointer;
 }
 
-/* HERO */
+/* HERO SLIDER */
 
 .hero{
-position:relative;
 overflow:hidden;
 }
 
 .slider{
 display:flex;
+width:300%;
 animation:slide 12s infinite;
 }
 
 .slider img{
 width:100%;
-height:350px;
+height:300px;
 object-fit:cover;
 }
 
 @keyframes slide{
+
 0%{transform:translateX(0)}
+
 33%{transform:translateX(-100%)}
+
 66%{transform:translateX(-200%)}
+
 100%{transform:translateX(0)}
+
 }
 
 /* SEARCH */
@@ -133,8 +137,8 @@ color:gold;
 background:#ff6a00;
 color:white;
 border:none;
-padding:8px 15px;
-border-radius:5px;
+padding:10px 15px;
+border-radius:6px;
 cursor:pointer;
 margin-top:5px;
 }
@@ -167,8 +171,8 @@ box-shadow:0 4px 8px rgba(0,0,0,0.1);
 /* CONTACT */
 
 .contact{
-text-align:center;
 padding:40px;
+text-align:center;
 }
 
 /* FOOTER */
@@ -247,15 +251,17 @@ display:block;
 
 </div>
 
-<!-- HERO SLIDER -->
+<!-- SLIDER -->
 
 <div class="hero">
 
 <div class="slider">
 
-<img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da">
-<img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30">
-<img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f">
+<img src="https://raw.githubusercontent.com/merababbu1243-max/shop/main/pr1.jpg">
+
+<img src="https://raw.githubusercontent.com/merababbu1243-max/shop/main/watch2.jpg">
+
+<img src="https://raw.githubusercontent.com/merababbu1243-max/shop/main/pr1.jpg">
 
 </div>
 
@@ -265,7 +271,7 @@ display:block;
 
 <div class="search">
 
-<input type="text" id="search" placeholder="Search products..." onkeyup="searchProducts()">
+<input type="text" id="search" placeholder="Search product..." onkeyup="searchProducts()">
 
 </div>
 
@@ -275,7 +281,7 @@ display:block;
 
 <div class="product">
 
-<img src="PASTE-IMAGE-LINK">
+<img src="https://raw.githubusercontent.com/merababbu1243-max/shop/main/watch2.jpg">
 
 <h3>Smart Watch</h3>
 
@@ -289,41 +295,13 @@ display:block;
 
 <div class="product">
 
-<img src="PASTE-IMAGE-LINK">
+<img src="https://raw.githubusercontent.com/merababbu1243-max/shop/main/pr1.jpg">
 
-<h3>Face Powder</h3>
-
-<div class="rating">⭐⭐⭐⭐</div>
-
-<p class="price">Rs 900</p>
-
-<button onclick="addCart()">Add To Cart</button>
-
-</div>
-
-<div class="product">
-
-<img src="PASTE-IMAGE-LINK">
-
-<h3>Beauty Cream</h3>
-
-<div class="rating">⭐⭐⭐⭐⭐</div>
-
-<p class="price">Rs 1500</p>
-
-<button onclick="addCart()">Add To Cart</button>
-
-</div>
-
-<div class="product">
-
-<img src="PASTE-IMAGE-LINK">
-
-<h3>Luxury Watch</h3>
+<h3>Beauty Product</h3>
 
 <div class="rating">⭐⭐⭐⭐</div>
 
-<p class="price">Rs 3000</p>
+<p class="price">Rs 500</p>
 
 <button onclick="addCart()">Add To Cart</button>
 
@@ -338,8 +316,10 @@ display:block;
 <h2>About ZAIN STORE</h2>
 
 <p>
-We provide high quality products at the best prices.
-Customer satisfaction is our priority.
+
+We provide quality products at the best prices.
+Customer satisfaction is our first priority.
+
 </p>
 
 </div>
@@ -352,14 +332,16 @@ Customer satisfaction is our priority.
 
 <div class="review">
 
-⭐⭐⭐⭐⭐  
-Amazing products and fast delivery!
+⭐⭐⭐⭐⭐
+
+Amazing product quality.
 
 </div>
 
 <div class="review">
 
-⭐⭐⭐⭐⭐  
+⭐⭐⭐⭐⭐
+
 Very trusted store.
 
 </div>
@@ -382,7 +364,7 @@ Very trusted store.
 
 <h2>ZAIN STORE</h2>
 
-<p>Quality • Trust • Best Prices</p>
+<p>Quality • Trust • Service</p>
 
 <p>© 2026 Zain Store</p>
 
@@ -400,13 +382,13 @@ Order on WhatsApp
 
 /* CART */
 
-let cart = 0;
+let cart=0;
 
 function addCart(){
 
 cart++;
 
-document.getElementById("cart").innerText = cart;
+document.getElementById("cart").innerText=cart;
 
 }
 
@@ -414,13 +396,13 @@ document.getElementById("cart").innerText = cart;
 
 function searchProducts(){
 
-let input = document.getElementById("search").value.toLowerCase();
+let input=document.getElementById("search").value.toLowerCase();
 
-let products = document.getElementsByClassName("product");
+let products=document.getElementsByClassName("product");
 
 for(let i=0;i<products.length;i++){
 
-let title = products[i].getElementsByTagName("h3")[0].innerText.toLowerCase();
+let title=products[i].getElementsByTagName("h3")[0].innerText.toLowerCase();
 
 if(title.includes(input)){
 

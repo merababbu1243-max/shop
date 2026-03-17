@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
 <title>ZAIN STORE</title>
 
 <style>
@@ -14,63 +12,54 @@ font-family:Arial;
 background:#f5f5f5;
 }
 
-/* NAVBAR */
+/* TOP BAR */
 
-.navbar{
-display:flex;
-justify-content:space-between;
-align-items:center;
+.topbar{
 background:#ff6a00;
-padding:15px;
 color:white;
-position:sticky;
-top:0;
-}
-
-.logo{
-font-size:22px;
+padding:12px;
+font-size:20px;
 font-weight:bold;
 }
 
-.menu{
+/* SEARCH */
+
+.search{
 display:flex;
-gap:15px;
-}
-
-.menu a{
-color:white;
-text-decoration:none;
-font-weight:bold;
-}
-
-.cart{
+padding:10px;
 background:white;
-color:#ff6a00;
-padding:5px 10px;
-border-radius:6px;
 }
 
-.menu-btn{
-display:none;
-font-size:25px;
-cursor:pointer;
+.search input{
+flex:1;
+padding:10px;
+border:1px solid #ccc;
+border-radius:20px 0 0 20px;
 }
 
-/* HERO SLIDER */
+.search button{
+background:#ff6a00;
+border:none;
+color:white;
+padding:10px 15px;
+border-radius:0 20px 20px 0;
+}
 
-.hero{
+/* SLIDER */
+
+.slider{
 overflow:hidden;
 }
 
-.slider{
+.slides{
 display:flex;
 width:300%;
 animation:slide 12s infinite;
 }
 
-.slider img{
+.slides img{
 width:100%;
-height:300px;
+height:180px;
 object-fit:cover;
 }
 
@@ -86,42 +75,28 @@ object-fit:cover;
 
 }
 
-/* SEARCH */
-
-.search{
-text-align:center;
-padding:20px;
-}
-
-.search input{
-width:60%;
-padding:10px;
-border-radius:5px;
-border:1px solid #ccc;
-}
-
 /* PRODUCTS */
 
 .products{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
-padding:20px;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+padding:10px;
 }
 
 .product{
 background:white;
-padding:15px;
-border-radius:10px;
-box-shadow:0 4px 10px rgba(0,0,0,0.1);
+padding:10px;
+border-radius:8px;
+box-shadow:0 2px 5px rgba(0,0,0,0.1);
 text-align:center;
 }
 
 .product img{
 width:100%;
-height:200px;
+height:130px;
 object-fit:cover;
-border-radius:10px;
+border-radius:6px;
 }
 
 .price{
@@ -129,49 +104,52 @@ color:#ff6a00;
 font-weight:bold;
 }
 
-.rating{
-color:gold;
-}
-
 .product button{
 background:#ff6a00;
-color:white;
 border:none;
-padding:10px 15px;
-border-radius:6px;
-cursor:pointer;
+color:white;
+padding:8px;
+border-radius:5px;
 margin-top:5px;
+}
+
+/* CATEGORIES */
+
+.categories{
+padding:10px;
+}
+
+.cat-grid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:10px;
+}
+
+.cat{
+background:white;
+padding:10px;
+text-align:center;
+border-radius:6px;
+font-size:14px;
+box-shadow:0 2px 5px rgba(0,0,0,0.1);
 }
 
 /* ABOUT */
 
 .about{
 background:white;
-padding:40px;
-text-align:center;
-}
-
-/* REVIEWS */
-
-.reviews{
-padding:40px;
-text-align:center;
-background:#fafafa;
-}
-
-.review{
-background:white;
-max-width:400px;
-margin:10px auto;
 padding:20px;
-border-radius:10px;
-box-shadow:0 4px 8px rgba(0,0,0,0.1);
+margin:10px;
+border-radius:8px;
 }
 
-/* CONTACT */
+/* PAYMENT */
 
-.contact{
-padding:40px;
+.payment{
+background:white;
+padding:20px;
+margin:10px;
+border-radius:8px;
 text-align:center;
 }
 
@@ -181,81 +159,62 @@ text-align:center;
 background:#222;
 color:white;
 text-align:center;
-padding:30px;
+padding:20px;
+margin-top:20px;
+}
+
+/* BOTTOM NAV */
+
+.bottom-nav{
+position:fixed;
+bottom:0;
+width:100%;
+background:white;
+display:flex;
+justify-content:space-around;
+padding:8px;
+box-shadow:0 -2px 8px rgba(0,0,0,0.2);
+}
+
+.bottom-nav a{
+text-decoration:none;
+color:black;
+font-size:13px;
+text-align:center;
 }
 
 /* WHATSAPP */
 
 .whatsapp{
 position:fixed;
-bottom:20px;
-right:20px;
+bottom:70px;
+right:15px;
 background:#25D366;
 color:white;
-padding:12px 16px;
+padding:12px;
 border-radius:50px;
 text-decoration:none;
-font-weight:bold;
-}
-
-/* MOBILE */
-
-@media(max-width:768px){
-
-.menu{
-display:none;
-flex-direction:column;
-background:#ff6a00;
-position:absolute;
-top:60px;
-right:0;
-padding:20px;
-}
-
-.menu.show{
-display:flex;
-}
-
-.menu-btn{
-display:block;
-}
-
 }
 
 </style>
-
 </head>
 
 <body>
 
-<!-- NAVBAR -->
-
-<div class="navbar">
-
-<div class="logo">ZAIN STORE</div>
-
-<div class="menu" id="menu">
-
-<a href="#">Home</a>
-<a href="#">Products</a>
-<a href="#">About</a>
-<a href="#">Contact</a>
-
+<div class="topbar">
+ZAIN STORE 🛒 <span id="cart">0</span>
 </div>
 
-<div class="cart">
-🛒 <span id="cart">0</span>
-</div>
-
-<div class="menu-btn" onclick="toggleMenu()">☰</div>
-
+<div class="search">
+<input type="text" placeholder="Search product...">
+<button>Search</button>
 </div>
 
 <!-- SLIDER -->
 
-<div class="hero">
-
 <div class="slider">
+
+<div class="slides">
 
 <img src="https://raw.githubusercontent.com/merababbu1243-max/shop/main/pr1.jpg">
 
@@ -267,25 +226,35 @@ display:block;
 
 </div>
 
-<!-- SEARCH -->
+<!-- CATEGORIES -->
 
-<div class="search">
+<div class="categories">
 
-<input type="text" id="search" placeholder="Search product..." onkeyup="searchProducts()">
+<h3>Categories</h3>
+
+<div class="cat-grid">
+
+<div class="cat">Beauty</div>
+
+<div class="cat">Gadgets</div>
+
+<div class="cat">Clothes</div>
+
+<div class="cat">Accessories</div>
+
+</div>
 
 </div>
 
 <!-- PRODUCTS -->
 
-<div class="products" id="product-list">
+<div class="products">
 
 <div class="product">
 
 <img src="https://raw.githubusercontent.com/merababbu1243-max/shop/main/watch2.jpg">
 
-<h3>Smart Watch</h3>
-
-<div class="rating">⭐⭐⭐⭐⭐</div>
+<h4>Smart Watch</h4>
 
 <p class="price">Rs 2500</p>
 
@@ -297,9 +266,7 @@ display:block;
 
 <img src="https://raw.githubusercontent.com/merababbu1243-max/shop/main/pr1.jpg">
 
-<h3>Beauty Product</h3>
-
-<div class="rating">⭐⭐⭐⭐</div>
+<h4>Beauty Product</h4>
 
 <p class="price">Rs 500</p>
 
@@ -313,58 +280,29 @@ display:block;
 
 <div class="about">
 
-<h2>About ZAIN STORE</h2>
+<h3>About Us</h3>
 
 <p>
 
-We provide quality products at the best prices.
-Customer satisfaction is our first priority.
+Zain Store is an online store where you can buy quality products at affordable prices.
 
 </p>
 
 </div>
 
-<!-- REVIEWS -->
+<!-- PAYMENT -->
 
-<div class="reviews">
+<div class="payment">
 
-<h2>Customer Reviews</h2>
+<h3>Easypaisa Payment</h3>
 
-<div class="review">
+<p>Send payment to this number</p>
 
-⭐⭐⭐⭐⭐
-
-Amazing product quality.
+<h2>03485491217</h2>
 
 </div>
-
-<div class="review">
-
-⭐⭐⭐⭐⭐
-
-Very trusted store.
-
-</div>
-
-</div>
-
-<!-- CONTACT -->
-
-<div class="contact">
-
-<h2>Contact Us</h2>
-
-<p>Order directly on WhatsApp</p>
-
-</div>
-
-<!-- FOOTER -->
 
 <div class="footer">
-
-<h2>ZAIN STORE</h2>
-
-<p>Quality • Trust • Service</p>
 
 <p>© 2026 Zain Store</p>
 
@@ -374,13 +312,25 @@ Very trusted store.
 
 <a class="whatsapp" href="https://wa.me/923485491217">
 
-Order on WhatsApp
+Order WhatsApp
 
 </a>
 
-<script>
+<!-- BOTTOM NAV -->
 
-/* CART */
+<div class="bottom-nav">
+
+<a href="#">🏠<br>Home</a>
+
+<a href="#">📂<br>Categories</a>
+
+<a href="#">🛒<br>Cart</a>
+
+<a href="#">👤<br>Account</a>
+
+</div>
+
+<script>
 
 let cart=0;
 
@@ -389,40 +339,6 @@ function addCart(){
 cart++;
 
 document.getElementById("cart").innerText=cart;
-
-}
-
-/* SEARCH */
-
-function searchProducts(){
-
-let input=document.getElementById("search").value.toLowerCase();
-
-let products=document.getElementsByClassName("product");
-
-for(let i=0;i<products.length;i++){
-
-let title=products[i].getElementsByTagName("h3")[0].innerText.toLowerCase();
-
-if(title.includes(input)){
-
-products[i].style.display="block";
-
-}else{
-
-products[i].style.display="none";
-
-}
-
-}
-
-}
-
-/* MOBILE MENU */
-
-function toggleMenu(){
-
-document.getElementById("menu").classList.toggle("show");
 
 }
 

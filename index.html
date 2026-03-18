@@ -3,83 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zain Store - Live Data</title>
+    <title>Zain Store - Professional Slider</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; }
-        header { background: #ff8c00; color: white; text-align: center; padding: 25px; font-size: 28px; font-weight: bold; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .container { display: flex; flex-wrap: wrap; justify-content: center; padding: 30px; gap: 25px; }
-        .card { 
-            background: white; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            width: 260px; padding: 20px; text-align: center; transition: 0.3s; border: 1px solid #eee;
-        }
-        .card:hover { transform: translateY(-8px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
-        .card img { width: 100%; height: 180px; object-fit: contain; border-radius: 10px; background: #fafafa; margin-bottom: 15px; }
-        .card h3 { font-size: 19px; margin: 10px 0; color: #333; text-transform: capitalize; min-height: 50px; }
-        .card .price { color: #ff8c00; font-weight: bold; font-size: 20px; margin-bottom: 20px; display: block; }
-        .btn { 
-            background: #ff8c00; color: white; border: none; padding: 12px; 
-            border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; font-size: 15px; transition: 0.2s;
-        }
-        .btn:hover { background: #e67e22; }
-        #loader { text-align: center; font-size: 20px; margin-top: 50px; color: #666; }
+        :root { --primary: #ff6801; --bg: #eff0f5; }
+        body { font-family: Arial, sans-serif; background: var(--bg); margin: 0; padding: 0; overflow-x: hidden; }
+        
+        header { background: var(--primary); color: white; padding: 10px; position: sticky; top: 0; z-index: 1000; }
+        .nav-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 0 5px; }
+        .search-box { width: 95%; margin: 0 auto; display: flex; }
+        .search-box input { width: 100%; padding: 10px; border: none; border-radius: 4px 0 0 4px; outline: none; }
+        .search-box button { background: #333; color: white; border: none; padding: 10px 15px; border-radius: 0 4px 4px 0; }
+
+        /* Banner Slider Style */
+        .slider-container { width: 100%; overflow: hidden; position: relative; background: #fff; height: 180px; margin-bottom: 10px; }
+        .slider { display: flex; transition: transform 1.2s ease-in-out; } /* Slide raftaar yahan se control hoti hai */
+        .slider img { width: 100%; flex-shrink: 0; height: 180px; object-fit: cover; }
+
+        .categories { display: flex; gap: 10px; padding: 10px; overflow-x: auto; background: white; white-space: nowrap; border-bottom: 1px solid #ddd; }
+        .cat-btn { background: #f0f0f0; border: none; padding: 8px 15px; border-radius: 20px; font-size: 13px; cursor: pointer; }
+        .cat-btn.active { background: var(--primary); color: white; }
+
+        .container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 8px; }
+        .card { background: white; border-radius: 8px; display: flex; flex-direction: column; box-shadow: 0 1px 3px rgba(0,0,0,0.1); overflow: hidden; }
+        .card img { width: 100%; height: 150px; object-fit: contain; padding: 5px; cursor: pointer; }
+        .info { padding: 8px; flex-grow: 1; }
+        .info h3 { font-size: 13px; margin: 5px 0; height: 32px; overflow: hidden; color: #222; line-height: 1.2; }
+        .info .price { color: var(--primary); font-weight: bold; font-size: 16px; margin-top: 5px; }
+        .buy-btn { background: var(--primary); color: white; border: none; width: 100%; padding: 12px; font-weight: bold; cursor: pointer; font-size: 13px; }
+
+        footer { background: #333; color: white; padding: 25px; text-align: center; margin-top: 30px; font-size: 14px; }
+        
+        /* Modal for Product details */
+        #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; }
+        .modal-content { background: white; width: 85%; max-width: 400px; padding: 20px; border-radius: 12px; position: relative; }
+        .close-btn { position: absolute; top: 5px; right: 15px; font-size: 30px; cursor: pointer; color: #666; }
     </style>
 </head>
 <body>
 
-    <header>Zain Store</header>
-    
-    <div id="loader">Products load ho rahi hain...</div>
-    <div class="container" id="product-list"></div>
+    <header>
+        <div class="nav-top">
+            <span style="font-weight: bold; font-size: 22px;">Zain Store</span>
+            <span style="font-size: 14px;">📞 03485491217</span>
+        </div>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search products..." onkeyup="filterProducts()">
+            <button>🔍</button>
+        </div>
+    </header>
+
+    <div class="slider-container">
+        <div class="slider" id="mainSlider">
+            <img src="https://raw.githubusercontent.com/merababbu1243-max/shop/main/banner1.jpg" alt="Sale 1">
+            <img src="https://raw.githubusercontent.com/merababbu1243-max/shop/main/banner2.jpg" alt="Sale 2">
+            <img src="https://raw.githubusercontent.com/merababbu1243-max/shop/main/banner3.jpg" alt="Sale 3">
+            </div>
+    </div>
+
+    <div class="categories" id="cat-list">
+        <button class="cat-btn active" onclick="filterCategory('all')">All</button>
+        <button class="cat-btn" onclick="filterCategory('beauty')">Beauty</button>
+        <button class="cat-btn" onclick="filterCategory('watch')">Watches</button>
+        <button class="cat-btn" onclick="filterCategory('gadgets')">Gadgets</button>
+    </div>
+
+    <div id="product-list" class="container"></div>
+
+    <div id="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <img id="modalImg" src="" style="width: 100%; height: 200px; object-fit: contain;">
+            <h2 id="modalTitle" style="margin: 10px 0;"></h2>
+            <p id="modalPrice" style="color: var(--primary); font-size: 22px; font-weight: bold; margin: 5px 0;"></p>
+            <p id="modalDesc" style="color: #666; font-size: 14px;"></p>
+            <button class="buy-btn" id="modalBuyBtn" style="border-radius: 5px; margin-top: 10px;">Order on WhatsApp / EasyPaisa</button>
+        </div>
+    </div>
+
+    <footer>
+        <h3 style="color: var(--primary);">About Zain Store</h3>
+        <p>Premium Quality Products at Affordable Prices.</p>
+        <p><b>EasyPaisa:</b> 0348-5491217</p>
+        <p><b>Location:</b> Rawalpindi, Pakistan 🇵🇰</p>
+        <p>© 2026 Zain Store - Made with ❤️</p>
+    </footer>
 
     <script>
-        // Aapki di hui Sheet ID yahan set hai
-        const sheetID = '13J6c7r2r6-1jN5czgo8fn0Tmn-XFj7BFhLaUHe4kkRY'; 
+        const sheetID = '13J6c7r2r6-1jN5czgo8fn0Tmn-XFj7BFhLaUHe4kkRY';
         const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv`;
+        let allProducts = [];
 
-        async function loadStore() {
+        // Slider Logic
+        let currentSlide = 0;
+        const slider = document.getElementById('mainSlider');
+        const totalSlides = slider.children.length;
+
+        function autoSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+        }
+        setInterval(autoSlide, 4000); // Har 4 second baad slide hoga
+
+        // Data Fetching
+        async function loadData() {
             try {
-                const response = await fetch(url);
-                const data = await response.text();
+                const res = await fetch(url);
+                const data = await res.text();
+                const rows = data.split('\n').slice(1);
                 
-                // CSV data ko lines mein torna
-                const rows = data.split('\n').slice(1); 
-                const productList = document.getElementById('product-list');
-                const loader = document.getElementById('loader');
-                
-                loader.style.display = 'none'; // Loader khatam
-
-                rows.forEach(row => {
-                    // CSV column separation logic
+                allProducts = rows.map(row => {
                     const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                    
-                    if (cols.length >= 3) {
-                        const name = cols[0].replace(/"/g, "").trim();
-                        const price = cols[1].replace(/"/g, "").trim();
-                        let image = cols[2].replace(/"/g, "").trim();
-
-                        // Agar image cell khali ho ya sirf naam ho, to placeholder dikhayen
-                        if (!image.startsWith('http')) {
-                            image = 'https://via.placeholder.com/300x200?text=No+Image+Link';
-                        }
-
-                        const card = `
-                            <div class="card">
-                                <img src="${image}" alt="${name}" onerror="this.src='https://via.placeholder.com/300x200?text=Check+Image+URL'">
-                                <h3>${name}</h3>
-                                <span class="price">Rs ${price}</span>
-                                <button class="btn">Add To Cart</button>
-                            </div>
-                        `;
-                        productList.innerHTML += card;
-                    }
-                });
-            } catch (err) {
-                document.getElementById('loader').innerHTML = "Error: Sheet load nahi ho saki. Please check internet.";
-                console.error(err);
-            }
+                    return {
+                        name: cols[0]?.replace(/"/g, "").trim(),
+                        price: cols[1]?.replace(/"/g, "").trim(),
+                        image: cols[2]?.replace(/"/g, "").trim(),
+                        category: cols[3]?.replace(/"/g, "").trim().toLowerCase(),
+                        description: cols[4]?.replace(/"/g, "").trim() || "Top Selling Product"
+                    };
+                }).filter(p => p.name);
+                displayProducts(allProducts);
+            } catch (e) { console.log("Error loading data"); }
         }
 
-        loadStore();
+        function displayProducts(products) {
+            const list = document.getElementById('product-list');
+            list.innerHTML = products.map(p => `
+                <div class="card">
+                    <img src="${p.image}" onclick="openModal('${p.name}', '${p.price}', '${p.image}', '${p.description}')" onerror="this.src='https://via.placeholder.com/150'">
+                    <div class="info">
+                        <h3>${p.name}</h3>
+                        <div class="price">Rs ${p.price}</div>
+                    </div>
+                    <button class="buy-btn" onclick="sendWA('${p.name}', '${p.price}')">Add To Cart</button>
+                </div>
+            `).join('');
+        }
+
+        function filterProducts() {
+            const term = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = allProducts.filter(p => p.name.toLowerCase().includes(term));
+            displayProducts(filtered);
+        }
+
+        function filterCategory(cat) {
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            const filtered = cat === 'all' ? allProducts : allProducts.filter(p => p.category.includes(cat));
+            displayProducts(filtered);
+        }
+
+        function openModal(name, price, img, desc) {
+            document.getElementById('modalImg').src = img;
+            document.getElementById('modalTitle').innerText = name;
+            document.getElementById('modalPrice').innerText = 'Rs ' + price;
+            document.getElementById('modalDesc').innerText = desc;
+            document.getElementById('modalBuyBtn').onclick = () => sendWA(name, price);
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        function closeModal() { document.getElementById('modal').style.display = 'none'; }
+
+        function sendWA(name, price) {
+            const msg = `Assalam-o-Alaikum! Mujhe ye product chahiye:%0A*Product:* ${name}%0A*Price:* Rs ${price}%0A*EasyPaisa Number:* 03485491217`;
+            window.location.href = `https://wa.me/923485491217?text=${msg}`;
+        }
+
+        loadData();
     </script>
 </body>
 </html>

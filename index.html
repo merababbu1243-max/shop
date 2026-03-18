@@ -3,245 +3,302 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Zain Store | Professional E-commerce</title>
+    <title>Zain Store | Official Premium Shop</title>
     <meta name="google-site-verification" content="V0aThzCXFXSk5kb7aj9HIJ4VMmdLfO-S3_69JDg9290" />
     <style>
-        :root { --primary: #ff6801; --bg: #f4f4f4; --white: #ffffff; --text: #222; --gray: #999; --flash: #ff4747; --blue: #00d1ff; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 65px; overflow-x: hidden; }
+        :root { --primary: #ff6801; --bg: #121212; --card: #1e1e1e; --text: #f0f0f0; --gray: #999; --flash: #ff4747; --blue: #00d1ff; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 70px; overflow-x: hidden; }
 
-        /* --- Header & Search --- */
-        header { background: var(--primary); padding: 10px 15px; position: sticky; top: 0; z-index: 1000; }
-        .search-area { background: white; border-radius: 4px; display: flex; align-items: center; padding: 8px 12px; margin-top: 5px; }
-        .search-area input { border: none; outline: none; width: 100%; margin-left: 10px; font-size: 14px; }
+        /* --- Header & Live Search --- */
+        header { background: var(--primary); padding: 12px 15px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+        .header-top { display: flex; justify-content: space-between; align-items: center; font-weight: bold; margin-bottom: 8px; }
+        .search-area { background: white; border-radius: 6px; display: flex; align-items: center; padding: 10px; height: 22px; position: relative; }
+        #live-search-placeholder { color: #666; font-size: 14px; position: absolute; left: 35px; pointer-events: none; transition: 0.5s; }
+        .search-area input { border: none; outline: none; width: 100%; background: transparent; z-index: 2; }
 
-        /* --- Category Bar --- */
-        .cat-bar { display: flex; overflow-x: auto; padding: 15px 10px; gap: 20px; background: white; scrollbar-width: none; border-bottom: 1px solid #eee; }
-        .cat-node { text-align: center; min-width: 65px; cursor: pointer; }
-        .cat-node img { width: 45px; height: 45px; border-radius: 50%; background: #fff3e0; object-fit: contain; }
-        .cat-node div { font-size: 11px; margin-top: 5px; font-weight: 500; }
+        /* --- Banner Slider --- */
+        .slider-box { width: 100%; height: 180px; overflow: hidden; position: relative; background: #000; }
+        .slider { display: flex; width: 300%; animation: slide 12s infinite; }
+        .slider img { width: 33.33%; height: 180px; object-fit: cover; opacity: 0.8; }
+        @keyframes slide { 0%, 30% {margin-left: 0;} 33%, 63% {margin-left: -100%;} 66%, 100% {margin-left: -200%;} }
+
+        /* --- Active Categories --- */
+        .cat-bar { display: flex; overflow-x: auto; padding: 15px 10px; gap: 15px; background: #1a1a1a; scrollbar-width: none; border-bottom: 1px solid #333; }
+        .cat-item { text-align: center; min-width: 65px; cursor: pointer; }
+        .cat-item img { width: 45px; height: 45px; border-radius: 50%; background: #252525; padding: 5px; }
+        .cat-item div { font-size: 11px; margin-top: 5px; color: var(--gray); }
+
+        /* --- Skeleton Loading --- */
+        .skeleton { background: #252525; height: 180px; border-radius: 10px; position: relative; overflow: hidden; }
+        .skeleton::after { content: ""; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, #333, transparent); animation: shiver 1.5s infinite; }
+        @keyframes shiver { 100% { left: 100%; } }
 
         /* --- Grid & Cards --- */
-        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 10px; }
-        .item-card { background: white; border-radius: 4px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-        .item-card img { width: 100%; height: 160px; object-fit: contain; }
-        .p-info { padding: 10px; }
-        .p-price { color: var(--primary); font-weight: bold; }
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 12px; }
+        .card { background: var(--card); border-radius: 12px; overflow: hidden; border: 1px solid #333; transition: 0.3s; }
+        .card img { width: 100%; height: 150px; object-fit: contain; background: white; }
+        .p-details { padding: 10px; }
+        .p-price { color: var(--primary); font-weight: bold; font-size: 16px; margin: 5px 0; }
+        .urgency-tag { font-size: 10px; color: var(--flash); font-weight: bold; }
 
-        /* --- Full Screen Pages (Cart, Detail, Account) --- */
-        .full-page { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 5000; overflow-y: auto; }
-        .top-nav { display: flex; justify-content: space-between; padding: 15px; font-size: 20px; position: sticky; top: 0; background: white; border-bottom: 1px solid #eee; z-index: 10; }
+        /* --- Full Page Overlays --- */
+        .full-page { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 5000; overflow-y: auto; }
+        .top-nav { display: flex; justify-content: space-between; padding: 15px; font-size: 20px; background: #1a1a1a; border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 10; }
         
-        /* --- Cart Styling --- */
-        .cart-item { display: flex; padding: 15px; border-bottom: 1px solid #eee; align-items: center; gap: 10px; }
-        .cart-item img { width: 60px; height: 60px; object-fit: contain; }
-        .remove-btn { color: red; font-size: 12px; cursor: pointer; margin-top: 5px; }
-
-        /* --- EasyPaisa Page Styling --- */
-        .ep-card { background: #1fb47a; color: white; padding: 20px; border-radius: 15px; margin: 20px; text-align: center; }
-
-        /* --- Action Bar --- */
-        .action-bar { position: fixed; bottom: 0; width: 100%; height: 55px; display: flex; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); }
-        .btn-blue { flex: 1; background: var(--blue); color: white; border: none; font-weight: bold; }
-        .btn-orange { flex: 1; background: var(--primary); color: white; border: none; font-weight: bold; }
+        /* --- Product Detail (Screenshot Style) --- */
+        .dots-btn { background: rgba(255,255,255,0.1); width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .flash-bar { background: var(--flash); color: white; padding: 10px 15px; display: flex; justify-content: space-between; font-weight: bold; font-size: 14px; }
+        .action-bar { position: fixed; bottom: 0; width: 100%; height: 55px; display: flex; box-shadow: 0 -2px 15px rgba(0,0,0,0.5); }
+        .btn-cart-add { flex: 1; background: var(--blue); color: white; border: none; font-weight: bold; }
+        .btn-buy-now { flex: 1; background: var(--primary); color: white; border: none; font-weight: bold; }
 
         /* --- Bottom Nav --- */
-        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; border-top: 1px solid #ddd; padding: 8px 0; z-index: 2000; }
-        .nav-item { flex: 1; text-align: center; font-size: 11px; color: #666; cursor: pointer; }
-        .nav-item.active { color: var(--primary); font-weight: bold; }
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #000; display: flex; border-top: 1px solid #333; padding: 10px 0; z-index: 4000; }
+        .nav-link { flex: 1; text-align: center; font-size: 11px; color: var(--gray); cursor: pointer; }
+        .nav-link.active { color: var(--primary); font-weight: bold; }
+
+        /* --- Cart & EasyPaisa --- */
+        .cart-row { display: flex; padding: 15px; border-bottom: 1px solid #333; gap: 10px; align-items: center; }
+        .cart-row img { width: 50px; height: 50px; object-fit: contain; background: white; border-radius: 5px; }
+        .ep-box { background: #1fb47a; color: white; padding: 25px; border-radius: 15px; margin: 20px; text-align: center; border: 2px dashed #fff; }
+
+        /* --- Live Toast --- */
+        #sale-toast { position: fixed; bottom: 80px; left: 10px; background: white; color: black; padding: 8px 15px; border-radius: 20px; font-size: 12px; display: none; z-index: 4500; animation: slideIn 0.5s; border-left: 5px solid var(--primary); }
+        @keyframes slideIn { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+
+        /* --- Lamba Footer --- */
+        footer { background: #000; padding: 40px 20px; text-align: center; border-top: 1px solid #333; font-size: 13px; color: var(--gray); }
     </style>
 </head>
 <body>
 
 <header>
-    <div style="display: flex; justify-content: space-between; color: white; align-items: center;">
-        <span style="font-size: 18px; font-weight: bold;">Zain Store</span>
-        <div>🔔 ❤️</div>
+    <div class="header-top">
+        <span>☰ ZAIN STORE</span>
+        <div style="display: flex; gap: 15px;">❤️ 🔔</div>
     </div>
     <div class="search-area">
-        🔍 <input type="text" id="mainSearch" placeholder="Search Zain Store..." onkeyup="doSearch()">
+        🔍 <input type="text" id="mainSearch" onkeyup="doSearch()" onfocus="hidePlaceholder()" onblur="showPlaceholder()">
+        <div id="live-search-placeholder">Search "Smart Watches"...</div>
     </div>
 </header>
 
+<div class="slider-box">
+    <div class="slider">
+        <img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=800" alt="B1">
+        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800" alt="B2">
+        <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=800" alt="B3">
+    </div>
+</div>
+
 <div class="cat-bar">
-    <div class="cat-node" onclick="showAll()"><img src="https://cdn-icons-png.flaticon.com/512/619/619153.png"><div>Home</div></div>
-    <div class="cat-node" onclick="doCat('watch')"><img src="https://cdn-icons-png.flaticon.com/512/3067/3067160.png"><div>Watches</div></div>
-    <div class="cat-node" onclick="doCat('earbud')"><img src="https://cdn-icons-png.flaticon.com/512/527/527995.png"><div>Earbuds</div></div>
-    <div class="cat-node" onclick="doCat('beauty')"><img src="https://cdn-icons-png.flaticon.com/512/2807/2807759.png"><div>Beauty</div></div>
+    <div class="cat-item" onclick="filterCat('all')"><img src="https://cdn-icons-png.flaticon.com/512/619/619153.png"><div>Home</div></div>
+    <div class="cat-item" onclick="filterCat('watch')"><img src="https://cdn-icons-png.flaticon.com/512/3067/3067160.png"><div>Watches</div></div>
+    <div class="cat-item" onclick="filterCat('earbud')"><img src="https://cdn-icons-png.flaticon.com/512/527/527995.png"><div>Earbuds</div></div>
+    <div class="cat-item" onclick="filterCat('beauty')"><img src="https://cdn-icons-png.flaticon.com/512/2807/2807759.png"><div>Beauty</div></div>
 </div>
 
-<div id="product-grid" class="grid">
-    <p style="grid-column: 1/3; text-align: center;">Loading Products...</p>
+<div id="skel-grid" class="grid">
+    <div class="skeleton"></div><div class="skeleton"></div>
+    <div class="skeleton"></div><div class="skeleton"></div>
 </div>
 
-<div id="p-detail" class="full-page">
+<div id="product-grid" class="grid" style="display:none;"></div>
+
+<div id="page-detail" class="full-page">
     <div class="top-nav">
-        <span onclick="closeAll()">⬅️</span>
-        <div style="background: rgba(0,0,0,0.1); border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center;" onclick="alert('Menu: Share, Search, Home')">⋮</div>
+        <span onclick="closePages()">⬅️</span>
+        <div class="dots-btn" onclick="alert('Options: Share, Report, Home')">⋮</div>
     </div>
-    <img id="d-img" style="width:100%; height:350px; object-fit:contain;">
-    <div style="background:#ff4747; color:white; padding:8px 15px; font-weight:bold; display:flex; justify-content:space-between;">
+    <img id="det-img" style="width:100%; height:350px; object-fit:contain; background:white;">
+    <div class="flash-bar">
         <span>⚡ FLASH SALE</span>
-        <span>02:45:10</span>
+        <span id="timer">02:45:10</span>
     </div>
-    <div style="padding:15px;">
-        <div id="d-price" style="font-size:26px; color:var(--primary); font-weight:bold;"></div>
-        <h2 id="d-name" style="margin:10px 0; font-size:18px;"></h2>
-        <div style="color:gold;">⭐⭐⭐⭐⭐ 4.8 (Verified)</div>
-        <hr style="border:0.5px solid #eee; margin:15px 0;">
-        <p>🚚 Standard Delivery | 🛡️ 7 Days Warranty</p>
+    <div style="padding:20px;">
+        <div id="det-price" style="font-size:28px; color:var(--primary); font-weight:bold;"></div>
+        <h2 id="det-name" style="margin:10px 0; font-size:20px;"></h2>
+        <div style="color:gold; margin-bottom:10px;">⭐⭐⭐⭐⭐ 4.9 (5k+ Reviews)</div>
+        <hr style="border:0.5px solid #333;">
+        <p>📦 <b>Stock Status:</b> <span style="color:#25d366;">In Stock</span></p>
+        <p>🚚 <b>Delivery:</b> Fast shipping from Rawalpindi</p>
     </div>
     <div class="action-bar">
-        <button class="btn-blue" onclick="addToCart()">Add to Cart</button>
-        <button class="btn-orange" id="finalBuy">Buy Now</button>
+        <button class="btn-cart-add" onclick="addToCart()">Add to Cart</button>
+        <button class="btn-buy-now" id="buyWA">Buy Now</button>
     </div>
 </div>
 
-<div id="cart-page" class="full-page">
-    <div class="top-nav">
-        <span onclick="closeAll()">⬅️ My Cart</span>
-        <span>🛒</span>
+<div id="page-cart" class="full-page">
+    <div class="top-nav"><span onclick="closePages()">⬅️ My Shopping Cart</span></div>
+    <div id="cart-list"></div>
+    <div id="cart-empty" style="text-align:center; padding:50px; display:none;">
+        🛒<br>Your cart is empty!
     </div>
-    <div id="cart-items-list"></div>
-    <div id="cart-empty-msg" style="text-align:center; margin-top:50px; display:none;">
-        <img src="https://cdn-icons-png.flaticon.com/512/11329/11329060.png" width="100"><br>
-        <p>Your cart is empty!</p>
-    </div>
-    <div id="cart-footer" style="position:fixed; bottom:60px; width:100%; padding:15px; background:white; border-top:1px solid #eee; display:none;">
-        <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:18px;">
-            <span>Total:</span>
-            <span id="total-price" style="color:var(--primary);">Rs 0</span>
+    <div id="cart-summary" style="position:fixed; bottom:65px; width:100%; padding:20px; background:#1a1a1a; border-top:1px solid #333; display:none; box-sizing: border-box;">
+        <div style="display:flex; justify-content:space-between; font-size:18px; font-weight:bold; margin-bottom:10px;">
+            <span>Total:</span><span id="total-val">Rs 0</span>
         </div>
-        <button onclick="checkoutWA()" style="width:100%; background:var(--primary); color:white; border:none; padding:15px; border-radius:5px; margin-top:10px; font-weight:bold;">CHECKOUT VIA WHATSAPP</button>
+        <button onclick="checkout()" style="width:100%; background:var(--primary); color:white; border:none; padding:15px; border-radius:8px; font-weight:bold;">ORDER VIA WHATSAPP</button>
     </div>
 </div>
 
-<div id="account-page" class="full-page">
-    <div class="top-nav"><span onclick="closeAll()">⬅️ My Account</span></div>
-    <div class="ep-card">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Easypaisa_Logo.png/800px-Easypaisa_Logo.png" width="120" style="background:white; border-radius:5px; padding:5px;">
-        <h3>Payment Information</h3>
+<div id="page-account" class="full-page">
+    <div class="top-nav"><span onclick="closePages()">⬅️ Payment Info</span></div>
+    <div class="ep-box">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Easypaisa_Logo.png/800px-Easypaisa_Logo.png" width="100" style="background:white; padding:5px; border-radius:5px;">
+        <h2>EasyPaisa Details</h2>
         <p>Account Name: <b>ZAIN AHMED</b></p>
         <p>Number: <b>0348-5491217</b></p>
-        <p style="font-size: 12px; opacity: 0.8;">Please send screenshot after payment.</p>
+        <p style="font-size:11px;">Please send payment screenshot on WhatsApp.</p>
     </div>
-    <div style="padding:20px; text-align:center;">
-        <p>📍 Shop Location: Rawalpindi</p>
-        <p>✅ Verified Wholesale Seller</p>
+    <div style="padding:20px; text-align:center; color:var(--gray);">
+        <p>📍 Main Branch: Rawalpindi, Pakistan</p>
+        <p>📞 Support: 24/7 Available</p>
     </div>
 </div>
 
+<div id="sale-toast"><b>Hamza (Pindi)</b> just ordered a Smart Watch!</div>
+
 <div class="bottom-nav">
-    <div class="nav-item active" onclick="closeAll()">🏠<br>Home</div>
-    <div class="nav-item" onclick="openPage('account-page')">👤<br>Account</div>
-    <div class="nav-item" onclick="openPage('cart-page')">🛒<br>Cart (<span id="cartCount">0</span>)</div>
+    <div class="nav-link active" onclick="closePages()">🏠<br>Home</div>
+    <div class="nav-link" onclick="openPage('page-account')">👤<br>Account</div>
+    <div class="nav-link" onclick="openPage('page-cart')">🛒<br>Cart (<span id="cartCount">0</span>)</div>
 </div>
+
+<footer>
+    <div style="margin-bottom:20px;">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://merababbu1243-max.github.io/shop/" style="border:4px solid white; border-radius:10px;">
+        <p>Scan to visit Store</p>
+    </div>
+    <p>ZAIN STORE - THE HUB OF GADGETS</p>
+    <p>© 2026 All Rights Reserved</p>
+</footer>
 
 <script>
     const sheetID = '13J6c7r2r6-1jN5czgo8fn0Tmn-XFj7BFhLaUHe4kkRY';
     const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv`;
-    let store = [];
+    let products = [];
     let cart = [];
 
-    async function load() {
+    // 1. Live Search Text Logic
+    const searchTerms = ["Smart Watches", "Bags for girls", "Earbuds", "Beauty Gadgets", "Glasses"];
+    let sIdx = 0;
+    setInterval(() => {
+        const el = document.getElementById('live-search-placeholder');
+        el.style.opacity = '0';
+        setTimeout(() => {
+            el.innerText = `Search "${searchTerms[sIdx]}"...`;
+            el.style.opacity = '1';
+            sIdx = (sIdx + 1) % searchTerms.length;
+        }, 500);
+    }, 3000);
+
+    function hidePlaceholder() { document.getElementById('live-search-placeholder').style.display = 'none'; }
+    function showPlaceholder() { if(!document.getElementById('mainSearch').value) document.getElementById('live-search-placeholder').style.display = 'block'; }
+
+    // 2. Load Products
+    async function init() {
         try {
             const res = await fetch(url);
             const data = await res.text();
             const rows = data.split('\n').slice(1);
-            store = rows.map(r => {
+            products = rows.map(r => {
                 const c = r.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                return { n: c[0]?.replace(/"/g, ""), p: c[1]?.replace(/"/g, ""), i: c[2]?.replace(/"/g, ""), cat: (c[3] || "all").toLowerCase().trim() };
+                return { n: c[0]?.replace(/"/g,""), p: c[1]?.replace(/"/g,""), i: c[2]?.replace(/"/g,""), cat: (c[3]||"all").toLowerCase().trim() };
             }).filter(x => x.n);
-            render('all');
-        } catch(e) { console.error("Error"); }
+            
+            setTimeout(() => {
+                document.getElementById('skel-grid').style.display = 'none';
+                document.getElementById('product-grid').style.display = 'grid';
+                render('all');
+            }, 1500);
+        } catch(e) { console.error("Sheet Error"); }
     }
 
-    function render(cat) {
-        const grid = document.getElementById('product-grid');
-        const list = (cat === 'all') ? store : store.filter(x => x.cat.includes(cat));
-        grid.innerHTML = list.map(p => `
-            <div class="item-card" onclick="view('${p.n.replace(/'/g,"\\'")}','${p.p}','${p.i}')">
+    function render(c) {
+        const list = (c === 'all') ? products : products.filter(x => x.cat.includes(c));
+        document.getElementById('product-grid').innerHTML = list.map(p => `
+            <div class="card" onclick="openDetail('${p.n.replace(/'/g,"\\'")}','${p.p}','${p.i}')">
                 <img src="${p.i}" onerror="this.src='https://via.placeholder.com/150'">
-                <div class="p-info">
+                <div class="p-details">
                     <div style="font-size:12px; height:32px; overflow:hidden;">${p.n}</div>
                     <div class="p-price">Rs ${p.p}</div>
+                    <div class="urgency-tag">🔥 Flash Sale</div>
                 </div>
             </div>
         `).join('');
     }
 
-    function view(n, p, i) {
-        document.getElementById('d-img').src = i;
-        document.getElementById('d-name').innerText = n;
-        document.getElementById('d-price').innerText = 'Rs ' + p;
-        document.getElementById('finalBuy').onclick = () => { window.location.href = `https://wa.me/923485491217?text=I want to buy: ${n}`; };
-        openPage('p-detail');
+    // 3. Navigation & Detail Logic
+    function openDetail(n, p, i) {
+        document.getElementById('det-img').src = i;
+        document.getElementById('det-name').innerText = n;
+        document.getElementById('det-price').innerText = 'Rs ' + p;
+        document.getElementById('buyWA').onclick = () => { window.location.href = `https://wa.me/923485491217?text=I want to buy: ${n}`; };
+        openPage('page-detail');
     }
 
     function addToCart() {
-        const name = document.getElementById('d-name').innerText;
-        const price = document.getElementById('d-price').innerText.replace('Rs ', '');
-        const img = document.getElementById('d-img').src;
-        cart.push({ n: name, p: parseInt(price), i: img });
-        updateCart();
+        const n = document.getElementById('det-name').innerText;
+        const p = document.getElementById('det-price').innerText.replace('Rs ', '');
+        const i = document.getElementById('det-img').src;
+        cart.push({ n, p: parseInt(p), i });
+        updateCartUI();
         alert("Added to cart!");
     }
 
-    function updateCart() {
+    function updateCartUI() {
         document.getElementById('cartCount').innerText = cart.length;
-        const list = document.getElementById('cart-items-list');
-        const footer = document.getElementById('cart-footer');
-        const empty = document.getElementById('cart-empty-msg');
+        const listEl = document.getElementById('cart-list');
+        const sumEl = document.getElementById('cart-summary');
+        const emptyEl = document.getElementById('cart-empty');
         
-        if(cart.length === 0) { list.innerHTML = ""; footer.style.display = 'none'; empty.style.display = 'block'; return; }
+        if(cart.length === 0) { listEl.innerHTML = ""; sumEl.style.display='none'; emptyEl.style.display='block'; return; }
         
-        empty.style.display = 'none';
-        footer.style.display = 'block';
+        emptyEl.style.display='none'; sumEl.style.display='block';
         let total = 0;
-        list.innerHTML = cart.map((item, index) => {
+        listEl.innerHTML = cart.map((item, idx) => {
             total += item.p;
-            return `
-                <div class="cart-item">
-                    <img src="${item.i}">
-                    <div style="flex:1;">
-                        <div style="font-size:13px;">${item.n}</div>
-                        <div style="color:var(--primary); font-weight:bold;">Rs ${item.p}</div>
-                        <div class="remove-btn" onclick="removeItem(${index})">Remove Item 🗑️</div>
-                    </div>
+            return `<div class="cart-row">
+                <img src="${item.i}">
+                <div style="flex:1">
+                    <div style="font-size:13px;">${item.n}</div>
+                    <div style="color:var(--primary); font-weight:bold;">Rs ${item.p}</div>
+                    <div style="color:red; font-size:11px;" onclick="removeItem(${idx})">Remove 🗑️</div>
                 </div>
-            `;
+            </div>`;
         }).join('');
-        document.getElementById('total-price').innerText = 'Rs ' + total;
+        document.getElementById('total-val').innerText = 'Rs ' + total;
     }
 
-    function removeItem(idx) { cart.splice(idx, 1); updateCart(); }
-
-    function checkoutWA() {
+    function removeItem(idx) { cart.splice(idx,1); updateCartUI(); }
+    function checkout() {
         const text = cart.map(i => `${i.n} (Rs ${i.p})`).join('%0A');
-        window.location.href = `https://wa.me/923485491217?text=Order Checkout:%0A${text}%0ATotal: ${document.getElementById('total-price').innerText}`;
+        window.location.href = `https://wa.me/923485491217?text=New Order:%0A${text}%0A*Total: ${document.getElementById('total-val').innerText}*`;
     }
 
-    function openPage(id) {
-        closeAll();
-        document.getElementById(id).style.display = 'block';
-    }
-
-    function closeAll() {
-        document.querySelectorAll('.full-page').forEach(p => p.style.display = 'none');
-    }
-
-    function doCat(c) { render(c); }
-    function showAll() { render('all'); }
+    function openPage(id) { closePages(); document.getElementById(id).style.display = 'block'; }
+    function closePages() { document.querySelectorAll('.full-page').forEach(p => p.style.display='none'); }
+    function filterCat(c) { render(c); }
     function doSearch() {
-        const q = document.getElementById('mainSearch').value.toLowerCase();
-        render('all'); // Reset filter
-        const f = store.filter(x => x.n.toLowerCase().includes(q));
-        renderList(f);
-    }
-    function renderList(list) {
-        document.getElementById('product-grid').innerHTML = list.map(p => `<div class="item-card" onclick="view('${p.n.replace(/'/g,"\\'")}','${p.p}','${p.i}')"><img src="${p.i}"><div class="p-info"><div style="font-size:12px; height:32px; overflow:hidden;">${p.n}</div><div class="p-price">Rs ${p.p}</div></div></div>`).join('');
+        const val = document.getElementById('mainSearch').value.toLowerCase();
+        const f = products.filter(x => x.n.toLowerCase().includes(val));
+        document.getElementById('product-grid').innerHTML = f.map(p => `<div class="card" onclick="openDetail('${p.n.replace(/'/g,"\\'")}','${p.p}','${p.i}')"><img src="${p.i}"><div class="p-details"><div style="font-size:12px; height:32px; overflow:hidden;">${p.n}</div><div class="p-price">Rs ${p.p}</div></div></div>`).join('');
     }
 
-    load();
+    // Live Toast Notification
+    const users = ["Ali", "Zeeshan", "Sana", "Waqas", "Bilal"];
+    setInterval(() => {
+        if(Math.random() > 0.7) {
+            const t = document.getElementById('sale-toast');
+            t.innerHTML = `<b>${users[Math.floor(Math.random()*users.length)]} from Pindi</b> just ordered a gadget!`;
+            t.style.display = 'block';
+            setTimeout(() => { t.style.display = 'none'; }, 4000);
+        }
+    }, 8000);
+
+    init();
 </script>
 </body>
 </html>

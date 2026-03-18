@@ -3,204 +3,203 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zain Store - Mega Pro</title>
+    <title>Zain Store - Ultimate with Reviews</title>
     <style>
-        :root { --primary: #ff6801; --bg: #eff0f5; --text: #212121; --white: #ffffff; }
-        .dark-theme { --bg: #121212; --text: #e0e0e0; --white: #1e1e1e; }
+        :root { --primary: #ff6801; --bg: #eff0f5; --white: #ffffff; --text: #212121; }
+        .dark-mode { --bg: #121212; --white: #1e1e1e; --text: #f0f0f0; }
         
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; transition: 0.3s; }
-
-        /* Sidebar Menu */
-        .sidebar { height: 100%; width: 0; position: fixed; z-index: 3000; top: 0; left: 0; background-color: #111; overflow-x: hidden; transition: 0.5s; padding-top: 60px; }
-        .sidebar a { padding: 10px 25px; text-decoration: none; font-size: 18px; color: #818181; display: block; transition: 0.3s; }
-        .sidebar a:hover { color: #f1f1f1; }
-        .sidebar .closebtn { position: absolute; top: 0; right: 25px; font-size: 36px; margin-left: 50px; }
-
-        /* Header */
-        header { background: var(--primary); color: white; padding: 10px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-        .nav-top { display: flex; justify-content: space-between; align-items: center; padding: 0 5px; }
-        .menu-btn { font-size: 24px; cursor: pointer; }
-        .search-box { display: flex; background: white; border-radius: 4px; overflow: hidden; margin-top: 10px; }
-        .search-box input { border: none; padding: 12px; width: 100%; outline: none; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; transition: 0.3s; padding-bottom: 70px; }
         
-        /* Category Bar */
-        .cat-bar { display: flex; overflow-x: auto; background: var(--white); padding: 10px; gap: 10px; sticky; top: 100px; }
-        .cat-item { background: #eee; padding: 8px 18px; border-radius: 20px; font-size: 13px; cursor: pointer; white-space: nowrap; color: #333; }
-        .cat-item.active { background: var(--primary); color: white; }
+        header { background: var(--primary); color: white; padding: 12px; position: sticky; top: 0; z-index: 1000; }
+        .nav-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .search-container input { width: 100%; padding: 12px; border-radius: 6px; border: none; outline: none; box-sizing: border-box; }
 
-        /* Slider */
-        .slider-container { width: 100%; height: 180px; overflow: hidden; position: relative; }
-        .slider { display: flex; transition: 1s ease-in-out; }
-        .slider img { width: 100%; height: 180px; object-fit: cover; flex-shrink: 0; }
+        .wa-float { position: fixed; bottom: 20px; right: 20px; background: #25d366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 5000; text-decoration: none; }
 
-        /* Product Grid */
-        .container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 10px; }
-        .card { background: var(--white); border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border: 0.5px solid #ddd; }
-        .card img { width: 100%; height: 160px; object-fit: contain; padding: 5px; background: white; }
+        /* Grid */
+        .container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 10px; }
+        .card { background: var(--white); border-radius: 10px; position: relative; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: flex; flex-direction: column; }
+        .card img { width: 100%; height: 160px; object-fit: contain; background: white; padding: 8px; }
+        
+        .tag { position: absolute; top: 10px; left: -30px; background: #ff3d00; color: white; padding: 5px 35px; transform: rotate(-45deg); font-size: 10px; font-weight: bold; }
+
         .info { padding: 10px; }
-        .info h3 { font-size: 14px; margin: 0; height: 35px; overflow: hidden; }
-        .price { color: var(--primary); font-weight: bold; font-size: 17px; margin-top: 5px; }
+        .price { color: var(--primary); font-weight: bold; font-size: 18px; }
 
-        /* Full Lamba Footer */
-        footer { background: #1a1a1a; color: #ccc; padding: 40px 20px; text-align: left; margin-top: 20px; border-top: 4px solid var(--primary); }
-        .footer-sec { margin-bottom: 25px; }
-        .footer-sec h3 { color: var(--primary); border-bottom: 1px solid #333; padding-bottom: 10px; }
-        .footer-sec p { font-size: 14px; line-height: 1.6; }
+        /* Modal Details */
+        #pModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--white); z-index: 6000; overflow-y: auto; }
+        .m-header { position: sticky; top: 0; background: var(--white); padding: 15px; font-size: 20px; cursor: pointer; border-bottom: 1px solid #ddd; display: flex; align-items: center; gap: 10px; }
+        .m-body { padding: 20px; }
 
-        /* Detail Modal */
-        #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--white); z-index: 4000; overflow-y: auto; }
-        .modal-content { padding: 20px; }
-        .close-mod { font-size: 30px; float: right; cursor: pointer; }
-        .buy-btns { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
-        .btn-pay { padding: 15px; border-radius: 8px; border: none; font-weight: bold; color: white; cursor: pointer; text-align: center; text-decoration: none; }
+        /* Review System */
+        .review-section { margin-top: 30px; border-top: 1px solid #ddd; padding-top: 20px; }
+        .review-form { background: #f9f9f9; padding: 15px; border-radius: 8px; margin-bottom: 20px; color: #333; }
+        .review-form input, .review-form textarea { width: 100%; margin-bottom: 10px; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        .rev-card { background: #fff; padding: 10px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #eee; box-shadow: 0 1px 3px rgba(0,0,0,0.05); color: #333; }
+        .rev-img { width: 80px; height: 80px; object-fit: cover; border-radius: 5px; margin-top: 5px; }
+
+        footer { background: #1a1a1a; color: #bbb; padding: 40px 20px; text-align: center; }
+        .btn-order { display: block; padding: 15px; text-align: center; border-radius: 8px; text-decoration: none; font-weight: bold; color: white; margin-bottom: 10px; }
     </style>
 </head>
 <body>
 
-    <div id="mySidebar" class="sidebar">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a href="#">🏠 Home</a>
-        <a href="#footer-about">ℹ️ About Us</a>
-        <a href="https://wa.me/923485491217">📞 Contact Me</a>
-        <a href="#" onclick="toggleDarkMode()">🌓 Toggle Dark Mode</a>
-    </div>
-
     <header>
         <div class="nav-top">
-            <span class="menu-btn" onclick="openNav()">☰</span>
-            <span style="font-weight: bold; font-size: 22px;">Zain Store</span>
-            <span onclick="toggleDarkMode()" style="cursor:pointer; font-size: 20px;">🌓</span>
+            <span style="font-weight: bold; font-size: 24px;">Zain Store</span>
+            <span onclick="document.body.classList.toggle('dark-mode')" style="cursor:pointer; font-size: 22px;">🌓</span>
         </div>
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="Search Watch, Cream, Torch..." onkeyup="filterData()">
+        <div class="search-container">
+            <input type="text" id="mainSearch" placeholder="Search products..." onkeyup="doSearch()">
         </div>
     </header>
 
-    <div class="slider-container">
-        <div class="slider" id="slider">
-            <img src="https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?w=800" alt="Banner 1">
-            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800" alt="Banner 2">
-            <img src="https://images.unsplash.com/photo-1558002038-1055907df827?w=800" alt="Banner 3">
-        </div>
-    </div>
-
-    <div class="cat-bar">
-        <div class="cat-item active" onclick="filterCat('all', this)">All</div>
-        <div class="cat-item" onclick="filterCat('watch', this)">Watches</div>
-        <div class="cat-item" onclick="filterCat('beauty', this)">Beauty</div>
-        <div class="cat-item" onclick="filterCat('gadget', this)">Gadgets</div>
-    </div>
+    <a href="https://wa.me/923485491217" class="wa-float">💬</a>
 
     <div class="container" id="product-list"></div>
 
-    <div id="modal">
-        <div class="modal-content">
-            <span class="close-mod" onclick="closeModal()">&times;</span>
-            <img id="mImg" src="" style="width: 100%; height: 300px; object-fit: contain;">
+    <div id="pModal">
+        <div class="m-header" onclick="closeModal()"> ⬅️ Back to Store</div>
+        <div class="m-body">
+            <img id="mImg" src="" style="width: 100%; height: 250px; object-fit: contain;">
             <h2 id="mTitle"></h2>
-            <div style="color:#faca51">⭐⭐⭐⭐⭐ (Verified)</div>
-            <p id="mPrice" style="color:var(--primary); font-size: 26px; font-weight: bold;"></p>
+            <p id="mPrice" style="color: var(--primary); font-size: 26px; font-weight: bold;"></p>
             <p id="mDesc"></p>
-            <div class="buy-btns">
-                <a id="codLink" class="btn-pay" style="background:#333;">Cash on Delivery</a>
-                <a id="epLink" class="btn-pay" style="background:#1fb47a;">EasyPaisa (0348-5491217)</a>
+            
+            <a id="codOrder" class="btn-order" style="background: #333;">🛒 Order Cash On Delivery</a>
+            <a id="epOrder" class="btn-order" style="background: #1fb47a;">📱 Pay via EasyPaisa</a>
+
+            <div class="review-section">
+                <h3>Customer Reviews ⭐</h3>
+                <div class="review-form">
+                    <input type="text" id="revName" placeholder="Your Name">
+                    <textarea id="revText" placeholder="Write your review..."></textarea>
+                    <label style="font-size: 12px;">Upload Product Photo:</label>
+                    <input type="file" id="revFile" accept="image/*">
+                    <button onclick="addReview()" style="background: var(--primary); color:white; border:none; padding:10px 20px; border-radius:5px; width:100%;">Submit Review</button>
+                </div>
+                <div id="reviews-container">
+                    </div>
             </div>
         </div>
     </div>
 
-    <footer id="footer-about">
-        <div class="footer-sec">
-            <h3>About Zain Store</h3>
-            <p>Welcome to Zain Store! We provide premium quality gadgets, electronics, and beauty products at the best wholesale prices in Pakistan. Our mission is to provide 100% customer satisfaction.</p>
-        </div>
-        <div class="footer-sec">
-            <h3>Owner Information</h3>
-            <p><b>Name:</b> Zain<br>
-            <b>Contact:</b> 0348-5491217<br>
-            <b>Location:</b> Rawalpindi/Islamabad, Pakistan</p>
-        </div>
-        <div class="footer-sec">
-            <h3>Payment & Delivery</h3>
-            <p>✅ Cash on Delivery Available<br>
-            ✅ EasyPaisa / JazzCash Accepted<br>
-            🚚 Home Delivery in 2-3 Working Days</p>
-        </div>
-        <p style="text-align:center; font-size:12px; border-top:1px solid #333; padding-top:20px;">© 2026 Zain Store. All Rights Reserved.</p>
+    <footer>
+        <p><b>EasyPaisa: 0348-5491217</b></p>
+        <p>© 2026 Zain Store. Premium Quality Guranteed.</p>
     </footer>
 
     <script>
         const sheetID = '13J6c7r2r6-1jN5czgo8fn0Tmn-XFj7BFhLaUHe4kkRY';
         const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv`;
-        let allItems = [];
+        let products = [];
+        let currentProduct = "";
 
-        // Menu & Theme
-        function openNav() { document.getElementById("mySidebar").style.width = "250px"; }
-        function closeNav() { document.getElementById("mySidebar").style.width = "0"; }
-        function toggleDarkMode() { document.body.classList.toggle('dark-theme'); }
-
-        // Slider
-        let sIdx = 0;
-        setInterval(() => {
-            const s = document.getElementById('slider');
-            if(s) { sIdx = (sIdx + 1) % 3; s.style.transform = `translateX(-${sIdx * 100}%)`; }
-        }, 4000);
-
-        async function load() {
+        async function fetchStore() {
             const res = await fetch(url);
             const data = await res.text();
             const rows = data.split('\n').slice(1);
-            allItems = rows.map(r => {
+            products = rows.map(r => {
                 const c = r.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
                 return {
                     n: c[0]?.replace(/"/g, "").trim(),
                     p: c[1]?.replace(/"/g, "").trim(),
                     i: c[2]?.replace(/"/g, "").trim(),
                     cat: c[3]?.replace(/"/g, "").trim().toLowerCase(),
-                    d: c[4]?.replace(/"/g, "").trim() || "High quality premium product."
-                }
+                    d: c[4]?.replace(/"/g, "").trim() || "Premium quality product."
+                };
             }).filter(x => x.n);
-            render(allItems);
+            render(products);
         }
 
         function render(arr) {
             document.getElementById('product-list').innerHTML = arr.map(p => `
                 <div class="card" onclick="openModal('${p.n}','${p.p}','${p.i}','${p.d}')">
+                    <div class="tag">SALE</div>
                     <img src="${p.i}" onerror="this.src='https://via.placeholder.com/150'">
                     <div class="info">
                         <h3>${p.n}</h3>
-                        <div style="font-size:10px; color:#faca51">⭐⭐⭐⭐⭐</div>
-                        <div class="price">Rs ${p.p}</div>
+                        <span class="price">Rs ${p.p}</span>
                     </div>
                 </div>
             `).join('');
         }
 
         function openModal(n, p, i, d) {
+            currentProduct = n;
             document.getElementById('mImg').src = i;
             document.getElementById('mTitle').innerText = n;
             document.getElementById('mPrice').innerText = 'Rs ' + p;
             document.getElementById('mDesc').innerText = d;
+            
             const wa = "923485491217";
-            const msg = `Order: *${n}*%0APrice: Rs ${p}`;
-            document.getElementById('codLink').href = `https://wa.me/${wa}?text=${msg}%0APayment: COD`;
-            document.getElementById('epLink').href = `https://wa.me/${wa}?text=${msg}%0APayment: EasyPaisa`;
-            document.getElementById('modal').style.display = 'block';
+            const msg = `Assalam-o-Alaikum, I want to order: ${n}`;
+            document.getElementById('codOrder').href = `https://wa.me/${wa}?text=${msg}`;
+            document.getElementById('epOrder').href = `https://wa.me/${wa}?text=${msg}%0APayment: EasyPaisa`;
+            
+            loadReviews(n);
+            document.getElementById('pModal').style.display = 'block';
         }
 
-        function closeModal() { document.getElementById('modal').style.display = 'none'; }
-        
-        function filterData() {
-            const v = document.getElementById('searchInput').value.toLowerCase();
-            render(allItems.filter(x => x.n.toLowerCase().includes(v) || x.cat.includes(v)));
+        function closeModal() { document.getElementById('pModal').style.display = 'none'; }
+
+        // Review Logic
+        function addReview() {
+            const name = document.getElementById('revName').value;
+            const text = document.getElementById('revText').value;
+            const fileInput = document.getElementById('revFile');
+            
+            if(!name || !text) return alert("Please fill name and review!");
+
+            const review = { name, text, date: new Date().toLocaleDateString(), img: "" };
+
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    review.img = e.target.result;
+                    saveAndRender(review);
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                saveAndRender(review);
+            }
         }
 
-        function filterCat(c, el) {
-            document.querySelectorAll('.cat-item').forEach(i => i.classList.remove('active'));
-            el.classList.add('active');
-            render(c === 'all' ? allItems : allItems.filter(x => x.cat.includes(c)));
+        function saveAndRender(review) {
+            let reviews = JSON.parse(localStorage.getItem('reviews_' + currentProduct) || "[]");
+            reviews.unshift(review);
+            localStorage.setItem('reviews_' + currentProduct, JSON.stringify(reviews));
+            loadReviews(currentProduct);
+            
+            document.getElementById('revName').value = "";
+            document.getElementById('revText').value = "";
+            document.getElementById('revFile').value = "";
         }
 
-        load();
+        function loadReviews(n) {
+            const container = document.getElementById('reviews-container');
+            let reviews = JSON.parse(localStorage.getItem('reviews_' + n) || "[]");
+            
+            if(reviews.length === 0) {
+                container.innerHTML = "<p style='color:#888'>No reviews yet. Be the first!</p>";
+                return;
+            }
+
+            container.innerHTML = reviews.map(r => `
+                <div class="rev-card">
+                    <b>${r.name}</b> <small style="float:right">${r.date}</small>
+                    <p style="margin:5px 0">${r.text}</p>
+                    ${r.img ? `<img src="${r.img}" class="rev-img">` : ""}
+                </div>
+            `).join('');
+        }
+
+        function doSearch() {
+            const val = document.getElementById('mainSearch').value.toLowerCase();
+            render(products.filter(x => x.n.toLowerCase().includes(val)));
+        }
+
+        fetchStore();
     </script>
 </body>
 </html>

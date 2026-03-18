@@ -1,70 +1,85 @@
-    <!DOCTYPE html>
-<html lang="ur">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zain Store - Products</title>
+    <title>Zain Store - Live Data</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f4f4; text-align: center; }
-        .container { display: flex; flex-wrap: wrap; justify-content: center; padding: 20px; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; }
+        header { background: #ff8c00; color: white; text-align: center; padding: 25px; font-size: 28px; font-weight: bold; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .container { display: flex; flex-wrap: wrap; justify-content: center; padding: 30px; gap: 25px; }
         .card { 
-            background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            margin: 10px; padding: 15px; width: 250px; text-align: center;
+            background: white; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            width: 260px; padding: 20px; text-align: center; transition: 0.3s; border: 1px solid #eee;
         }
-        .card img { width: 100%; height: 200px; object-fit: cover; border-radius: 5px; }
-        .card h3 { font-size: 18px; margin: 10px 0; text-transform: capitalize; }
-        .card p { color: #e67e22; font-weight: bold; font-size: 16px; }
+        .card:hover { transform: translateY(-8px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+        .card img { width: 100%; height: 180px; object-fit: contain; border-radius: 10px; background: #fafafa; margin-bottom: 15px; }
+        .card h3 { font-size: 19px; margin: 10px 0; color: #333; text-transform: capitalize; min-height: 50px; }
+        .card .price { color: #ff8c00; font-weight: bold; font-size: 20px; margin-bottom: 20px; display: block; }
         .btn { 
-            background: #ff8c00; color: white; border: none; padding: 10px 15px; 
-            border-radius: 5px; cursor: pointer; width: 100%; font-weight: bold;
+            background: #ff8c00; color: white; border: none; padding: 12px; 
+            border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; font-size: 15px; transition: 0.2s;
         }
+        .btn:hover { background: #e67e22; }
+        #loader { text-align: center; font-size: 20px; margin-top: 50px; color: #666; }
     </style>
 </head>
 <body>
 
-    <h1 style="background: #ff8c00; color: white; padding: 10px;">Zain Store</h1>
+    <header>Zain Store</header>
     
-    <div class="container" id="product-list">
-        <p>Loading products...</p>
-    </div>
+    <div id="loader">Products load ho rahi hain...</div>
+    <div class="container" id="product-list"></div>
 
     <script>
-        // Apni Google Sheet ka CSV link yahan dalein
-        const sheetID = 'APNI_SHEET_ID_YAHAN_LIKHEIN'; // Apni Sheet ID yahan dalein
-        const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:json`;
+        // Aapki di hui Sheet ID yahan set hai
+        const sheetID = '13J6c7r2r6-1jN5czgo8fn0Tmn-XFj7BFhLaUHe4kkRY'; 
+        const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv`;
 
-        fetch(url)
-            .then(res => res.text())
-            .then(data => {
-                // Google JSON format ko clean karna
-                const json = JSON.parse(data.substr(47).slice(0, -2));
-                const rows = json.table.rows;
+        async function loadStore() {
+            try {
+                const response = await fetch(url);
+                const data = await response.text();
+                
+                // CSV data ko lines mein torna
+                const rows = data.split('\n').slice(1); 
                 const productList = document.getElementById('product-list');
-                productList.innerHTML = ''; // Loading text khatam karne ke liye
+                const loader = document.getElementById('loader');
+                
+                loader.style.display = 'none'; // Loader khatam
 
                 rows.forEach(row => {
-                    const name = row.c[0] ? row.c[0].v : 'No Name';
-                    const price = row.c[1] ? row.c[1].v : '0';
-                    const image = row.c[2] ? row.c[2].v : ''; // Image URL
-                    const category = row.c[3] ? row.c[3].v : '';
-                    const desc = row.c[4] ? row.c[4].v : '';
+                    // CSV column separation logic
+                    const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                    
+                    if (cols.length >= 3) {
+                        const name = cols[0].replace(/"/g, "").trim();
+                        const price = cols[1].replace(/"/g, "").trim();
+                        let image = cols[2].replace(/"/g, "").trim();
 
-                    // HTML Card banana
-                    const card = `
-                        <div class="card">
-                            <img src="${image}" alt="${name}" onerror="this.src='https://via.placeholder.com/200?text=No+Image'">
-                            <h3>${name}</h3>
-                            <p>Rs ${price}</p>
-                            <button class="btn">Add To Cart</button>
-                        </div>
-                    `;
-                    productList.innerHTML += card;
+                        // Agar image cell khali ho ya sirf naam ho, to placeholder dikhayen
+                        if (!image.startsWith('http')) {
+                            image = 'https://via.placeholder.com/300x200?text=No+Image+Link';
+                        }
+
+                        const card = `
+                            <div class="card">
+                                <img src="${image}" alt="${name}" onerror="this.src='https://via.placeholder.com/300x200?text=Check+Image+URL'">
+                                <h3>${name}</h3>
+                                <span class="price">Rs ${price}</span>
+                                <button class="btn">Add To Cart</button>
+                            </div>
+                        `;
+                        productList.innerHTML += card;
+                    }
                 });
-            })
-            .catch(err => {
+            } catch (err) {
+                document.getElementById('loader').innerHTML = "Error: Sheet load nahi ho saki. Please check internet.";
                 console.error(err);
-                document.getElementById('product-list').innerHTML = 'Data load nahi ho saka.';
-            });
+            }
+        }
+
+        loadStore();
     </script>
 </body>
 </html>

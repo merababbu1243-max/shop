@@ -3,107 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="google-site-verification" content="V0aThzCXFXSk5kb7aj9HIJ4VMmdLfO-S3_69JDg9290" />
-    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zain Store - Official Professional Shop</title>
+    <title>Zain Store - Professional Wholesale</title>
     <style>
-        :root { --primary: #ff6801; --bg: #eff0f5; --white: #ffffff; --text: #212121; }
-        .dark-mode { --bg: #121212; --white: #1e1e1e; --text: #f0f0f0; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 50px; transition: 0.3s; }
-        header { background: var(--primary); color: white; padding: 12px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        :root { --primary: #ff6801; --bg: #121212; --white: #1e1e1e; --text: #f0f0f0; --success: #1fb47a; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 50px; }
+        header { background: var(--primary); color: white; padding: 12px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.5); }
         .nav-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .search-container input { width: 100%; padding: 12px; border-radius: 6px; border: none; outline: none; box-sizing: border-box; font-size: 16px; }
-        .sidebar { height: 100%; width: 0; position: fixed; z-index: 5000; top: 0; left: 0; background-color: #111; overflow-x: hidden; transition: 0.5s; padding-top: 60px; }
-        .sidebar a { padding: 15px 25px; text-decoration: none; font-size: 18px; color: #818181; display: block; border-bottom: 1px solid #222; }
-        .sidebar .closebtn { position: absolute; top: 0; right: 25px; font-size: 36px; color: white; }
-        .slider-container { width: 100%; height: 200px; overflow: hidden; position: relative; background: #ddd; }
-        .slider { display: flex; transition: transform 1s ease-in-out; height: 100%; }
+        .search-container input { width: 100%; padding: 12px; border-radius: 8px; border: none; outline: none; box-sizing: border-box; font-size: 16px; background: #fff; color: #333; }
+        
+        /* Slider */
+        .slider-container { width: 100%; height: 200px; overflow: hidden; position: relative; margin-bottom: 15px; }
+        .slider { display: flex; transition: 1s; height: 100%; }
         .slider img { width: 100%; height: 200px; object-fit: cover; flex-shrink: 0; }
+
+        /* Products Grid */
         .container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 12px; }
-        .card { background: var(--white); border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: relative; display: flex; flex-direction: column; cursor: pointer; }
-        .card img { width: 100%; height: 180px; object-fit: contain; background: white; padding: 5px; } 
-        .info { padding: 12px; }
-        .info h3 { font-size: 14px; margin: 0; height: 38px; overflow: hidden; line-height: 1.3; }
-        .price { color: var(--primary); font-weight: bold; font-size: 18px; margin-top: 8px; display: block; }
-        .wa-float { position: fixed; bottom: 20px; right: 20px; background: #25d366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 4000; text-decoration: none; }
-        #pModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--white); z-index: 6000; overflow-y: auto; }
-        .m-header { position: sticky; top: 0; background: var(--primary); color: white; padding: 15px; font-size: 20px; cursor: pointer; }
-        footer { background: #1a1a1a; color: #eee; padding: 40px 20px; margin-top: 30px; border-top: 5px solid var(--primary); }
-        .rating-box { background: #252525; padding: 20px; border-radius: 10px; text-align: center; margin: 15px 0; }
-        .btn-order { display: block; padding: 15px; text-align: center; border-radius: 8px; text-decoration: none; font-weight: bold; color: white; margin: 10px 0; }
+        .card { background: var(--white); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 1px solid #333; cursor: pointer; }
+        .card img { width: 100%; height: 170px; object-fit: contain; background: white; padding: 5px; }
+        .info { padding: 10px; text-align: center; }
+        .info h3 { font-size: 14px; margin: 0; color: #ddd; height: 35px; overflow: hidden; }
+        .price { color: var(--primary); font-weight: bold; font-size: 18px; margin-top: 5px; display: block; }
+
+        /* Review Section */
+        .review-section { padding: 20px; background: #1a1a1a; margin-top: 20px; }
+        .review-card { background: #252525; padding: 15px; border-radius: 10px; margin-bottom: 10px; border-left: 4px solid var(--primary); }
+        .review-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+        .review-header img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+        .add-review-btn { display: block; background: var(--success); color: white; text-align: center; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 10px; }
+
+        /* Modal */
+        #pModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 6000; overflow-y: auto; }
+        .m-header { background: var(--primary); color: white; padding: 15px; font-size: 18px; position: sticky; top: 0; }
+        .btn-order { display: block; padding: 15px; text-align: center; border-radius: 10px; text-decoration: none; font-weight: bold; color: white; margin: 10px 0; font-size: 16px; }
+        
+        .wa-float { position: fixed; bottom: 20px; right: 20px; background: #25d366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); z-index: 5000; text-decoration: none; }
     </style>
 </head>
-<body class="dark-mode">
-
-    <div id="mySidebar" class="sidebar">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a href="#" onclick="closeNav()">🏠 Home</a>
-        <a href="https://wa.me/923485491217">📞 Contact Support</a>
-        <a href="#" onclick="toggleMode()">🌓 Dark/Light Mode</a>
-    </div>
+<body>
 
     <header>
         <div class="nav-top">
-            <span style="font-size:24px; cursor:pointer;" onclick="openNav()">☰ Menu</span>
-            <span style="font-weight: bold; font-size: 20px;">Zain Store</span>
-            <span onclick="toggleMode()" style="cursor:pointer; font-size: 22px;">🌓</span>
+            <span style="font-weight: bold; font-size: 22px;">Zain Store</span>
+            <span style="font-size: 22px;">🌓</span>
         </div>
         <div class="search-container">
-            <input type="text" id="mainSearch" placeholder="Search products..." onkeyup="doSearch()">
+            <input type="text" id="mainSearch" placeholder="Search product..." onkeyup="doSearch()">
         </div>
     </header>
 
-    <a href="https://wa.me/923485491217" class="wa-float">💬</a>
-
-    <div class="slider-container" id="banner-section">
+    <div class="slider-container">
         <div class="slider" id="slider">
             <img src="https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?w=800" alt="B1">
             <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800" alt="B2">
-            <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=800" alt="B3">
         </div>
     </div>
 
     <div class="container" id="product-list">
-        <p style="grid-column: 1/3; text-align: center;">Loading Zain Store Products...</p>
+        <p style="grid-column: 1/3; text-align: center;">Loading Zain Store...</p>
+    </div>
+
+    <div class="review-section">
+        <h3 style="margin-top:0;">Customer Reviews ⭐</h3>
+        <div id="review-container">
+            <div class="review-card">
+                <div class="review-header">
+                    <img src="https://ui-avatars.com/api/?name=Ali+Khan" alt="User">
+                    <b>Ali Khan (Rawalpindi)</b>
+                </div>
+                <p style="margin:0; font-size: 14px; opacity: 0.8;">Bohot achi quality hai, delivery time par mili. Shukriya Zain Store!</p>
+            </div>
+        </div>
+        <a href="https://wa.me/923485491217?text=Hi, I want to give a review for my purchase. [Attach your photo and message]" class="add-review-btn">✍️ Add Your Review (WhatsApp)</a>
     </div>
 
     <div id="pModal">
         <div class="m-header" onclick="closeModal()"> ⬅️ Back to Store</div>
-        <div class="m-body" style="padding: 20px;">
-            <img id="mImg" src="" style="width: 100%; height: 300px; object-fit: contain;">
-            <h2 id="mTitle"></h2>
-            <p id="mPrice" style="color: var(--primary); font-size: 26px; font-weight: bold;"></p>
-            <p id="mDesc" style="line-height: 1.6;"></p>
-            <a id="codOrder" class="btn-order" style="background: #333;">🛒 Order Cash On Delivery</a>
-            <a id="epOrder" class="btn-order" style="background: #1fb47a;">📱 Pay via EasyPaisa</a>
+        <div style="padding: 20px;">
+            <img id="mImg" src="" style="width: 100%; height: 250px; object-fit: contain; background: white; border-radius: 10px;">
+            <h2 id="mTitle" style="margin: 15px 0;"></h2>
+            <p id="mPrice" style="color: var(--primary); font-size: 28px; font-weight: bold; margin: 0;"></p>
+            <hr style="border: 0.5px solid #333; margin: 20px 0;">
+            
+            <a id="epOrder" class="btn-order" style="background: #1fb47a;">📱 Pay via EasyPaisa (Instant)</a>
+            <a id="codOrder" class="btn-order" style="background: #333;">🛒 Cash on Delivery</a>
+            
+            <div style="background: #252525; padding: 15px; border-radius: 10px; margin-top: 20px;">
+                <p style="margin: 0; font-size: 14px; color: #1fb47a;"><b>EasyPaisa Account:</b></p>
+                <p style="font-size: 20px; font-weight: bold; margin: 5px 0;">0348-5491217</p>
+                <p style="margin: 0; font-size: 12px; opacity: 0.7;">Account Name: Zain Ahmed (Please send screenshot after payment)</p>
+            </div>
         </div>
     </div>
 
-    <footer>
-        <div class="footer-sec">
-            <h2>Zain Store - Rawalpindi</h2>
-            <p>Pakistan ka behtareen wholesale platform jahan aapko quality gadgets milte hain wholesale rates par.</p>
-        </div>
-        <div class="rating-box">
-            <h3 style="color:white; margin:0;">Store Rating</h3>
-            <div style="font-size: 30px; color: gold;">⭐⭐⭐⭐⭐</div>
-            <p>4.9/5 Based on 500+ happy customers.</p>
-        </div>
-        <div class="footer-sec">
-            <p><b>📍 Location:</b> Rawalpindi, Pakistan</p>
-            <p><b>📞 WhatsApp:</b> 0348-5491217</p>
-        </div>
-        <p style="text-align:center; font-size: 10px; margin-top: 20px; opacity: 0.5;">© 2026 Zain Store Official.</p>
-    </footer>
+    <a href="https://wa.me/923485491217" class="wa-float">💬</a>
 
     <script>
         const sheetID = '13J6c7r2r6-1jN5czgo8fn0Tmn-XFj7BFhLaUHe4kkRY';
         const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv`;
         let products = [];
-
-        function openNav() { document.getElementById("mySidebar").style.width = "250px"; }
-        function closeNav() { document.getElementById("mySidebar").style.width = "0"; }
-        function toggleMode() { document.body.classList.toggle('dark-mode'); }
 
         async function fetchStore() {
             try {
@@ -116,19 +114,18 @@
                         n: c[0]?.replace(/"/g, "").trim(),
                         p: c[1]?.replace(/"/g, "").trim(),
                         i: c[2]?.replace(/"/g, "").trim(),
-                        cat: c[3]?.replace(/"/g, "").trim().toLowerCase(),
-                        d: c[4]?.replace(/"/g, "").trim() || "Premium quality product from Zain Store."
+                        d: c[4]?.replace(/"/g, "").trim() || "Quality product from Zain Store."
                     };
                 }).filter(x => x.n);
                 render(products);
-            } catch(e) { console.log("Error loading data"); }
+            } catch(e) { console.log("Error"); }
         }
 
         function render(arr) {
             const list = document.getElementById('product-list');
             list.innerHTML = arr.map(p => `
                 <div class="card" onclick="openModal('${p.n.replace(/'/g, "\\'")}','${p.p}','${p.i}','${p.d.replace(/'/g, "\\'")}')">
-                    <img src="${p.i}" onerror="this.src='https://via.placeholder.com/200'">
+                    <img src="${p.i}" onerror="this.src='https://via.placeholder.com/150'">
                     <div class="info">
                         <h3>${p.n}</h3>
                         <span class="price">Rs ${p.p}</span>
@@ -137,20 +134,13 @@
             `).join('');
         }
 
-        function doSearch() {
-            const val = document.getElementById('mainSearch').value.toLowerCase();
-            render(products.filter(x => x.n.toLowerCase().includes(val) || x.cat.includes(val)));
-        }
-
         function openModal(n, p, i, d) {
             document.getElementById('mImg').src = i;
             document.getElementById('mTitle').innerText = n;
             document.getElementById('mPrice').innerText = 'Rs ' + p;
-            document.getElementById('mDesc').innerText = d;
             const wa = "923485491217";
-            const msg = `Order: ${n}%0APrice: Rs ${p}`;
-            document.getElementById('codOrder').href = `https://wa.me/${wa}?text=${msg}`;
-            document.getElementById('epOrder').href = `https://wa.me/${wa}?text=${msg}%0APayment: EasyPaisa`;
+            document.getElementById('codOrder').href = `https://wa.me/${wa}?text=Order: ${n}%0APrice: Rs ${p}%0AMethod: COD`;
+            document.getElementById('epOrder').href = `https://wa.me/${wa}?text=Order: ${n}%0APrice: Rs ${p}%0AMethod: EasyPaisa`;
             document.getElementById('pModal').style.display = 'block';
             document.body.style.overflow = 'hidden';
         }
@@ -160,13 +150,17 @@
             document.body.style.overflow = 'auto';
         }
 
-        // Banner Auto Slide
-        let currentSlide = 0;
+        function doSearch() {
+            const val = document.getElementById('mainSearch').value.toLowerCase();
+            render(products.filter(x => x.n.toLowerCase().includes(val)));
+        }
+
+        // Auto Slider
+        let current = 0;
         setInterval(() => {
-            const slider = document.getElementById('slider');
-            currentSlide = (currentSlide + 1) % 3;
-            slider.style.transform = `translateX(-${currentSlide * 100}%)`;
-        }, 3000);
+            current = (current + 1) % 2;
+            document.getElementById('slider').style.transform = `translateX(-${current * 100}%)`;
+        }, 4000);
 
         fetchStore();
     </script>

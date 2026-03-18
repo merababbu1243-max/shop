@@ -1,178 +1,70 @@
-<!DOCTYPE html>
-<html>
+    <!DOCTYPE html>
+<html lang="ur">
 <head>
-<meta charset="UTF-8">
-<title>Zain Store</title>
-
-<style>
-body {
-  font-family: Arial;
-  margin: 0;
-  background: #f5f5f5;
-}
-
-header {
-  background: #ff6a00;
-  color: white;
-  padding: 15px;
-  text-align: center;
-  font-size: 20px;
-}
-
-/* Slider */
-.slider {
-  width: 100%;
-  overflow: hidden;
-}
-
-.slider img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  animation: slide 15s infinite;
-}
-
-@keyframes slide {
-  0% {opacity:1;}
-  33% {opacity:1;}
-  40% {opacity:0;}
-  60% {opacity:0;}
-  66% {opacity:1;}
-  100% {opacity:1;}
-}
-
-/* Categories */
-.categories {
-  display: flex;
-  gap: 10px;
-  padding: 10px;
-  overflow-x: auto;
-}
-
-.categories button {
-  padding: 10px 15px;
-  border: none;
-  background: #eee;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-/* Products */
-.products {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  padding: 10px;
-}
-
-.card {
-  background: white;
-  padding: 10px;
-  border-radius: 10px;
-  text-align: center;
-}
-
-.card img {
-  width: 100%;
-  height: 120px;
-  object-fit: cover;
-  border-radius: 10px;
-}
-
-.price {
-  color: orange;
-  font-weight: bold;
-}
-
-button.buy {
-  background: orange;
-  color: white;
-  border: none;
-  padding: 8px;
-  border-radius: 5px;
-  margin-top: 5px;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zain Store - Products</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; text-align: center; }
+        .container { display: flex; flex-wrap: wrap; justify-content: center; padding: 20px; }
+        .card { 
+            background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin: 10px; padding: 15px; width: 250px; text-align: center;
+        }
+        .card img { width: 100%; height: 200px; object-fit: cover; border-radius: 5px; }
+        .card h3 { font-size: 18px; margin: 10px 0; text-transform: capitalize; }
+        .card p { color: #e67e22; font-weight: bold; font-size: 16px; }
+        .btn { 
+            background: #ff8c00; color: white; border: none; padding: 10px 15px; 
+            border-radius: 5px; cursor: pointer; width: 100%; font-weight: bold;
+        }
+    </style>
 </head>
-
 <body>
 
-<header>Zain Store</header>
+    <h1 style="background: #ff8c00; color: white; padding: 10px;">Zain Store</h1>
+    
+    <div class="container" id="product-list">
+        <p>Loading products...</p>
+    </div>
 
-<!-- Slider -->
-<div class="slider">
-  <img src="https://picsum.photos/400/200?1">
-</div>
+    <script>
+        // Apni Google Sheet ka CSV link yahan dalein
+        const sheetID = 'APNI_SHEET_ID_YAHAN_LIKHEIN'; // Apni Sheet ID yahan dalein
+        const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:json`;
 
-<!-- Categories -->
-<div class="categories">
-  <button onclick="filterCategory('all')">All</button>
-  <button onclick="filterCategory('gadgets')">Gadgets</button>
-  <button onclick="filterCategory('beauty')">Beauty</button>
-</div>
+        fetch(url)
+            .then(res => res.text())
+            .then(data => {
+                // Google JSON format ko clean karna
+                const json = JSON.parse(data.substr(47).slice(0, -2));
+                const rows = json.table.rows;
+                const productList = document.getElementById('product-list');
+                productList.innerHTML = ''; // Loading text khatam karne ke liye
 
-<!-- Products -->
-<div class="products" id="products"></div>
+                rows.forEach(row => {
+                    const name = row.c[0] ? row.c[0].v : 'No Name';
+                    const price = row.c[1] ? row.c[1].v : '0';
+                    const image = row.c[2] ? row.c[2].v : ''; // Image URL
+                    const category = row.c[3] ? row.c[3].v : '';
+                    const desc = row.c[4] ? row.c[4].v : '';
 
-<script>
-const sheetURL = "https://opensheet.elk.sh/13J6c7r2r6-1jN5czgo8fn0Tmn-XFj7BFhLaUHe4kkRY/Sheet1";
-
-const baseURL = "https://raw.githubusercontent.com/merababbu1243-max/shop/main/";
-
-let allProducts = [];
-
-// ✅ Image function (auto detect)
-function getImageUrl(image) {
-  if (!image) return "";
-  image = image.trim();
-
-  if (image.startsWith("http")) {
-    return image;
-  }
-
-  return baseURL + image;
-}
-
-// Fetch data
-fetch(sheetURL)
-  .then(res => res.json())
-  .then(data => {
-    allProducts = data;
-    showProducts(data);
-  });
-
-// Show products
-function showProducts(data) {
-  const container = document.getElementById("products");
-  container.innerHTML = "";
-
-  data.forEach(item => {
-    const div = document.createElement("div");
-    div.className = "card";
-
-    div.innerHTML = `
-      <img src="${getImageUrl(item.image)}">
-      <h3>${item.name}</h3>
-      <p class="price">Rs ${item.price}</p>
-      <button class="buy">Add To Cart</button>
-    `;
-
-    container.appendChild(div);
-  });
-}
-
-// Filter
-function filterCategory(cat) {
-  if (cat === "all") {
-    showProducts(allProducts);
-  } else {
-    const filtered = allProducts.filter(p => 
-      p.name.toLowerCase().includes(cat)
-    );
-    showProducts(filtered);
-  }
-}
-</script>
-
+                    // HTML Card banana
+                    const card = `
+                        <div class="card">
+                            <img src="${image}" alt="${name}" onerror="this.src='https://via.placeholder.com/200?text=No+Image'">
+                            <h3>${name}</h3>
+                            <p>Rs ${price}</p>
+                            <button class="btn">Add To Cart</button>
+                        </div>
+                    `;
+                    productList.innerHTML += card;
+                });
+            })
+            .catch(err => {
+                console.error(err);
+                document.getElementById('product-list').innerHTML = 'Data load nahi ho saka.';
+            });
+    </script>
 </body>
 </html>

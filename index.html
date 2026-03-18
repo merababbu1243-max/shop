@@ -3,144 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zain Store - All-in-One</title>
+    <title>Zain Store - Mega Pro</title>
     <style>
-        :root { --primary: #ff6801; --bg: #eff0f5; --text: #212121; }
-        body { font-family: 'Roboto', sans-serif; background: var(--bg); margin: 0; padding: 0; }
+        :root { --primary: #ff6801; --bg: #eff0f5; --text: #212121; --white: #ffffff; }
+        .dark-theme { --bg: #121212; --text: #e0e0e0; --white: #1e1e1e; }
+        
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; transition: 0.3s; }
 
-        /* Header & Search */
-        header { background: var(--primary); color: white; padding: 10px; position: sticky; top: 0; z-index: 1000; }
-        .nav-top { display: flex; align-items: center; gap: 15px; margin-bottom: 8px; }
-        .menu-icon { font-size: 24px; cursor: pointer; }
-        .search-box { display: flex; background: white; border-radius: 4px; overflow: hidden; }
-        .search-box input { border: none; padding: 10px; width: 100%; outline: none; }
-        .search-box button { background: #333; color: white; border: none; padding: 10px; }
+        /* Sidebar Menu */
+        .sidebar { height: 100%; width: 0; position: fixed; z-index: 3000; top: 0; left: 0; background-color: #111; overflow-x: hidden; transition: 0.5s; padding-top: 60px; }
+        .sidebar a { padding: 10px 25px; text-decoration: none; font-size: 18px; color: #818181; display: block; transition: 0.3s; }
+        .sidebar a:hover { color: #f1f1f1; }
+        .sidebar .closebtn { position: absolute; top: 0; right: 25px; font-size: 36px; margin-left: 50px; }
 
-        /* Banner Slider */
-        .slider-container { width: 100%; height: 160px; overflow: hidden; position: relative; margin-bottom: 5px; }
-        .slider { display: flex; transition: 1s ease; }
-        .slider img { width: 100%; flex-shrink: 0; height: 160px; object-fit: cover; }
+        /* Header */
+        header { background: var(--primary); color: white; padding: 10px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .nav-top { display: flex; justify-content: space-between; align-items: center; padding: 0 5px; }
+        .menu-btn { font-size: 24px; cursor: pointer; }
+        .search-box { display: flex; background: white; border-radius: 4px; overflow: hidden; margin-top: 10px; }
+        .search-box input { border: none; padding: 12px; width: 100%; outline: none; }
+        
+        /* Category Bar */
+        .cat-bar { display: flex; overflow-x: auto; background: var(--white); padding: 10px; gap: 10px; sticky; top: 100px; }
+        .cat-item { background: #eee; padding: 8px 18px; border-radius: 20px; font-size: 13px; cursor: pointer; white-space: nowrap; color: #333; }
+        .cat-item.active { background: var(--primary); color: white; }
 
-        /* Categories Bar */
-        .cat-bar { display: flex; overflow-x: auto; background: white; padding: 10px; gap: 10px; border-bottom: 1px solid #ddd; }
-        .cat-item { background: #f5f5f5; padding: 8px 15px; border-radius: 20px; font-size: 13px; cursor: pointer; white-space: nowrap; border: 1px solid #ddd; }
-        .cat-item.active { background: var(--primary); color: white; border-color: var(--primary); }
+        /* Slider */
+        .slider-container { width: 100%; height: 180px; overflow: hidden; position: relative; }
+        .slider { display: flex; transition: 1s ease-in-out; }
+        .slider img { width: 100%; height: 180px; object-fit: cover; flex-shrink: 0; }
 
         /* Product Grid */
-        .container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 8px; }
-        .card { background: white; border-radius: 5px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); display: flex; flex-direction: column; }
-        .card img { width: 100%; height: 140px; object-fit: contain; padding: 5px; cursor: pointer; }
-        .info { padding: 8px; flex-grow: 1; }
-        .info h3 { font-size: 13px; margin: 0; color: var(--text); height: 32px; overflow: hidden; }
-        .rating { color: #faca51; font-size: 11px; margin: 4px 0; }
-        .price { color: var(--primary); font-weight: bold; font-size: 16px; }
+        .container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 10px; }
+        .card { background: var(--white); border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border: 0.5px solid #ddd; }
+        .card img { width: 100%; height: 160px; object-fit: contain; padding: 5px; background: white; }
+        .info { padding: 10px; }
+        .info h3 { font-size: 14px; margin: 0; height: 35px; overflow: hidden; }
+        .price { color: var(--primary); font-weight: bold; font-size: 17px; margin-top: 5px; }
 
-        /* Modal / Detail View */
-        #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 2000; overflow-y: auto; }
-        .modal-body { padding: 20px; }
-        .close-detail { font-size: 30px; padding: 10px; cursor: pointer; position: absolute; top: 0; right: 10px; }
-        
-        /* Checkout Options */
-        .order-options { background: #fff3e0; padding: 15px; border-radius: 8px; margin-top: 15px; }
-        .order-btn { display: block; width: 100%; padding: 12px; margin: 10px 0; border: none; border-radius: 5px; color: white; font-weight: bold; cursor: pointer; text-align: center; text-decoration: none; }
-        .btn-cod { background: #333; }
-        .btn-ep { background: #1fb47a; }
+        /* Full Lamba Footer */
+        footer { background: #1a1a1a; color: #ccc; padding: 40px 20px; text-align: left; margin-top: 20px; border-top: 4px solid var(--primary); }
+        .footer-sec { margin-bottom: 25px; }
+        .footer-sec h3 { color: var(--primary); border-bottom: 1px solid #333; padding-bottom: 10px; }
+        .footer-sec p { font-size: 14px; line-height: 1.6; }
 
-        footer { background: #222; color: white; padding: 20px; text-align: center; margin-top: 20px; font-size: 13px; }
+        /* Detail Modal */
+        #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--white); z-index: 4000; overflow-y: auto; }
+        .modal-content { padding: 20px; }
+        .close-mod { font-size: 30px; float: right; cursor: pointer; }
+        .buy-btns { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+        .btn-pay { padding: 15px; border-radius: 8px; border: none; font-weight: bold; color: white; cursor: pointer; text-align: center; text-decoration: none; }
     </style>
 </head>
 <body>
 
+    <div id="mySidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="#">🏠 Home</a>
+        <a href="#footer-about">ℹ️ About Us</a>
+        <a href="https://wa.me/923485491217">📞 Contact Me</a>
+        <a href="#" onclick="toggleDarkMode()">🌓 Toggle Dark Mode</a>
+    </div>
+
     <header>
         <div class="nav-top">
-            <span class="menu-icon" onclick="alert('Menu Coming Soon!')">☰</span>
-            <span style="font-weight: bold; font-size: 20px;">Zain Store</span>
+            <span class="menu-btn" onclick="openNav()">☰</span>
+            <span style="font-weight: bold; font-size: 22px;">Zain Store</span>
+            <span onclick="toggleDarkMode()" style="cursor:pointer; font-size: 20px;">🌓</span>
         </div>
         <div class="search-box">
-            <input type="text" id="searchInput" placeholder="Dhoondein..." onkeyup="filterData()">
-            <button>🔍</button>
+            <input type="text" id="searchInput" placeholder="Search Watch, Cream, Torch..." onkeyup="filterData()">
         </div>
     </header>
 
     <div class="slider-container">
         <div class="slider" id="slider">
-            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800" alt="Sale 1">
-            <img src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=800" alt="Sale 2">
-            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800" alt="Sale 3">
+            <img src="https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?w=800" alt="Banner 1">
+            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800" alt="Banner 2">
+            <img src="https://images.unsplash.com/photo-1558002038-1055907df827?w=800" alt="Banner 3">
         </div>
     </div>
 
-    <div class="cat-bar" id="cat-bar">
+    <div class="cat-bar">
         <div class="cat-item active" onclick="filterCat('all', this)">All</div>
-        <div class="cat-item" onclick="filterCat('beauty', this)">Beauty</div>
-        <div class="cat-item" onclick="filterCat('gadgets', this)">Gadgets</div>
         <div class="cat-item" onclick="filterCat('watch', this)">Watches</div>
+        <div class="cat-item" onclick="filterCat('beauty', this)">Beauty</div>
+        <div class="cat-item" onclick="filterCat('gadget', this)">Gadgets</div>
     </div>
 
     <div class="container" id="product-list"></div>
 
     <div id="modal">
-        <span class="close-detail" onclick="closeModal()">&times;</span>
-        <div class="modal-body">
-            <img id="mImg" src="" style="width: 100%; height: 280px; object-fit: contain;">
+        <div class="modal-content">
+            <span class="close-mod" onclick="closeModal()">&times;</span>
+            <img id="mImg" src="" style="width: 100%; height: 300px; object-fit: contain;">
             <h2 id="mTitle"></h2>
-            <div class="rating">⭐⭐⭐⭐⭐ (24 Reviews)</div>
-            <p id="mPrice" style="color: var(--primary); font-size: 24px; font-weight: bold;"></p>
-            <p id="mDesc" style="line-height: 1.5; color: #555;"></p>
-            <hr>
-            <div class="order-options">
-                <h3>Select Payment Method:</h3>
-                <a id="waCod" class="order-btn btn-cod">🛒 Cash on Delivery (WhatsApp)</a>
-                <a id="waEp" class="order-btn btn-ep">📱 Pay via EasyPaisa (WhatsApp)</a>
+            <div style="color:#faca51">⭐⭐⭐⭐⭐ (Verified)</div>
+            <p id="mPrice" style="color:var(--primary); font-size: 26px; font-weight: bold;"></p>
+            <p id="mDesc"></p>
+            <div class="buy-btns">
+                <a id="codLink" class="btn-pay" style="background:#333;">Cash on Delivery</a>
+                <a id="epLink" class="btn-pay" style="background:#1fb47a;">EasyPaisa (0348-5491217)</a>
             </div>
         </div>
     </div>
 
-    <footer>
-        <p><b>Zain Store - Best Wholesale Prices</b></p>
-        <p>EasyPaisa: 0348-5491217</p>
-        <p>Delivery All Over Pakistan 🇵🇰</p>
+    <footer id="footer-about">
+        <div class="footer-sec">
+            <h3>About Zain Store</h3>
+            <p>Welcome to Zain Store! We provide premium quality gadgets, electronics, and beauty products at the best wholesale prices in Pakistan. Our mission is to provide 100% customer satisfaction.</p>
+        </div>
+        <div class="footer-sec">
+            <h3>Owner Information</h3>
+            <p><b>Name:</b> Zain<br>
+            <b>Contact:</b> 0348-5491217<br>
+            <b>Location:</b> Rawalpindi/Islamabad, Pakistan</p>
+        </div>
+        <div class="footer-sec">
+            <h3>Payment & Delivery</h3>
+            <p>✅ Cash on Delivery Available<br>
+            ✅ EasyPaisa / JazzCash Accepted<br>
+            🚚 Home Delivery in 2-3 Working Days</p>
+        </div>
+        <p style="text-align:center; font-size:12px; border-top:1px solid #333; padding-top:20px;">© 2026 Zain Store. All Rights Reserved.</p>
     </footer>
 
     <script>
         const sheetID = '13J6c7r2r6-1jN5czgo8fn0Tmn-XFj7BFhLaUHe4kkRY';
         const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv`;
-        const waNumber = "923485491217";
-        let allProducts = [];
+        let allItems = [];
 
-        // Auto Slider
-        let sIndex = 0;
+        // Menu & Theme
+        function openNav() { document.getElementById("mySidebar").style.width = "250px"; }
+        function closeNav() { document.getElementById("mySidebar").style.width = "0"; }
+        function toggleDarkMode() { document.body.classList.toggle('dark-theme'); }
+
+        // Slider
+        let sIdx = 0;
         setInterval(() => {
             const s = document.getElementById('slider');
-            sIndex = (sIndex + 1) % 3;
-            s.style.transform = `translateX(-${sIndex * 100}%)`;
+            if(s) { sIdx = (sIdx + 1) % 3; s.style.transform = `translateX(-${sIdx * 100}%)`; }
         }, 4000);
 
-        async function loadData() {
+        async function load() {
             const res = await fetch(url);
             const data = await res.text();
             const rows = data.split('\n').slice(1);
-            allProducts = rows.map(r => {
+            allItems = rows.map(r => {
                 const c = r.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
                 return {
                     n: c[0]?.replace(/"/g, "").trim(),
                     p: c[1]?.replace(/"/g, "").trim(),
                     i: c[2]?.replace(/"/g, "").trim(),
                     cat: c[3]?.replace(/"/g, "").trim().toLowerCase(),
-                    d: c[4]?.replace(/"/g, "").trim() || "Top quality product for you."
+                    d: c[4]?.replace(/"/g, "").trim() || "High quality premium product."
                 }
             }).filter(x => x.n);
-            render(allProducts);
+            render(allItems);
         }
 
         function render(arr) {
-            const list = document.getElementById('product-list');
-            list.innerHTML = arr.map(p => `
+            document.getElementById('product-list').innerHTML = arr.map(p => `
                 <div class="card" onclick="openModal('${p.n}','${p.p}','${p.i}','${p.d}')">
                     <img src="${p.i}" onerror="this.src='https://via.placeholder.com/150'">
                     <div class="info">
                         <h3>${p.n}</h3>
-                        <div class="rating">⭐⭐⭐⭐ (15)</div>
+                        <div style="font-size:10px; color:#faca51">⭐⭐⭐⭐⭐</div>
                         <div class="price">Rs ${p.p}</div>
                     </div>
                 </div>
@@ -152,33 +180,27 @@
             document.getElementById('mTitle').innerText = n;
             document.getElementById('mPrice').innerText = 'Rs ' + p;
             document.getElementById('mDesc').innerText = d;
-            
-            // Set WhatsApp Links
-            const baseMsg = `Assalam-o-Alaikum! Mujhe ye order karna hai:%0A*Product:* ${n}%0A*Price:* Rs ${p}`;
-            document.getElementById('waCod').href = `https://wa.me/${waNumber}?text=${baseMsg}%0A*Payment:* Cash on Delivery`;
-            document.getElementById('waEp').href = `https://wa.me/${waNumber}?text=${baseMsg}%0A*Payment:* EasyPaisa (Paid)`;
-            
+            const wa = "923485491217";
+            const msg = `Order: *${n}*%0APrice: Rs ${p}`;
+            document.getElementById('codLink').href = `https://wa.me/${wa}?text=${msg}%0APayment: COD`;
+            document.getElementById('epLink').href = `https://wa.me/${wa}?text=${msg}%0APayment: EasyPaisa`;
             document.getElementById('modal').style.display = 'block';
-            document.body.style.overflow = 'hidden';
         }
 
-        function closeModal() {
-            document.getElementById('modal').style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-
+        function closeModal() { document.getElementById('modal').style.display = 'none'; }
+        
         function filterData() {
-            const val = document.getElementById('searchInput').value.toLowerCase();
-            render(allProducts.filter(x => x.n.toLowerCase().includes(val)));
+            const v = document.getElementById('searchInput').value.toLowerCase();
+            render(allItems.filter(x => x.n.toLowerCase().includes(v) || x.cat.includes(v)));
         }
 
         function filterCat(c, el) {
             document.querySelectorAll('.cat-item').forEach(i => i.classList.remove('active'));
             el.classList.add('active');
-            render(c === 'all' ? allProducts : allProducts.filter(x => x.cat.includes(c)));
+            render(c === 'all' ? allItems : allItems.filter(x => x.cat.includes(c)));
         }
 
-        loadData();
+        load();
     </script>
 </body>
 </html>

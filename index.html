@@ -3,217 +3,340 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ZAIN STORE | Add Reviews Pro</title>
+    <title>ZAIN STORE | Official Pro App</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     
     <style>
-        :root { --primary: #ff6801; --bg: #000000; --card: #161616; --text: #ffffff; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
-        body { background: var(--bg); color: var(--text); padding-bottom: 80px; }
+        /* --- 1. CSS VARIABLES & RESET --- */
+        :root {
+            --primary: #ff6801;
+            --secondary: #25d366;
+            --bg: #000000;
+            --card: #161616;
+            --text: #ffffff;
+            --gray: #888888;
+        }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+        body { background: var(--bg); color: var(--text); padding-bottom: 90px; overflow-x: hidden; }
 
-        /* --- Header & Search --- */
-        header { background: var(--primary); padding: 15px; position: sticky; top: 0; z-index: 1000; border-radius: 0 0 20px 20px; }
-        .search-bar { background: white; border-radius: 10px; display: flex; align-items: center; padding: 10px; margin-top: 10px; }
-        .search-bar input { border: none; outline: none; width: 100%; margin-left: 10px; color: #333; }
-
-        /* --- Product Grid --- */
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 15px; }
-        .p-card { background: var(--card); border-radius: 15px; overflow: hidden; border: 1px solid #333; }
-        .p-card img { width: 100%; height: 160px; object-fit: cover; background: #fff; }
-        .p-info { padding: 10px; }
-        .p-price { color: var(--primary); font-weight: 800; font-size: 18px; margin-top: 5px; }
-
-        /* --- Full Page System --- */
-        .page { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 5000; overflow-y: auto; }
-        .page.active { display: block; animation: slideIn 0.3s ease; }
-        @keyframes slideIn { from { transform: translateY(100%); } to { transform: translateY(0); } }
-        .page-header { background: var(--primary); padding: 18px; display: flex; align-items: center; gap: 15px; font-weight: bold; position: sticky; top: 0; }
-
-        /* --- ⭐ RATING & REVIEW FORM --- */
-        .review-container { padding: 20px; background: #111; margin: 15px; border-radius: 15px; border: 1px solid #222; }
-        .stars-input { color: #555; font-size: 28px; margin: 15px 0; display: flex; gap: 10px; }
-        .stars-input i.active { color: #f1c40f; }
+        /* --- 2. HEADER & LIVE SEARCH --- */
+        header { 
+            background: var(--primary); padding: 15px; position: sticky; top: 0; z-index: 2000; 
+            border-bottom-left-radius: 25px; border-bottom-right-radius: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        .nav-top { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 24px; font-weight: 800; letter-spacing: 1px; color: white; }
         
-        .rev-input-field { width: 100%; padding: 12px; margin-bottom: 12px; background: #222; border: 1px solid #444; color: white; border-radius: 10px; font-size: 14px; }
-        .upload-btn { background: #333; color: #bbb; padding: 12px; border-radius: 10px; width: 100%; text-align: center; border: 1.5px dashed #555; margin-bottom: 15px; position: relative; }
-        .upload-btn input { position: absolute; opacity: 0; width: 100%; height: 100%; left: 0; top: 0; cursor: pointer; }
+        .search-wrapper { 
+            background: white; border-radius: 12px; display: flex; align-items: center; 
+            padding: 10px 15px; margin-top: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .search-wrapper input { 
+            border: none; outline: none; width: 100%; font-size: 14px; color: #333; margin-left: 10px;
+        }
+
+        /* --- 3. SIDEBAR MENU --- */
+        .sidebar {
+            position: fixed; top: 0; left: -100%; width: 280px; height: 100%; 
+            background: #111; z-index: 5000; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 30px 20px; box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+        }
+        .sidebar.active { left: 0; }
+        .sidebar h2 { color: var(--primary); margin-bottom: 30px; border-bottom: 1px solid #333; padding-bottom: 10px; }
+        .menu-link { display: flex; align-items: center; gap: 15px; padding: 15px 0; color: white; text-decoration: none; font-size: 16px; border-bottom: 1px solid #222; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 4500; display: none; }
+
+        /* --- 4. PRODUCT GRID --- */
+        .main-container { padding: 15px; margin-top: 10px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .p-card { 
+            background: var(--card); border-radius: 20px; overflow: hidden; 
+            border: 1px solid #222; position: relative; transition: 0.3s;
+        }
+        .p-card:active { transform: scale(0.96); }
+        .p-card img { width: 100%; height: 170px; object-fit: cover; background: white; }
+        .p-info { padding: 12px; }
+        .p-name { font-size: 13px; font-weight: 500; height: 38px; overflow: hidden; margin-bottom: 5px; color: #ddd; }
+        .p-price { font-size: 18px; font-weight: 800; color: var(--primary); }
+
+        /* --- 5. PAGES (DETAIL, CART, PAYMENTS) --- */
+        .page { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 6000; overflow-y: auto; }
+        .page.active { display: block; animation: slideUp 0.3s ease-out; }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
         
-        .submit-rev { background: var(--primary); color: white; border: none; width: 100%; padding: 15px; border-radius: 10px; font-weight: bold; font-size: 16px; box-shadow: 0 5px 15px rgba(255,104,1,0.3); }
+        .page-header { background: var(--primary); padding: 20px; color: white; display: flex; align-items: center; gap: 15px; font-weight: bold; position: sticky; top: 0; z-index: 100; }
+        
+        /* --- 6. CART SYSTEM UI --- */
+        .cart-item { display: flex; gap: 15px; padding: 15px; background: #1a1a1a; margin: 10px; border-radius: 15px; align-items: center; border: 1px solid #333; }
+        .cart-item img { width: 60px; height: 60px; border-radius: 10px; object-fit: cover; }
+        .cart-qty { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+        .qty-btn { background: #333; color: white; border: none; width: 25px; height: 25px; border-radius: 5px; }
 
-        /* Review List */
-        .rev-card { background: #1a1a1a; padding: 15px; border-radius: 12px; margin-top: 15px; border-left: 4px solid var(--primary); }
-        .rev-img-prev { width: 100px; height: 100px; object-fit: cover; border-radius: 10px; margin-top: 10px; display: block; }
+        /* --- 7. BOTTOM NAVIGATION --- */
+        .bottom-nav { 
+            position: fixed; bottom: 0; width: 100%; background: #0a0a0a; 
+            display: flex; justify-content: space-around; padding: 12px 0; 
+            border-top: 1px solid #222; z-index: 4000;
+        }
+        .nav-item { color: var(--gray); text-align: center; font-size: 11px; cursor: pointer; position: relative; }
+        .nav-item.active { color: var(--primary); }
+        .nav-item i { font-size: 22px; display: block; margin-bottom: 4px; }
+        .cart-badge { position: absolute; top: -5px; right: -5px; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 10px; font-weight: bold; }
 
-        /* Bottom Action */
-        .footer-action { position: fixed; bottom: 0; width: 100%; display: flex; height: 70px; z-index: 6000; }
-        .btn-cart { flex: 1; background: #333; color: white; border: none; font-weight: bold; }
-        .btn-buy { flex: 1; background: var(--primary); color: white; border: none; font-weight: bold; }
+        /* --- 8. FOOTER & QR --- */
+        .footer { background: #080808; padding: 40px 20px; text-align: center; margin-top: 30px; border-top: 2px solid var(--primary); }
+        .qr-box { background: white; padding: 10px; display: inline-block; border-radius: 15px; margin-bottom: 20px; }
+        .support-btn { background: var(--secondary); color: white; padding: 15px 30px; border-radius: 50px; display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-weight: bold; margin-top: 20px; }
+
+        /* Action Buttons */
+        .action-bar { position: fixed; bottom: 0; width: 100%; display: flex; height: 70px; z-index: 7000; }
+        .btn-add { flex: 1; background: #333; color: white; border: none; font-weight: bold; font-size: 16px; }
+        .btn-order { flex: 1; background: var(--primary); color: white; border: none; font-weight: bold; font-size: 16px; }
     </style>
 </head>
 <body>
 
+    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+    <nav class="sidebar" id="sidebar">
+        <h2>ZAIN MENU</h2>
+        <a href="#" class="menu-link" onclick="closeAll()"><i class="fas fa-home"></i> Home</a>
+        <a href="#" class="menu-link" onclick="openPage('cart-page')"><i class="fas fa-shopping-cart"></i> My Cart</a>
+        <a href="#" class="menu-link" onclick="openPage('pay-page')"><i class="fas fa-wallet"></i> EasyPaisa</a>
+        <a href="#" class="menu-link" onclick="openPage('ret-page')"><i class="fas fa-undo"></i> Returns</a>
+        <a href="https://wa.me/923485491217" class="menu-link"><i class="fab fa-whatsapp"></i> WhatsApp Support</a>
+    </nav>
+
     <header>
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-            <b style="font-size:22px;">ZAIN STORE</b>
-            <i class="fas fa-shopping-bag" onclick="openPage('cart-page')" style="font-size:22px;"></i>
+        <div class="nav-top">
+            <i class="fas fa-bars logo" onclick="toggleMenu()"></i>
+            <span class="logo">ZAIN STORE</span>
+            <div style="position: relative;" onclick="openPage('cart-page')">
+                <i class="fas fa-shopping-bag logo"></i>
+                <span class="cart-badge" id="badge-top">0</span>
+            </div>
         </div>
-        <div class="search-bar">
-            <i class="fas fa-search" style="color:#999;"></i>
-            <input type="text" id="liveSearch" onkeyup="search()" placeholder="Search Products (Live Filter)...">
+        <div class="search-wrapper">
+            <i class="fas fa-search" style="color: #888;"></i>
+            <input type="text" id="mainSearch" onkeyup="filterProducts()" placeholder="Bra for girls, Bags, Watches...">
         </div>
     </header>
 
-    <div class="grid" id="productGrid"></div>
+    <div class="main-container">
+        <div class="grid" id="productGrid">
+            </div>
+    </div>
+
+    <footer class="footer">
+        <div class="qr-box">
+            <img id="footer-qr" src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=https://243-max.github.io" alt="QR Code">
+        </div>
+        <h3>ZAIN STORE OFFICIAL</h3>
+        <p style="color: #666; font-size: 14px; margin-top: 10px;">Shop #4, Main Bazar, Rawalpindi Cantt.</p>
+        <a href="https://wa.me/923485491217" class="support-btn">
+            <i class="fab fa-whatsapp"></i> CHAT WITH ZAIN
+        </a>
+    </footer>
 
     <div id="detail-page" class="page">
-        <div class="page-header"><i class="fas fa-arrow-left" onclick="closePage('detail-page')"></i> Back</div>
-        <img id="d-img" style="width:100%; height:320px; object-fit:contain; background:white;">
-        
-        <div style="padding:20px;">
-            <h2 id="d-name"></h2>
-            <h1 id="d-price" style="color:var(--primary); margin:10px 0;"></h1>
-            <p style="color:#888; font-size:14px;">Free Delivery | 7 Days Warranty | Original Product</p>
-            
-            <hr style="border:0.5px solid #222; margin:25px 0;">
-
-            <div class="review-container">
-                <h3 style="margin-bottom:5px;">Customer Reviews</h3>
-                <p style="font-size:12px; color:#666;">Be the first to share your experience!</p>
-                
-                <div id="rev-list"></div>
-
-                <div style="margin-top:30px; border-top:1px solid #333; padding-top:20px;">
-                    <h4>Write your review</h4>
-                    <div class="stars-input" id="star-box">
-                        <i class="fas fa-star" onclick="setRating(1)"></i>
-                        <i class="fas fa-star" onclick="setRating(2)"></i>
-                        <i class="fas fa-star" onclick="setRating(3)"></i>
-                        <i class="fas fa-star" onclick="setRating(4)"></i>
-                        <i class="fas fa-star" onclick="setRating(5)"></i>
-                    </div>
-                    <input type="text" id="u-name" class="rev-input-field" placeholder="Full Name">
-                    <textarea id="u-msg" class="rev-input-field" rows="3" placeholder="What do you think about this product?"></textarea>
-                    
-                    <div class="upload-btn">
-                        <i class="fas fa-camera"></i> <span id="file-label">Add Product Photo</span>
-                        <input type="file" id="u-file" accept="image/*" onchange="updateFileName()">
-                    </div>
-                    
-                    <button class="submit-rev" onclick="postReview()">SUBMIT REVIEW</button>
-                </div>
-            </div>
+        <div class="page-header"><i class="fas fa-arrow-left" onclick="closePage('detail-page')"></i> Back to Store</div>
+        <div style="background: linear-gradient(to right, #ff0000, #ff6801); padding: 10px; text-align: center; font-weight: bold; font-size: 13px;">
+            ⚡ FLASH SALE: 20% OFF FOR GIRLS ITEMS!
         </div>
-
-        <div class="footer-action">
-            <button class="btn-cart">ADD TO CART</button>
-            <button class="btn-buy" id="order-wa">ORDER NOW</button>
+        <img id="det-img" style="width: 100%; height: 350px; object-fit: contain; background: white;">
+        <div style="padding: 20px;">
+            <h2 id="det-name">Product Name</h2>
+            <h1 id="det-price" style="color: var(--primary); margin: 10px 0;">Rs 0</h1>
+            <p style="color: #888; font-size: 14px; line-height: 1.6;">
+                High-quality premium product from Zain Store. Available for delivery all over Pakistan. Cash on delivery active for Rawalpindi & Islamabad.
+            </p>
+        </div>
+        <div class="action-bar">
+            <button class="btn-add" id="addCartBtn">ADD TO CART</button>
+            <button class="btn-order" id="orderBtn">ORDER NOW</button>
         </div>
     </div>
 
     <div id="cart-page" class="page">
-        <div class="page-header"><i class="fas fa-arrow-left" onclick="closePage('cart-page')"></i> Your Cart</div>
-        <div style="text-align:center; padding-top:100px; color:#555;">No items in cart yet.</div>
+        <div class="page-header"><i class="fas fa-arrow-left" onclick="closePage('cart-page')"></i> My Shopping Cart</div>
+        <div id="cart-items-list" style="padding-top: 10px;"></div>
+        <div id="cart-empty" style="text-align: center; padding: 100px 20px; display: none;">
+            <i class="fas fa-shopping-basket" style="font-size: 50px; color: #222;"></i>
+            <p style="margin-top: 10px; color: #555;">Your cart is empty!</p>
+        </div>
+        <div id="cart-checkout" style="position: fixed; bottom: 0; width: 100%; background: #111; padding: 20px; border-top: 1px solid #333;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                <span>Total Bill:</span>
+                <span id="total-price" style="color: var(--primary); font-weight: 800; font-size: 22px;">Rs 0</span>
+            </div>
+            <button onclick="sendOrder()" style="width: 100%; padding: 15px; background: var(--secondary); color: white; border: none; border-radius: 12px; font-weight: bold; font-size: 16px;">
+                ORDER VIA WHATSAPP
+            </button>
+        </div>
+    </div>
+
+    <div id="pay-page" class="page">
+        <div class="page-header"><i class="fas fa-arrow-left" onclick="closePage('pay-page')"></i> Payment Details</div>
+        <div style="padding: 40px 20px; text-align: center;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Easypaisa_Logo.png/800px-Easypaisa_Logo.png" width="160">
+            <div style="background: #111; padding: 30px; border-radius: 20px; margin-top: 30px; border: 2px dashed var(--primary);">
+                <p style="color: #888;">ACCOUNT HOLDER</p>
+                <h2 style="margin-bottom: 20px;">ZAIN AHMED</h2>
+                <p style="color: #888;">ACCOUNT NUMBER</p>
+                <h1 style="color: var(--secondary); font-size: 28px;">0348 5491217</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <div class="nav-item active" onclick="closeAll()"><i class="fas fa-home"></i>Home</div>
+        <div class="nav-item" onclick="openPage('cart-page')">
+            <i class="fas fa-shopping-cart"></i>Cart
+            <span class="cart-badge" id="badge-bottom">0</span>
+        </div>
+        <div class="nav-item" onclick="openPage('pay-page')"><i class="fas fa-wallet"></i>Payments</div>
+        <div class="nav-item" onclick="window.location.href='https://wa.me/923485491217'"><i class="fab fa-whatsapp"></i>Help</div>
     </div>
 
     <script>
-        const csvURL = 'https://docs.google.com/spreadsheets/d/13J6c7r2r6-1jN5czgo8fn0Tmn-XFj7BFhLaUHe4kkRY/gviz/tq?tqx=out:csv';
-        let products = [];
-        let userRating = 0;
+        const sheetURL = 'https://docs.google.com/spreadsheets/d/13J6c7r2r6-1jN5czgo8fn0Tmn-XFj7BFhLaUHe4kkRY/gviz/tq?tqx=out:csv';
+        let allProducts = [];
+        let cart = JSON.parse(localStorage.getItem('zainCart')) || [];
 
-        async function init() {
-            const res = await fetch(csvURL);
-            const data = await res.text();
-            const rows = data.split('\n').slice(1);
-            products = rows.map(r => {
-                const c = r.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                return { n: c[0].replace(/"/g,""), p: c[1].replace(/"/g,""), i: c[2].replace(/"/g,"") };
-            });
-            render(products);
+        // 1. Fetch Data
+        async function fetchStore() {
+            try {
+                const res = await fetch(sheetURL);
+                const csvText = await res.text();
+                const rows = csvText.split('\n').slice(1);
+                allProducts = rows.map(r => {
+                    const c = r.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                    return {
+                        name: c[0].replace(/"/g,''),
+                        price: parseInt(c[1].replace(/"/g,'')),
+                        img: c[2].replace(/"/g,'')
+                    };
+                });
+                render(allProducts);
+                updateCartUI();
+            } catch (err) { console.error("Store Load Failed"); }
         }
 
         function render(list) {
-            document.getElementById('productGrid').innerHTML = list.map(p => `
-                <div class="p-card" onclick="openDetail('${p.n.replace(/'/g,"\\'")}','${p.p}','${p.i}')">
-                    <img src="${p.i}" onerror="this.src='https://via.placeholder.com/150'">
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = list.map(p => `
+                <div class="p-card" onclick="openDetail('${p.name.replace(/'/g,"\\'")}','${p.price}','${p.img}')">
+                    <img src="${p.img}" onerror="this.src='https://via.placeholder.com/150'">
                     <div class="p-info">
-                        <div style="font-size:13px; height:38px; overflow:hidden;">${p.n}</div>
-                        <div class="p-price">Rs ${p.p}</div>
+                        <div class="p-name">${p.name}</div>
+                        <div class="p-price">Rs ${p.price}</div>
                     </div>
                 </div>
             `).join('');
         }
 
-        function search() {
-            const q = document.getElementById('liveSearch').value.toLowerCase();
-            render(products.filter(x => x.n.toLowerCase().includes(q)));
+        // 2. Search Engine
+        function filterProducts() {
+            const q = document.getElementById('mainSearch').value.toLowerCase();
+            const filtered = allProducts.filter(p => p.name.toLowerCase().includes(q));
+            render(filtered);
         }
 
-        function setRating(n) {
-            userRating = n;
-            const stars = document.querySelectorAll('#star-box i');
-            stars.forEach((s, i) => s.classList.toggle('active', i < n));
+        // 3. Navigation
+        function toggleMenu() {
+            document.getElementById('sidebar').classList.toggle('active');
+            const overlay = document.getElementById('overlay');
+            overlay.style.display = (overlay.style.display === 'block') ? 'none' : 'block';
         }
 
-        function updateFileName() {
-            const f = document.getElementById('u-file').files[0];
-            if(f) document.getElementById('file-label').innerText = "Photo Attached!";
-        }
-
-        function postReview() {
-            const name = document.getElementById('u-name').value;
-            const msg = document.getElementById('u-msg').value;
-            const prod = document.getElementById('d-name').innerText;
-            const file = document.getElementById('u-file').files[0];
-
-            if(!name || !msg || userRating == 0) return alert("Please fill Name, Comment and Rating!");
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const review = { name, msg, rating: userRating, product: prod, img: e.target ? e.target.result : null };
-                let reviews = JSON.parse(localStorage.getItem('zain_store_reviews') || '[]');
-                reviews.push(review);
-                localStorage.setItem('zain_store_reviews', JSON.stringify(reviews));
-                alert("Review Added Successfully! 🎉");
-                location.reload(); 
-            };
-            if(file) reader.readAsDataURL(file);
-            else reader.onload({target: null});
-        }
-
-        function displayReviews(pName) {
-            const list = document.getElementById('rev-list');
-            const reviews = JSON.parse(localStorage.getItem('zain_store_reviews') || '[]');
-            const filtered = reviews.filter(r => r.product === pName);
-            
-            if(filtered.length === 0) {
-                list.innerHTML = "<p style='color:#555;'>No reviews yet.</p>";
-                return;
-            }
-
-            list.innerHTML = filtered.map(r => `
-                <div class="rev-card">
-                    <b>${r.name}</b>
-                    <div style="color:#f1c40f; font-size:12px; margin:5px 0;">${'<i class="fas fa-star"></i>'.repeat(r.rating)}</div>
-                    <p style="font-size:13px; color:#bbb;">${r.msg}</p>
-                    ${r.img ? `<img src="${r.img}" class="rev-img-prev">` : ''}
-                </div>
-            `).join('');
-        }
-
-        function openDetail(n, p, i) {
-            document.getElementById('d-name').innerText = n;
-            document.getElementById('d-price').innerText = 'Rs ' + p;
-            document.getElementById('d-img').src = i;
-            document.getElementById('order-wa').onclick = () => window.location.href=`https://wa.me/923485491217?text=I want to buy ${n}`;
-            document.getElementById('detail-page').classList.add('active');
-            displayReviews(n);
+        function openPage(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            toggleMenu(); 
         }
 
         function closePage(id) { document.getElementById(id).classList.remove('active'); }
-        function openPage(id) { document.getElementById(id).classList.add('active'); }
+        function closeAll() { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); }
 
-        init();
+        // 4. Product Detail
+        function openDetail(n, p, i) {
+            document.getElementById('det-name').innerText = n;
+            document.getElementById('det-price').innerText = 'Rs ' + p;
+            document.getElementById('det-img').src = i;
+            
+            document.getElementById('addCartBtn').onclick = () => addToCart(n, p, i);
+            document.getElementById('orderBtn').onclick = () => {
+                window.location.href = `https://wa.me/923485491217?text=Assalam o Alaikum! I want to order: ${n} (Rs ${p})`;
+            };
+            document.getElementById('detail-page').classList.add('active');
+        }
+
+        // 5. Cart Logic
+        function addToCart(name, price, img) {
+            const index = cart.findIndex(it => it.name === name);
+            if(index > -1) cart[index].qty++;
+            else cart.push({name, price, img, qty: 1});
+            saveCart();
+            alert("Added to Cart! 🛒");
+        }
+
+        function updateCartUI() {
+            const list = document.getElementById('cart-items-list');
+            const count = cart.reduce((a, b) => a + b.qty, 0);
+            document.getElementById('badge-top').innerText = count;
+            document.getElementById('badge-bottom').innerText = count;
+
+            if(cart.length === 0) {
+                list.innerHTML = "";
+                document.getElementById('cart-empty').style.display = "block";
+                document.getElementById('cart-checkout').style.display = "none";
+                return;
+            }
+
+            document.getElementById('cart-empty').style.display = "none";
+            document.getElementById('cart-checkout').style.display = "block";
+
+            let total = 0;
+            list.innerHTML = cart.map((item, i) => {
+                total += (item.price * item.qty);
+                return `
+                    <div class="cart-item">
+                        <img src="${item.img}">
+                        <div style="flex:1">
+                            <div style="font-size:14px;">${item.name}</div>
+                            <div style="color:var(--primary); font-weight:bold;">Rs ${item.price}</div>
+                            <div class="cart-qty">
+                                <button class="qty-btn" onclick="changeQty(${i}, -1)">-</button>
+                                <span>${item.qty}</span>
+                                <button class="qty-btn" onclick="changeQty(${i}, 1)">+</button>
+                            </div>
+                        </div>
+                        <i class="fas fa-trash" style="color: #ff4444;" onclick="removeCart(${i})"></i>
+                    </div>
+                `;
+            }).join('');
+            document.getElementById('total-price').innerText = 'Rs ' + total;
+        }
+
+        function changeQty(i, delta) {
+            cart[i].qty += delta;
+            if(cart[i].qty < 1) cart.splice(i, 1);
+            saveCart();
+        }
+
+        function removeCart(i) { cart.splice(i, 1); saveCart(); }
+        function saveCart() { localStorage.setItem('zainCart', JSON.stringify(cart)); updateCartUI(); }
+
+        function sendOrder() {
+            let msg = "Assalam o Alaikum Zain Ahmed! I want to place an order:\n\n";
+            cart.forEach(it => {
+                msg += `📌 ${it.name}\nQty: ${it.qty} x Rs ${it.price} = Rs ${it.qty * it.price}\n\n`;
+            });
+            msg += `💰 Total Bill: ${document.getElementById('total-price').innerText}\n\n📍 Please confirm my order.`;
+            window.location.href = `https://wa.me/923485491217?text=${encodeURIComponent(msg)}`;
+        }
+
+        fetchStore();
     </script>
 </body>
 </html>

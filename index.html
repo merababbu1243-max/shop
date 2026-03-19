@@ -3,417 +3,333 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ZAIN STORE | The Master Edition</title>
+    <title>ZAIN STORE | Pro App Experience</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* --- 1. CSS Variables & Reset --- */
-        :root { 
-            --primary: #ff6801; 
-            --bg: #000000; 
-            --card: #1a1a1a; 
-            --text: #ffffff; 
-            --gray: #888888;
-        }
-        body.light-mode { 
-            --bg: #ffffff; 
-            --card: #f2f2f2; 
-            --text: #000000; 
-        }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { 
-            font-family: 'Segoe UI', Roboto, sans-serif; 
-            background: var(--bg); 
-            color: var(--text); 
-            margin: 0; 
-            padding-bottom: 90px; 
-            transition: 0.3s; 
+        /* --- 1. CORE THEMES & VARIABLES --- */
+        :root {
+            --primary: #ff6801;
+            --bg: #000000;
+            --card: #1a1a1a;
+            --text: #ffffff;
+            --nav-bg: #111111;
         }
 
-        /* --- 2. Header & Live Search --- */
+        .light-mode {
+            --primary: #e65c00;
+            --bg: #f8f9fa;
+            --card: #ffffff;
+            --text: #212529;
+            --nav-bg: #eeeeee;
+        }
+
+        .pink-mode {
+            --primary: #ff4081;
+            --bg: #fff0f5;
+            --card: #ffffff;
+            --text: #4a4a4a;
+            --nav-bg: #ffe4e1;
+        }
+
+        * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; transition: background 0.3s, color 0.3s; }
+        body { background: var(--bg); color: var(--text); margin: 0; padding-bottom: 70px; overflow-x: hidden; }
+
+        /* --- 2. HEADER & SEARCH --- */
         header { 
             background: var(--primary); 
             padding: 15px; 
             position: sticky; 
             top: 0; 
-            z-index: 2000; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            z-index: 1000; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
-        .nav-header { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 22px; font-weight: 900; letter-spacing: 1px; }
-        .search-container { 
+        .header-top { display: flex; justify-content: space-between; align-items: center; }
+        .menu-icon { font-size: 24px; cursor: pointer; color: white; }
+        .logo { font-size: 20px; font-weight: bold; color: white; }
+        
+        .search-wrapper { 
             background: white; 
-            border-radius: 10px; 
+            border-radius: 8px; 
             display: flex; 
             align-items: center; 
-            padding: 10px 15px; 
-            margin-top: 15px; 
+            padding: 8px 15px; 
+            margin-top: 12px; 
         }
-        .search-container input { 
+        .search-wrapper input { 
             border: none; 
             outline: none; 
             width: 100%; 
-            font-size: 15px; 
+            padding: 5px; 
+            font-size: 14px; 
             color: #333; 
-            margin-left: 10px;
         }
 
-        /* --- 3. Live Banner Slider --- */
-        .banner-wrapper { 
-            width: 100%; 
-            padding: 10px; 
-            overflow: hidden; 
+        /* --- 3. SIDEBAR MENU --- */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -280px;
+            width: 280px;
+            height: 100%;
+            background: var(--nav-bg);
+            z-index: 3000;
+            transition: 0.4s ease;
+            box-shadow: 5px 0 15px rgba(0,0,0,0.5);
+            padding: 20px;
         }
-        .banner-container { 
-            width: 100%; 
-            height: 180px; 
-            border-radius: 15px; 
-            overflow: hidden; 
-            position: relative; 
-            box-shadow: 0 5px 15px rgba(255,104,1,0.2);
-        }
-        .slider { 
-            display: flex; 
-            width: 1000%; 
-            height: 100%; 
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .slider img { width: 10%; height: 100%; object-fit: cover; }
+        .sidebar.active { left: 0; }
+        .sidebar-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #444; padding-bottom: 15px; margin-bottom: 20px; }
+        .menu-item { display: flex; align-items: center; gap: 15px; padding: 15px; border-radius: 8px; cursor: pointer; font-weight: 500; margin-bottom: 5px; }
+        .menu-item:hover { background: var(--primary); color: white; }
+        .menu-item i { width: 25px; font-size: 18px; }
 
-        /* --- 4. Active Categories --- */
-        .categories-bar { 
-            display: flex; 
-            overflow-x: auto; 
-            padding: 10px 15px; 
-            gap: 12px; 
-            scrollbar-width: none; 
+        .overlay { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.7); z-index: 2500; display: none; 
         }
-        .cat-item { 
-            background: var(--card); 
-            color: var(--text); 
-            padding: 8px 18px; 
-            border-radius: 25px; 
-            border: 1px solid var(--primary); 
-            white-space: nowrap; 
-            font-size: 13px; 
-            font-weight: 600; 
-        }
-        .cat-item.active { background: var(--primary); color: white; }
 
-        /* --- 5. Product Grid --- */
-        .product-grid { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            gap: 12px; 
-            padding: 15px; 
+        /* --- 4. THEME CHANGER POPUP --- */
+        .theme-panel {
+            padding: 15px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
         }
-        .p-card { 
-            background: var(--card); 
-            border-radius: 15px; 
-            overflow: hidden; 
-            border: 1px solid #333; 
-            position: relative;
-        }
+        .dot { width: 30px; height: 30px; border-radius: 50%; border: 2px solid white; cursor: pointer; }
+
+        /* --- 5. PRODUCT TILES --- */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 15px; }
+        .p-card { background: var(--card); border-radius: 12px; overflow: hidden; border: 1px solid #333; position: relative; }
         .p-card img { width: 100%; height: 160px; object-fit: contain; background: white; }
-        .p-info { padding: 12px; }
-        .p-title { font-size: 13px; height: 35px; overflow: hidden; margin-bottom: 5px; opacity: 0.9; }
+        .p-tag { position: absolute; top: 5px; left: 5px; background: red; color: white; font-size: 10px; padding: 2px 6px; border-radius: 4px; }
+        .p-details { padding: 10px; }
+        .p-name { font-size: 13px; height: 36px; overflow: hidden; margin-bottom: 5px; font-weight: 500; }
         .p-price { color: var(--primary); font-size: 16px; font-weight: bold; }
 
-        /* --- 6. Full Pages (Detail, Cart, Return, EasyPaisa) --- */
-        .page { 
-            display: none; 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            background: var(--bg); 
-            z-index: 5000; 
-            overflow-y: auto; 
-            padding-bottom: 100px;
-        }
-        .page-head { 
-            background: var(--primary); 
-            padding: 20px; 
-            display: flex; 
-            align-items: center; 
-            color: white; 
-            font-size: 18px; 
-            font-weight: bold; 
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .page-head i { margin-right: 15px; font-size: 22px; cursor: pointer; }
+        /* --- 6. PAGES --- */
+        .page { display: none; padding-bottom: 100px; }
+        .page.active { display: block; }
+        .page-header { background: var(--primary); padding: 15px; color: white; display: flex; align-items: center; gap: 15px; font-weight: bold; }
 
-        /* --- 7. Bottom Navigation --- */
-        .bottom-nav { 
-            position: fixed; 
-            bottom: 0; 
-            width: 100%; 
-            background: #111; 
-            display: flex; 
-            justify-content: space-around; 
-            padding: 10px 0; 
-            border-top: 1px solid #333; 
-            z-index: 6000; 
+        /* --- 7. BOTTOM NAVIGATION --- */
+        .bottom-bar { 
+            position: fixed; bottom: 0; width: 100%; background: var(--nav-bg); 
+            display: flex; justify-content: space-around; padding: 10px 0; 
+            border-top: 2px solid var(--primary); z-index: 2000; 
         }
-        .nav-btn { 
-            color: var(--gray); 
-            text-align: center; 
-            font-size: 10px; 
-            text-decoration: none; 
-            flex: 1;
-        }
-        .nav-btn i { font-size: 20px; display: block; margin-bottom: 3px; }
-        .nav-btn.active { color: var(--primary); }
+        .nav-link { color: #888; text-align: center; text-decoration: none; font-size: 11px; flex: 1; cursor: pointer; }
+        .nav-link i { font-size: 20px; display: block; margin-bottom: 4px; }
+        .nav-link.active { color: var(--primary); }
 
-        /* --- 8. Heavy Footer --- */
-        .main-footer { 
-            background: #0a0a0a; 
-            padding: 40px 20px; 
-            text-align: center; 
-            border-top: 2px solid var(--primary); 
-            margin-top: 20px; 
-        }
-        .footer-qr { width: 120px; background: white; padding: 5px; border-radius: 10px; margin-bottom: 15px; }
-        .footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin: 20px 0; font-size: 14px; }
-
-        /* --- 9. Flash Sale Timer --- */
-        .timer-box { 
-            background: #ff4747; 
-            color: white; 
-            padding: 10px; 
-            text-align: center; 
-            font-weight: bold; 
-            display: flex; 
-            justify-content: center; 
-            gap: 10px; 
-        }
-
-        /* Forms */
-        .form-input { 
-            width: 90%; 
-            margin: 10px auto; 
-            display: block; 
-            padding: 15px; 
-            background: #222; 
-            border: 1px solid #444; 
-            color: white; 
-            border-radius: 10px; 
-        }
+        /* --- 8. ANIMATIONS & UTILS --- */
+        .flash-sale { background: #ff4747; color: white; padding: 8px; text-align: center; font-weight: bold; font-size: 14px; }
+        .btn-wa { background: #25d366; color: white; width: 100%; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 15px; }
     </style>
 </head>
-<body>
+<body class="dark-mode">
 
-<header id="main-header">
-    <div class="nav-header">
-        <i class="fas fa-bars" style="font-size: 22px;"></i>
-        <div class="logo">ZAIN STORE</div>
-        <i class="fas fa-moon" onclick="toggleTheme()" id="theme-icon"></i>
-    </div>
-    <div class="search-container">
-        <i class="fas fa-search" style="color: #888;"></i>
-        <input type="text" id="liveSearch" onkeyup="searchEngine()" placeholder="Search gadgets & electronics...">
-    </div>
-</header>
-
-<div id="home-content">
-    <div class="banner-wrapper">
-        <div class="banner-container">
-            <div class="slider" id="bannerSlider">
-                <img src="https://images.unsplash.com/photo-1546868831-d1be1cba0ad2?w=800">
-                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800">
-                <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800">
-                <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=800">
-                <img src="https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?w=800">
-                <img src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?w=800">
-                <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=800">
-                <img src="https://images.unsplash.com/photo-1585333127302-c2c981846d3f?w=800">
-                <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800">
-                <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800">
-            </div>
+    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <span style="font-size: 18px; font-weight: bold;">ZAIN MENU</span>
+            <i class="fas fa-times" onclick="toggleMenu()" style="cursor: pointer;"></i>
         </div>
-    </div>
-
-    <div class="categories-bar">
-        <div class="cat-item active" onclick="filterCat('all', this)">All</div>
-        <div class="cat-item" onclick="filterCat('Watch', this)">Watches</div>
-        <div class="cat-item" onclick="filterCat('Airpod', this)">Airpods</div>
-        <div class="cat-item" onclick="filterCat('Ultra', this)">Ultra Series</div>
-        <div class="cat-item" onclick="filterCat('Case', this)">Cases</div>
-    </div>
-
-    <div class="product-grid" id="mainGrid"></div>
-
-    <footer class="main-footer">
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=ZainStore" class="footer-qr">
-        <h2 style="color: var(--primary);">ZAIN STORE | Official</h2>
-        <p>Your Trusted Gadget Partner in Rawalpindi</p>
-        <div class="footer-links">
-            <span>About Us</span> | <span>Contact</span> | <span>Privacy Policy</span> | <span>Warranty</span>
-        </div>
-        <p style="font-size: 12px; color: #666;">📍 Shop #4, Al-Noor Plaza, Rawalpindi Cantonment.<br>0348-5491217</p>
-    </footer>
-</div>
-
-<div id="page-detail" class="page">
-    <div class="page-head"><i class="fas fa-arrow-left" onclick="goBack()"></i> Product Details</div>
-    <div class="timer-box">⚡ FLASH SALE ENDS: <span id="countDown">02:59:59</span></div>
-    <img id="det-img" style="width:100%; height:350px; object-fit:contain; background:white;">
-    <div style="padding: 20px;">
-        <h2 id="det-name"></h2>
-        <h1 id="det-price" style="color: var(--primary);"></h1>
-        <p style="color: #888;">Free Delivery | 7 Days Replacement Warranty</p>
+        <div class="menu-item" onclick="navigate('home')"><i class="fas fa-home"></i> Home Page</div>
+        <div class="menu-item" onclick="navigate('easypaisa')"><i class="fas fa-wallet"></i> EasyPaisa Details</div>
+        <div class="menu-item" onclick="navigate('returns')"><i class="fas fa-undo"></i> Return Product</div>
+        <div class="menu-item" onclick="navigate('account')"><i class="fas fa-user-circle"></i> My Account</div>
+        <div class="menu-item" onclick="window.location.href='https://wa.me/923485491217'"><i class="fab fa-whatsapp"></i> Support WhatsApp</div>
         
-        <div style="background: var(--card); padding: 15px; border-radius: 12px; margin: 20px 0;">
-            <h4>Add a Review ⭐</h4>
-            <input type="text" placeholder="Write your thoughts..." class="form-input">
-            <button onclick="alert('Review saved!')" style="width:100%; padding:12px; background:var(--primary); color:white; border:none; border-radius:8px; font-weight:bold;">Submit</button>
-        </div>
-    </div>
-    <div style="position:fixed; bottom:0; width:100%; display:flex; height:65px;">
-        <button onclick="addToCart()" style="flex:1; background:#00d1ff; color:white; border:none; font-weight:bold;">ADD TO CART</button>
-        <button id="buyWA" style="flex:1; background:var(--primary); color:white; border:none; font-weight:bold;">BUY NOW</button>
-    </div>
-</div>
-
-<div id="page-easypaisa" class="page">
-    <div class="page-head"><i class="fas fa-arrow-left" onclick="goBack()"></i> EasyPaisa Details</div>
-    <div style="text-align:center; padding:50px 20px;">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Easypaisa_Logo.png/800px-Easypaisa_Logo.png" width="180">
-        <div style="background:var(--card); padding:30px; border-radius:20px; border:1px solid #333; margin-top:40px;">
-            <p style="color: #888;">ACCOUNT NAME</p>
-            <h2 style="margin-top:0;">ZAIN AHMED</h2>
-            <hr style="border:0; border-top:1px solid #333; margin:20px 0;">
-            <p style="color: #888;">ACCOUNT NUMBER</p>
-            <h1 style="color: #25D366; margin:0;">0348 5491217</h1>
-        </div>
-        <button class="form-input" style="background:var(--primary); font-weight:bold; margin-top:30px;" onclick="goBack()">Done</button>
-    </div>
-</div>
-
-<div id="page-return" class="page">
-    <div class="page-head"><i class="fas fa-arrow-left" onclick="goBack()"></i> Return Your Product</div>
-    <div style="padding:20px;">
-        <h3>Why do you want to return?</h3>
-        <select class="form-input">
-            <option>Select Reason</option>
-            <option>Defective Product</option>
-            <option>Wrong Item Received</option>
-            <option>Quality not satisfied</option>
-            <option>Other</option>
-        </select>
-        <textarea class="form-input" style="height:120px;" placeholder="Describe your issue..."></textarea>
-        <button onclick="alert('Return request received! We will contact you soon.'); goBack();" style="width:100%; padding:18px; background:var(--primary); color:white; border:none; border-radius:10px; font-weight:bold;">Send Request</button>
-    </div>
-</div>
-
-<div class="bottom-nav">
-    <div class="nav-btn active" onclick="goBack()">
-        <i class="fas fa-home"></i>Home
-    </div>
-    <div class="nav-btn" onclick="openPage('page-return')">
-        <i class="fas fa-undo"></i>Returns
-    </div>
-    <div class="nav-btn" onclick="openPage('page-easypaisa')">
-        <i class="fas fa-wallet"></i>EasyPaisa
-    </div>
-    <div class="nav-btn" onclick="alert('Contact: 0348-5491217')">
-        <i class="fas fa-user-circle"></i>Account
-    </div>
-</div>
-
-<script>
-    // --- 1. Data Fetching ---
-    const sheetURL = 'https://docs.google.com/spreadsheets/d/13J6c7r2r6-1jN5czgo8fn0Tmn-XFj7BFhLaUHe4kkRY/gviz/tq?tqx=out:csv';
-    let allProducts = [];
-
-    async function initStore() {
-        const response = await fetch(sheetURL);
-        const data = await response.text();
-        const rows = data.split('\n').slice(1);
-        allProducts = rows.map(r => {
-            const c = r.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-            return { name: c[0].replace(/"/g,''), price: c[1].replace(/"/g,''), img: c[2].replace(/"/g,'') };
-        });
-        renderProducts(allProducts);
-    }
-
-    function renderProducts(list) {
-        document.getElementById('mainGrid').innerHTML = list.map(p => `
-            <div class="p-card" onclick="showDetail('${p.name.replace(/'/g,"\\'")}','${p.price}','${p.img}')">
-                <img src="${p.img}">
-                <div class="p-info">
-                    <div class="p-title">${p.name}</div>
-                    <div class="p-price">Rs ${p.price}</div>
-                </div>
+        <div style="margin-top: 30px; padding: 10px;">
+            <p style="font-size: 12px; color: #888;">SELECT THEME</p>
+            <div class="theme-panel">
+                <div class="dot" style="background: #ff6801;" onclick="setTheme('dark')"></div>
+                <div class="dot" style="background: #ffffff;" onclick="setTheme('light')"></div>
+                <div class="dot" style="background: #ff4081;" onclick="setTheme('pink')"></div>
             </div>
-        `).join('');
-    }
+        </div>
+    </div>
 
-    // --- 2. Live Banner Engine ---
-    let bIndex = 0;
-    setInterval(() => {
-        bIndex = (bIndex + 1) % 10;
-        document.getElementById('bannerSlider').style.transform = `translateX(-${bIndex * 10}%)`;
-    }, 3500);
+    <div id="home-page" class="page active">
+        <header>
+            <div class="header-top">
+                <i class="fas fa-bars menu-icon" onclick="toggleMenu()"></i>
+                <div class="logo">ZAIN STORE</div>
+                <i class="fas fa-shopping-cart" style="color: white; font-size: 20px;"></i>
+            </div>
+            <div class="search-wrapper">
+                <i class="fas fa-search" style="color: #999;"></i>
+                <input type="text" id="mainSearch" onkeyup="filterItems()" placeholder="Search Watches, Bags, Girls items...">
+            </div>
+        </header>
 
-    // --- 3. Live Search & Filter ---
-    function searchEngine() {
-        const query = document.getElementById('liveSearch').value.toLowerCase();
-        renderProducts(allProducts.filter(x => x.name.toLowerCase().includes(query)));
-    }
+        <div class="flash-sale">⚡ FLASH SALE ENDS IN: <span id="timer">02:59:59</span></div>
 
-    function filterCat(cat, el) {
-        document.querySelectorAll('.cat-item').forEach(c => c.classList.remove('active'));
-        el.classList.add('active');
-        if(cat === 'all') renderProducts(allProducts);
-        else renderProducts(allProducts.filter(x => x.name.toLowerCase().includes(cat.toLowerCase())));
-    }
+        <div class="grid" id="productGrid">
+            </div>
 
-    // --- 4. Navigation & Pages ---
-    function openPage(id) {
-        document.getElementById('home-content').style.display = 'none';
-        document.getElementById('main-header').style.display = 'none';
-        document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-        document.getElementById(id).style.display = 'block';
-        window.scrollTo(0,0);
-    }
+        <footer style="padding: 40px 20px; text-align: center; background: #0a0a0a; margin-top: 20px;">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=ZainStore" style="background:white; padding:5px; border-radius:8px;">
+            <p>📍 Shop #4, Main Bazar, Rawalpindi</p>
+            <p style="font-size: 12px; color: #666;">© 2026 Zain Store. All Rights Reserved.</p>
+        </footer>
+    </div>
 
-    function goBack() {
-        document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-        document.getElementById('home-content').style.display = 'block';
-        document.getElementById('main-header').style.display = 'block';
-    }
+    <div id="easypaisa-page" class="page">
+        <div class="page-header"><i class="fas fa-arrow-left" onclick="navigate('home')"></i> EasyPaisa Details</div>
+        <div style="padding: 40px 20px; text-align: center;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Easypaisa_Logo.png/800px-Easypaisa_Logo.png" width="150">
+            <div style="background: var(--card); padding: 30px; border-radius: 15px; margin-top: 30px; border: 1px solid var(--primary);">
+                <p style="color: #888; margin: 0;">ACCOUNT TITLE</p>
+                <h2 style="margin: 5px 0 20px 0;">ZAIN AHMED</h2>
+                <p style="color: #888; margin: 0;">NUMBER</p>
+                <h1 style="color: #25d366; margin: 0;">0348 5491217</h1>
+            </div>
+            <button class="btn-wa" onclick="navigate('home')" style="background: var(--primary);">WAPAS JAYEIN</button>
+        </div>
+    </div>
 
-    function showDetail(n, p, i) {
-        document.getElementById('det-name').innerText = n;
-        document.getElementById('det-price').innerText = 'Rs ' + p;
-        document.getElementById('det-img').src = i;
-        document.getElementById('buyWA').onclick = () => window.location.href=`https://wa.me/923485491217?text=Hi Zain Ahmed! I want to order: ${n}`;
-        openPage('page-detail');
+    <div id="returns-page" class="page">
+        <div class="page-header"><i class="fas fa-arrow-left" onclick="navigate('home')"></i> Product Returns</div>
+        <div style="padding: 20px;">
+            <h3>Return Request</h3>
+            <p style="color: #888;">Please provide details to return your product.</p>
+            <input type="text" placeholder="Order ID" style="width:100%; padding:15px; background:#222; border:1px solid #444; color:white; border-radius:8px; margin-top:10px;">
+            <textarea placeholder="Reason for return..." style="width:100%; height:120px; padding:15px; background:#222; border:1px solid #444; color:white; border-radius:8px; margin-top:15px;"></textarea>
+            <button class="btn-wa" style="background: var(--primary);" onclick="alert('Return Request Sent Successfully!')">SUBMIT REQUEST</button>
+        </div>
+    </div>
+
+    <div id="detail-page" class="page">
+        <div class="page-header"><i class="fas fa-arrow-left" onclick="navigate('home')"></i> Product Details</div>
+        <img id="det-img" style="width:100%; height:350px; object-fit:contain; background:white;">
+        <div style="padding: 20px;">
+            <h2 id="det-name"></h2>
+            <h1 id="det-price" style="color: var(--primary);"></h1>
+            <p>⭐⭐⭐⭐⭐ (1.2k Reviews)</p>
+            <p style="color: #888;">Delivery: 2-3 Working Days across Pakistan.</p>
+            <button id="wa-order-btn" class="btn-wa"><i class="fab fa-whatsapp"></i> ORDER ON WHATSAPP</button>
+        </div>
+    </div>
+
+    <div class="bottom-bar">
+        <div class="nav-link active" onclick="navigate('home')" id="nav-home">
+            <i class="fas fa-home"></i>Home
+        </div>
+        <div class="nav-link" onclick="navigate('returns')" id="nav-returns">
+            <i class="fas fa-undo"></i>Returns
+        </div>
+        <div class="nav-link" onclick="navigate('easypaisa')" id="nav-easypaisa">
+            <i class="fas fa-wallet"></i>EasyPaisa
+        </div>
+        <div class="nav-link" onclick="navigate('account')" id="nav-account">
+            <i class="fas fa-user"></i>Account
+        </div>
+    </div>
+
+    <script>
+        // --- 1. DATA & INITIALIZATION ---
+        const csvPath = 'https://docs.google.com/spreadsheets/d/13J6c7r2r6-1jN5czgo8fn0Tmn-XFj7BFhLaUHe4kkRY/gviz/tq?tqx=out:csv';
+        let products = [];
+
+        async function loadStore() {
+            try {
+                const res = await fetch(csvPath);
+                const text = await res.text();
+                const rows = text.split('\n').slice(1);
+                products = rows.map(r => {
+                    const c = r.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                    return { 
+                        n: c[0].replace(/"/g,""), 
+                        p: c[1].replace(/"/g,""), 
+                        i: c[2].replace(/"/g,"") 
+                    };
+                });
+                render(products);
+            } catch (e) { console.error("Load Error"); }
+        }
+
+        function render(data) {
+            const container = document.getElementById('productGrid');
+            container.innerHTML = data.map(p => `
+                <div class="p-card" onclick="openProduct('${p.n.replace(/'/g,"\\'")}','${p.p}','${p.i}')">
+                    <span class="p-tag">HOT</span>
+                    <img src="${p.i}">
+                    <div class="p-details">
+                        <div class="p-name">${p.n}</div>
+                        <div class="p-price">Rs ${p.p}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // --- 2. SEARCH & NAVIGATION ---
+        function filterItems() {
+            const q = document.getElementById('mainSearch').value.toLowerCase();
+            const filtered = products.filter(x => x.n.toLowerCase().includes(q));
+            render(filtered);
+        }
+
+        function navigate(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            // Show target page
+            document.getElementById(pageId + '-page').style.display = 'block';
+            document.getElementById(pageId + '-page').classList.add('active');
+            
+            // Close sidebar if open
+            document.getElementById('sidebar').classList.remove('active');
+            document.getElementById('overlay').style.display = 'none';
+
+            // Update bottom nav icons
+            document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+            const navBtn = document.getElementById('nav-' + pageId);
+            if(navBtn) navBtn.classList.add('active');
+            
+            window.scrollTo(0,0);
+        }
+
+        function toggleMenu() {
+            const side = document.getElementById('sidebar');
+            const over = document.getElementById('overlay');
+            if(side.classList.contains('active')) {
+                side.classList.remove('active');
+                over.style.display = 'none';
+            } else {
+                side.classList.add('active');
+                over.style.display = 'block';
+            }
+        }
+
+        function openProduct(n, p, i) {
+            document.getElementById('det-name').innerText = n;
+            document.getElementById('det-price').innerText = 'Rs ' + p;
+            document.getElementById('det-img').src = i;
+            document.getElementById('wa-order-btn').onclick = () => {
+                window.location.href = `https://wa.me/923485491217?text=Assalam o Alaikum! I want to order: ${n} (Rs ${p})`;
+            };
+            // Hide other pages and show detail
+            document.querySelectorAll('.page').forEach(pg => pg.style.display = 'none');
+            document.getElementById('detail-page').style.display = 'block';
+        }
+
+        // --- 3. THEME & TIMER ---
+        function setTheme(mode) {
+            document.body.className = mode + '-mode';
+        }
+
+        function startTimer() {
+            let t = 10799; 
+            setInterval(() => {
+                let h = Math.floor(t/3600), m = Math.floor((t%3600)/60), s = t%60;
+                document.getElementById('timer').innerText = 
+                    `${h<10?'0'+h:h}:${m<10?'0'+m:m}:${s<10?'0'+s:s}`;
+                t--;
+            }, 1000);
+        }
+
+        loadStore();
         startTimer();
-    }
-
-    // --- 5. Active Flash Timer ---
-    function startTimer() {
-        let t = 10800; // 3 hours
-        const display = document.getElementById('countDown');
-        const count = setInterval(() => {
-            let h = Math.floor(t/3600), m = Math.floor((t%3600)/60), s = t%60;
-            display.innerText = `${h<10?'0'+h:h}:${m<10?'0'+m:m}:${s<10?'0'+s:s}`;
-            if(t-- <= 0) clearInterval(count);
-        }, 1000);
-    }
-
-    function toggleTheme() {
-        document.body.classList.toggle('light-mode');
-        const icon = document.getElementById('theme-icon');
-        icon.classList.toggle('fa-moon');
-        icon.classList.toggle('fa-sun');
-    }
-
-    initStore();
-</script>
+    </script>
 </body>
 </html>

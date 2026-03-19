@@ -3,262 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ZAIN STORE | The Complete Legend</title>
-    
+    <title>ZAIN STORE | RAWALPINDI OFFICIAL</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
     <style>
-        :root { --primary: #a32cc4; --bg: #000000; --card: #121212; --text: #ffffff; --success: #2ecc71; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
-        body { background: var(--bg); color: var(--text); padding-bottom: 80px; overflow-x: hidden; }
+        :root { --primary: #ff6801; --bg: #000; --card: #121212; --text: #fff; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
+        body { background: var(--bg); color: var(--text); padding-bottom: 100px; }
 
-        /* --- HEADER & SIDEBAR --- */
-        header { background: var(--primary); padding: 15px; position: sticky; top: 0; z-index: 2000; border-radius: 0 0 20px 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
-        .nav-row { display: flex; justify-content: space-between; align-items: center; }
-        
-        .sidebar { position: fixed; top: 0; left: -100%; width: 280px; height: 100%; background: #111; z-index: 5000; transition: 0.4s; padding: 25px; border-right: 3px solid var(--primary); }
-        .sidebar.active { left: 0; }
-        .sidebar-link { display: flex; align-items: center; gap: 15px; padding: 15px 0; color: #ccc; text-decoration: none; border-bottom: 1px solid #222; cursor: pointer; }
-
-        /* --- PAGES SYSTEM --- */
-        .page { display: none; padding: 15px; min-height: 100vh; animation: fadeIn 0.3s; }
-        .page.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        /* --- HEADER --- */
+        header { background: var(--primary); padding: 15px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .search-box { background: #fff; margin: 15px; padding: 12px; border-radius: 10px; display: flex; align-items: center; }
+        .search-box input { border: none; outline: none; width: 100%; margin-left: 10px; font-size: 16px; }
 
         /* --- PRODUCT GRID --- */
-        .search-container { background: #fff; border-radius: 12px; display: flex; align-items: center; padding: 10px 15px; margin-top: 15px; }
-        .search-container input { border: none; outline: none; width: 100%; margin-left: 10px; color: #333; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
-        .card { background: var(--card); border-radius: 15px; overflow: hidden; border: 1px solid #222; position: relative; }
-        .img-box { height: 160px; background: #fff; display: flex; align-items: center; justify-content: center; }
-        .img-box img { width: 85%; height: 85%; object-fit: contain; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 15px; }
+        .card { background: var(--card); border-radius: 15px; overflow: hidden; border: 1px solid #222; position: relative; transition: 0.3s; }
+        .img-box { height: 160px; background: #fff; display: flex; align-items: center; justify-content: center; padding: 10px; }
+        .img-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
         .info { padding: 12px; }
-        .price { color: var(--primary); font-weight: 800; font-size: 16px; }
+        .price { color: var(--primary); font-weight: 800; font-size: 18px; margin-top: 5px; }
 
-        /* --- SPIN WHEEL (SWIMMING) --- */
-        .wheel-box { text-align: center; background: #111; padding: 30px 10px; border-radius: 20px; border: 2px dashed var(--primary); }
-        #wheel { width: 260px; height: 260px; border-radius: 50%; border: 8px solid #333; margin: 20px auto; position: relative; transition: 4s cubic-bezier(0.1, 0, 0.1, 1); background: conic-gradient(from 0deg, #ff0000, #ff8000, #ffff00, #00ff00, #00ffff, #0000ff, #8000ff, #ff00ff, #ff0000); box-shadow: 0 0 20px var(--primary); }
-        #wheel::after { content: '▼'; position: absolute; top: -20px; left: 50%; transform: translateX(-50%); color: #fff; font-size: 25px; z-index: 10; }
+        /* --- TRACKING BOX --- */
+        .section-title { padding: 15px 15px 0; font-size: 18px; font-weight: bold; color: var(--primary); }
+        .tracking-card { background: #111; margin: 15px; padding: 20px; border-radius: 15px; border: 1px solid #333; }
+        .track-input { width: 100%; padding: 12px; background: #222; border: 1px solid #444; color: #fff; border-radius: 8px; margin-bottom: 10px; }
+        
+        /* --- QR FOOTER (GALLERY STYLE) --- */
+        .footer-qr { background: #080808; padding: 40px 20px; text-align: center; border-top: 2px solid var(--primary); margin-top: 30px; }
+        .qr-white-bg { background: #fff; padding: 15px; display: inline-block; border-radius: 20px; margin-bottom: 20px; box-shadow: 0 0 20px rgba(255,104,1,0.2); }
+        .qr-white-bg img { width: 150px; height: 150px; display: block; }
+        .store-details { color: #888; font-weight: bold; font-size: 14px; letter-spacing: 1px; margin-bottom: 10px; }
+        .contact-info { font-size: 12px; color: #bbb; line-height: 1.8; }
+        .contact-info i { color: red; margin-right: 5px; }
 
-        /* --- PAYMENT & ACCOUNT --- */
-        .payment-card { background: #1a1a1a; padding: 20px; border-radius: 15px; margin-bottom: 15px; border-left: 5px solid var(--primary); }
-        .user-profile { text-align: center; padding: 30px; background: linear-gradient(var(--primary), #000); border-radius: 20px; margin-bottom: 20px; }
-
-        /* --- REVIEWS --- */
-        .review-card { background: #181818; padding: 12px; border-radius: 12px; margin-top: 10px; border: 1px solid #222; }
-        .verified { color: var(--success); font-size: 10px; font-weight: bold; }
-
-        /* --- FOOTER & NAV --- */
-        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #000; display: flex; justify-content: space-around; padding: 12px; border-top: 2px solid var(--primary); z-index: 4000; }
-        .nav-item { color: #888; text-align: center; font-size: 10px; cursor: pointer; }
+        /* --- BOTTOM NAV --- */
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #000; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #222; z-index: 2000; }
+        .nav-item { color: #666; text-align: center; font-size: 11px; text-decoration: none; }
         .nav-item.active { color: var(--primary); }
-        .wa-float { position: fixed; bottom: 85px; right: 20px; background: #25d366; color: #fff; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; z-index: 5000; box-shadow: 0 5px 15px rgba(0,0,0,0.5); text-decoration: none; }
+        .nav-item i { font-size: 22px; display: block; margin-bottom: 4px; }
+
+        /* --- WHATSAPP FLOAT --- */
+        .wa-btn { position: fixed; bottom: 85px; right: 20px; background: #25d366; color: #fff; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); z-index: 3000; text-decoration: none; }
     </style>
 </head>
 <body>
 
-    <a href="https://wa.me/923485491217" class="wa-float"><i class="fab fa-whatsapp"></i></a>
-
-    <div class="sidebar" id="sidebar">
-        <h2 style="color:var(--primary);">ZAIN STORE</h2>
-        <div class="sidebar-link" onclick="showPage('home')"><i class="fas fa-home"></i> Home</div>
-        <div class="sidebar-link" onclick="showPage('spin')"><i class="fas fa-dharmachakra"></i> Lucky Spin</div>
-        <div class="sidebar-link" onclick="showPage('account')"><i class="fas fa-user"></i> My Account</div>
-        <div class="sidebar-link" onclick="showPage('returns')"><i class="fas fa-undo"></i> Returns</div>
-        <button onclick="toggleSidebar()" style="margin-top:40px; width:100%; padding:10px; background:var(--primary); color:#fff; border:none; border-radius:10px;">CLOSE</button>
-    </div>
-
     <header>
-        <div class="nav-row">
-            <i class="fas fa-bars" onclick="toggleSidebar()"></i>
-            <b>ZAIN STORE</b>
-            <i class="fas fa-shopping-bag"></i>
-        </div>
-        <div class="search-container">
-            <i class="fas fa-search" style="color:#888;"></i>
-            <input type="text" id="mainSearch" onkeyup="searchNow()" placeholder="Search Products...">
-        </div>
+        <i class="fas fa-bars" style="font-size: 20px;"></i>
+        <b style="font-size: 20px; letter-spacing: 1px;">ZAIN STORE</b>
+        <i class="fas fa-shopping-cart" style="font-size: 20px;"></i>
     </header>
 
-    <div id="home-page" class="page active">
-        <div style="background:linear-gradient(45deg, #111, #000); padding:20px; border-radius:15px; border:1px solid var(--primary); text-align:center; margin-bottom:10px;">
-            <h4 style="color:var(--primary);">FLASH SALE</h4>
-            <h2 id="timer">00:00:00</h2>
-        </div>
-        <div class="grid" id="productGrid"></div>
-
-        <div style="text-align:center; padding:30px; border-top:1px solid #222; margin-top:20px;">
-            <p style="font-size:11px; margin-bottom:10px; color:#555;">SCAN TO SHARE</p>
-            <div style="background:#fff; padding:10px; display:inline-block; border-radius:10px;">
-                <img id="d-qr-code" src="https://api.qrserver.com/v1/create-qr-code/?size=110x110&data=https://243-max.github.io" alt="QR">
-            </div>
-            <p style="font-size:12px; margin-top:10px; color:#aaa;">Verified Original Products at Zain Store</p>
-        </div>
+    <div class="search-box">
+        <i class="fas fa-search" style="color: #999;"></i>
+        <input type="text" placeholder="Search gadgets, watches...">
     </div>
 
-    <div id="spin-page" class="page">
-        <div class="wheel-box">
-            <h2>Spin & Win Discount</h2>
-            <div id="wheel"></div>
-            <button onclick="startSpin()" style="width:80%; padding:15px; background:var(--primary); color:#fff; border:none; border-radius:50px; font-weight:bold; font-size:18px;">SPIN NOW</button>
-            <h3 id="spinMsg" style="margin-top:20px; color:var(--success);"></h3>
+    <div class="grid" id="pGrid">
         </div>
+
+    <div class="section-title">Track Your Order</div>
+    <div class="tracking-card">
+        <input type="text" class="track-input" placeholder="Enter Order ID (e.g. ZAIN-5541)">
+        <button style="width:100%; padding:12px; background:var(--primary); border:none; color:#fff; font-weight:bold; border-radius:8px;">TRACK NOW</button>
     </div>
 
-    <div id="account-page" class="page">
-        <div class="user-profile">
-            <div style="width:80px; height:80px; background:#fff; border-radius:50%; margin:0 auto 10px; display:flex; align-items:center; justify-content:center; color:#000; font-size:30px;"><i class="fas fa-user"></i></div>
-            <h3>Zain Ali</h3>
-            <p>0348-5491217</p>
+    <div class="footer-qr">
+        <div class="qr-white-bg">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://wa.me/923485491217" alt="QR">
         </div>
-        <div class="payment-card">
-            <h4><i class="fas fa-wallet" style="color:#3498db;"></i> EasyPaisa</h4>
-            <p>Name: Zain Ali</p>
-            <p>Number: 03485491217</p>
+        <div class="store-details">ZAIN STORE | RAWALPINDI</div>
+        <div class="contact-info">
+            <p><i class="fas fa-map-marker-alt"></i> Shop #4, Main Bazar, Rawalpindi, Pakistan</p>
+            <p><i class="fas fa-envelope" style="color:#3498db;"></i> support@zainstore.com</p>
+            <p><i class="fas fa-phone-alt" style="color:#2ecc71;"></i> 0348-5491217</p>
         </div>
-        <div class="payment-card">
-            <h4><i class="fas fa-university" style="color:#f1c40f;"></i> JazzCash</h4>
-            <p>Name: Zain Ali</p>
-            <p>Number: 03485491217</p>
-        </div>
+        <button style="background:transparent; border:1px solid #fff; color:#fff; padding:10px 25px; border-radius:20px; margin-top:20px; font-size:12px;">Go to website</button>
     </div>
 
-    <div id="returns-page" class="page">
-        <h2>Return Policy</h2>
-        <div class="payment-card">
-            <p>1. 7-Day return policy if product is faulty.</p>
-            <p>2. Video proof is required while unboxing.</p>
-            <p>3. WhatsApp us for any complaints.</p>
-        </div>
-    </div>
-
-    <div id="detail-page" class="page" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:6000; background:#000; overflow-y:auto;">
-        <div style="background:var(--primary); padding:15px; display:flex; gap:15px; align-items:center;">
-            <i class="fas fa-arrow-left" onclick="showPage('home')"></i> <b>Product Detail</b>
-        </div>
-        <img id="d-img" style="width:100%; height:300px; object-fit:contain; background:#fff;">
-        <div style="padding:20px;">
-            <h2 id="d-name"></h2>
-            <h1 id="d-price" style="color:var(--primary); margin:10px 0;"></h1>
-            <p style="font-size:12px; color:#888;">Delivery: 2-4 Days | Verified Product</p>
-            
-            <div style="margin-top:30px; border-top:1px solid #222; padding-top:20px;">
-                <h3>Customer Reviews</h3>
-                <div id="reviews-list"></div>
-                <div style="margin-top:20px;">
-                    <input type="text" id="r-name" placeholder="Name" style="width:100%; padding:10px; background:#222; border:1px solid #333; color:#fff; margin-bottom:10px; border-radius:8px;">
-                    <textarea id="r-msg" placeholder="Your Feedback" style="width:100%; padding:10px; background:#222; border:1px solid #333; color:#fff; border-radius:8px;"></textarea>
-                    <button onclick="addReview()" style="width:100%; padding:12px; background:var(--primary); border:none; color:#fff; margin-top:10px; border-radius:8px; font-weight:bold;">POST REVIEW</button>
-                </div>
-            </div>
-        </div>
-        <button id="wa-order-btn" style="position:fixed; bottom:0; width:100%; padding:20px; background:var(--success); color:#fff; border:none; font-weight:bold; font-size:18px;">ORDER ON WHATSAPP</button>
-    </div>
+    <a href="https://wa.me/923485491217" class="wa-btn"><i class="fab fa-whatsapp"></i></a>
 
     <div class="bottom-nav">
-        <div class="nav-item active" onclick="showPage('home')"><i class="fas fa-home"></i>Home</div>
-        <div class="nav-item" onclick="showPage('spin')"><i class="fas fa-dharmachakra"></i>Spin</div>
-        <div class="nav-item" onclick="showPage('account')"><i class="fas fa-wallet"></i>Pay</div>
-        <div class="nav-item" onclick="showPage('returns')"><i class="fas fa-shield-alt"></i>Help</div>
+        <a href="#" class="nav-item active"><i class="fas fa-home"></i>Home</a>
+        <a href="#" class="nav-item"><i class="fas fa-th-large"></i>Shop</a>
+        <a href="#" class="nav-item"><i class="fas fa-user-circle"></i>Account</a>
+        <a href="#" class="nav-item"><i class="fas fa-heart"></i>Wishlist</a>
     </div>
 
     <script>
         const CSV_URL = 'https://docs.google.com/spreadsheets/d/13J6c7r2r6-1jN5czgo8fn0Tmn-XFj7BFhLaUHe4kkRY/gviz/tq?tqx=out:csv';
-        let products = [];
 
-        async function init() {
-            const res = await fetch(CSV_URL);
-            const data = await res.text();
-            const rows = data.split('\n').slice(1);
-            products = rows.map(r => {
-                const c = r.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                return { n: c[0].replace(/"/g,""), p: c[1].replace(/"/g,""), i: c[2].replace(/"/g,"") };
-            });
-            render(products);
-            startTimer();
+        async function fetchStore() {
+            try {
+                const res = await fetch(CSV_URL);
+                const data = await res.text();
+                const rows = data.split('\n').slice(1);
+                
+                let html = '';
+                rows.forEach(row => {
+                    const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                    if(cols.length >= 3) {
+                        const name = cols[0].replace(/"/g,"");
+                        const price = cols[1].replace(/"/g,"");
+                        const img = cols[2].replace(/"/g,"");
+                        html += `
+                            <div class="card">
+                                <div class="img-box"><img src="${img}" onerror="this.src='https://via.placeholder.com/150'"></div>
+                                <div class="info">
+                                    <p style="font-size:12px; height:32px; overflow:hidden;">${name}</p>
+                                    <p class="price">Rs ${price}</p>
+                                    <button onclick="window.location.href='https://wa.me/923485491217?text=I want to buy ${name}'" style="width:100%; padding:6px; background:#25d366; border:none; color:#fff; border-radius:5px; margin-top:8px; font-size:11px; font-weight:bold;">Order Now</button>
+                                </div>
+                            </div>
+                        `;
+                    }
+                });
+                document.getElementById('pGrid').innerHTML = html;
+            } catch (e) {
+                console.error("CSV Error");
+            }
         }
-
-        function render(list) {
-            document.getElementById('productGrid').innerHTML = list.map(p => `
-                <div class="card" onclick="openDetail('${p.n.replace(/'/g,"\\'")}','${p.p}','${p.i}')">
-                    <div class="img-box"><img src="${p.i}" onerror="this.src='https://via.placeholder.com/150'"></div>
-                    <div class="info">
-                        <div style="font-size:11px; height:32px; overflow:hidden;">${p.n}</div>
-                        <div class="price">Rs ${p.p}</div>
-                        <div style="font-size:10px; color:#f1c40f; margin-top:5px;"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half"></i> (14)</div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function showPage(id) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(id + '-page').classList.add('active');
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            toggleSidebar(false);
-        }
-
-        function toggleSidebar(val) { 
-            const s = document.getElementById('sidebar');
-            if(val === false) s.classList.remove('active');
-            else s.classList.toggle('active');
-        }
-
-        function openDetail(n, p, i) {
-            document.getElementById('d-name').innerText = n;
-            document.getElementById('d-price').innerText = 'Rs ' + p;
-            document.getElementById('d-img').src = i;
-            document.getElementById('wa-order-btn').onclick = () => window.location.href=`https://wa.me/923485491217?text=I want to order: ${n}`;
-            showPage('detail');
-            loadReviews(n);
-        }
-
-        function startSpin() {
-            const wheel = document.getElementById('wheel');
-            const deg = Math.floor(Math.random() * 3000) + 500;
-            wheel.style.transform = `rotate(${deg}deg)`;
-            setTimeout(() => {
-                document.getElementById('spinMsg').innerText = "CONGRATS! YOU WON 15% OFF CODE: ZAIN15";
-            }, 4100);
-        }
-
-        function addReview() {
-            const name = document.getElementById('r-name').value;
-            const msg = document.getElementById('r-msg').value;
-            const prod = document.getElementById('d-name').innerText;
-            if(!name || !msg) return alert("Fill all fields");
-            let revs = JSON.parse(localStorage.getItem('zain_revs') || '[]');
-            revs.push({name, msg, prod});
-            localStorage.setItem('zain_revs', JSON.stringify(revs));
-            loadReviews(prod);
-        }
-
-        function loadReviews(pName) {
-            const revs = JSON.parse(localStorage.getItem('zain_revs') || '[]');
-            const filtered = revs.filter(r => r.prod === pName);
-            document.getElementById('reviews-list').innerHTML = filtered.map(r => `
-                <div class="review-card">
-                    <span class="verified"><i class="fas fa-check-circle"></i> Verified Buyer</span><br>
-                    <b>${r.name}</b>
-                    <p style="font-size:12px; color:#ccc;">${r.msg}</p>
-                </div>
-            `).join('') || "<p style='color:#444;'>No reviews yet.</p>";
-        }
-
-        function startTimer() {
-            setInterval(() => {
-                const now = new Date();
-                document.getElementById('timer').innerText = `${23-now.getHours()}:${59-now.getMinutes()}:${59-now.getSeconds()}`;
-            }, 1000);
-        }
-
-        function searchNow() {
-            const q = document.getElementById('mainSearch').value.toLowerCase();
-            render(products.filter(x => x.n.toLowerCase().includes(q)));
-        }
-
-        init();
+        fetchStore();
     </script>
 </body>
 </html>

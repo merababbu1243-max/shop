@@ -3,15 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ZAIN STORE | All-In-One Pro</title>
+    <title>ZAIN STORE | Ultimate Edition</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-        /* --- 1. CORE THEME & CSS --- */
         :root {
-            --primary: #ff6801;
+            --primary: #a32cc4; /* Purple as per your screenshot */
             --bg: #000000;
             --card: #121212;
             --text: #ffffff;
@@ -19,95 +18,93 @@
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
-        body { background: var(--bg); color: var(--text); padding-bottom: 80px; overflow-x: hidden; transition: 0.3s; }
+        body { background: var(--bg); color: var(--text); padding-bottom: 80px; overflow-x: hidden; }
 
-        /* --- 2. NAVIGATION & SIDEBAR --- */
+        /* --- HEADER & SIDEBAR --- */
         header { 
             background: var(--primary); padding: 15px; position: sticky; top: 0; z-index: 2000; 
             border-radius: 0 0 20px 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
-        .nav-row { display: flex; justify-content: space-between; align-items: center; }
-        
         .sidebar {
             position: fixed; top: 0; left: -100%; width: 280px; height: 100%; 
             background: #111; z-index: 5000; transition: 0.4s; padding: 25px;
-            border-right: 3px solid var(--primary); box-shadow: 10px 0 30px rgba(0,0,0,0.8);
+            border-right: 3px solid var(--primary);
         }
         .sidebar.active { left: 0; }
-        .sidebar-link { display: flex; align-items: center; gap: 15px; padding: 15px 0; color: #ccc; text-decoration: none; border-bottom: 1px solid #222; }
-        
-        .color-dot { width: 30px; height: 30px; border-radius: 50%; display: inline-block; margin: 5px; cursor: pointer; border: 2px solid #fff; }
+        .sidebar-link { display: flex; align-items: center; gap: 15px; padding: 15px 0; color: #ccc; text-decoration: none; border-bottom: 1px solid #222; cursor: pointer;}
 
-        /* --- 3. SEARCH & FILTERS --- */
-        .search-container { 
-            background: #fff; border-radius: 12px; display: flex; align-items: center; 
-            padding: 10px 15px; margin-top: 15px; 
+        /* --- NOTIFICATION POPUP --- */
+        #sales-popup {
+            position: fixed; bottom: 80px; left: 20px; background: #fff; color: #000;
+            padding: 10px 15px; border-radius: 50px; font-size: 11px; display: none;
+            align-items: center; gap: 10px; z-index: 4000; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            animation: slideIn 0.5s ease;
         }
-        .search-container input { border: none; outline: none; width: 100%; margin-left: 10px; color: #333; font-weight: 500; }
+        @keyframes slideIn { from { transform: translateX(-100%); } to { transform: translateX(0); } }
 
-        /* --- 4. PRODUCT GRID --- */
-        .main-container { padding: 15px; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .card { 
-            background: var(--card); border-radius: 15px; overflow: hidden; 
-            border: 1px solid #222; position: relative; transition: 0.3s;
-        }
-        .flash-tag {
-            position: absolute; top: 8px; left: 8px; background: #e74c3c;
-            color: white; font-size: 9px; padding: 3px 8px; border-radius: 50px; font-weight: bold; z-index: 5;
-        }
+        /* --- SEARCH --- */
+        .search-container { background: #fff; border-radius: 12px; display: flex; align-items: center; padding: 10px 15px; margin-top: 15px; }
+        .search-container input { border: none; outline: none; width: 100%; margin-left: 10px; color: #333; }
+
+        /* --- PRODUCT GRID --- */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 15px; }
+        .card { background: var(--card); border-radius: 15px; overflow: hidden; border: 1px solid #222; position: relative; }
+        .sale-badge { position: absolute; top: 8px; left: 8px; background: #e74c3c; color: white; font-size: 9px; padding: 3px 8px; border-radius: 50px; font-weight: bold; }
         .img-box { height: 160px; background: #fff; display: flex; align-items: center; justify-content: center; }
         .img-box img { width: 85%; height: 85%; object-fit: contain; }
         .info { padding: 12px; }
         .price { color: var(--primary); font-weight: 800; font-size: 16px; }
 
-        /* --- 5. ORDER TRACKING UI --- */
-        .tracking-section { background: #1a1a1a; padding: 20px; border-radius: 20px; margin-top: 20px; border: 1px solid #333; }
+        /* --- TRACKING BOX --- */
+        .tracking-section { background: #1a1a1a; padding: 20px; border-radius: 20px; margin: 15px; border: 1px solid #333; }
         .timeline { border-left: 2px solid #333; margin-left: 20px; padding-left: 30px; position: relative; margin-top: 20px; }
-        .step { margin-bottom: 25px; position: relative; color: #666; font-size: 13px; }
+        .step { margin-bottom: 20px; position: relative; color: #666; font-size: 12px; }
         .step.active { color: var(--success); font-weight: bold; }
-        .step::before { content: ''; position: absolute; left: -41px; top: 3px; width: 18px; height: 18px; border-radius: 50%; background: #333; border: 3px solid #000; }
-        .step.active::before { background: var(--success); box-shadow: 0 0 10px var(--success); }
+        .step::before { content: ''; position: absolute; left: -40px; top: 3px; width: 16px; height: 16px; border-radius: 50%; background: #333; }
+        .step.active::before { background: var(--success); }
 
-        /* --- 6. DETAIL PAGE & REVIEWS --- */
+        /* --- FOOTER --- */
+        footer { background: #080808; padding: 30px 15px; text-align: center; border-top: 1px solid var(--primary); margin-top: 30px; }
+
+        /* --- DETAIL PAGE --- */
         .page { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 6000; overflow-y: auto; }
         .page.active { display: block; }
-        .rev-input { width: 100%; background: #222; border: 1px solid #333; color: #fff; padding: 12px; border-radius: 10px; margin-bottom: 10px; }
-        .review-card { background: #181818; padding: 12px; border-radius: 12px; margin-top: 10px; border-left: 4px solid var(--primary); }
-        .verified-badge { color: var(--success); font-size: 11px; display: flex; align-items: center; gap: 4px; font-weight: 600; margin-bottom: 5px; }
+        .buy-bar { position: fixed; bottom: 0; width: 100%; height: 65px; display: flex; z-index: 7000; }
+        .btn-wa { flex: 1; background: var(--primary); color: #fff; border: none; font-weight: 800; }
+        .qty-box { display: flex; align-items: center; gap: 15px; margin: 15px 0; }
+        .qty-btn { background: #222; color: #fff; border: none; width: 30px; height: 30px; border-radius: 5px; }
 
-        /* --- 7. FOOTER & BOTTOM NAV --- */
-        footer { background: #080808; padding: 40px 20px; text-align: center; border-top: 2px solid var(--primary); margin-top: 40px; }
-        .footer-qr { background: #fff; padding: 10px; display: inline-block; border-radius: 12px; margin-bottom: 15px; }
-        
-        .buy-bar { position: fixed; bottom: 0; width: 100%; height: 65px; display: flex; z-index: 7000; box-shadow: 0 -5px 15px rgba(0,0,0,0.5); }
-        .btn-wa { flex: 1; background: var(--primary); color: #fff; border: none; font-weight: 800; font-size: 16px; }
-        .btn-cart { flex: 1; background: #222; color: #fff; border: none; font-weight: 600; }
     </style>
 </head>
 <body>
 
+    <div id="sales-popup">
+        <i class="fas fa-shopping-bag" style="color:var(--primary)"></i>
+        <span id="popup-text">Someone recently bought an item!</span>
+    </div>
+
     <div class="sidebar" id="sidebar">
-        <h2 style="color:var(--primary); margin-bottom:10px;">ZAIN STORE</h2>
-        <p style="font-size:11px; color:#666; margin-bottom:25px;">Verified Shopping Experience</p>
-        <a href="#" class="sidebar-link" onclick="location.reload()"><i class="fas fa-home"></i> Home</a>
-        <a href="https://wa.me/923485491217" class="sidebar-link"><i class="fab fa-whatsapp"></i> Support Chat</a>
+        <h2 style="color:var(--primary); margin-bottom:20px;">ZAIN STORE</h2>
+        <div class="sidebar-link" onclick="location.reload()"><i class="fas fa-home"></i> Home</div>
+        <div class="sidebar-link" onclick="alert('Spin & Win Coming Soon!')"><i class="fas fa-dharmachakra"></i> Lucky Spin & Win</div>
+        <div class="sidebar-link" onclick="location.href='https://wa.me/923485491217'"><i class="fab fa-whatsapp"></i> Support Chat</div>
         
         <div style="margin-top:30px;">
-            <p style="font-size:12px; margin-bottom:10px;">CHANGE THEME COLOR:</p>
-            <div class="color-dot" style="background:#ff6801;" onclick="setTheme('#ff6801')"></div>
-            <div class="color-dot" style="background:#2ecc71;" onclick="setTheme('#2ecc71')"></div>
-            <div class="color-dot" style="background:#e74c3c;" onclick="setTheme('#e74c3c')"></div>
-            <div class="color-dot" style="background:#00bcd4;" onclick="setTheme('#00bcd4')"></div>
+            <p style="font-size:11px; margin-bottom:10px;">THEME COLOR:</p>
+            <div style="display:flex; gap:10px;">
+                <div style="width:25px; height:25px; border-radius:50%; background:#a32cc4; cursor:pointer;" onclick="setTheme('#a32cc4')"></div>
+                <div style="width:25px; height:25px; border-radius:50%; background:#ff6801; cursor:pointer;" onclick="setTheme('#ff6801')"></div>
+                <div style="width:25px; height:25px; border-radius:50%; background:#2ecc71; cursor:pointer;" onclick="setTheme('#2ecc71')"></div>
+            </div>
         </div>
-        <button onclick="toggleSidebar()" style="margin-top:40px; width:100%; padding:12px; background:#333; color:#fff; border:none; border-radius:8px;">CLOSE MENU</button>
+        <button onclick="toggleSidebar()" style="margin-top:40px; width:100%; padding:10px; background:#333; color:#fff; border:none; border-radius:8px;">CLOSE</button>
     </div>
 
     <header>
-        <div class="nav-row">
-            <i class="fas fa-bars" onclick="toggleSidebar()" style="font-size:22px; cursor:pointer;"></i>
-            <b style="font-size:18px; letter-spacing:1px;">ZAIN STORE</b>
-            <i class="fas fa-shopping-cart" style="font-size:20px;"></i>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <i class="fas fa-bars" onclick="toggleSidebar()" style="font-size:20px;"></i>
+            <b style="font-size:18px;">ZAIN STORE</b>
+            <i class="fas fa-shopping-cart" style="font-size:18px;"></i>
         </div>
         <div class="search-container">
             <i class="fas fa-search" style="color:#888;"></i>
@@ -115,77 +112,67 @@
         </div>
     </header>
 
-    <div class="main-container">
-        <div style="background:linear-gradient(45deg, #222, #000); padding:20px; border-radius:15px; border:1px solid var(--primary); margin-bottom:20px; text-align:center;">
-            <h3 style="color:var(--primary);">🔥 FLASH SALE LIVE</h3>
-            <p style="font-size:12px; margin-top:5px;">Ends in: <span id="flash-timer" style="font-weight:bold; color:#fff;">00:00:00</span></p>
+    <div id="home-content">
+        <div style="background:#111; padding:15px; border-radius:15px; margin:15px; border:1px solid #333; text-align:center;">
+            <h4 style="color:var(--primary);">🔥 FLASH SALE LIVE</h4>
+            <p id="timer" style="font-size:18px; font-weight:bold;">00:00:00</p>
         </div>
 
-        <div class="grid" id="productGrid">
-            </div>
+        <div class="grid" id="productGrid"></div>
 
         <div class="tracking-section">
-            <h3>🔍 Track Your Order</h3>
-            <p style="font-size:11px; color:#888; margin-bottom:15px;">Enter your Order ID to see live updates</p>
-            <input type="text" id="trackInput" class="rev-input" placeholder="Order ID (e.g. ZAIN-5482)">
+            <h3 style="margin-bottom:10px;"><i class="fas fa-truck-loading"></i> Track Your Order</h3>
+            <input type="text" id="trackInput" style="width:100%; padding:12px; background:#222; border:1px solid #333; color:#fff; border-radius:10px; margin-bottom:10px;" placeholder="Order ID (e.g. ZAIN-1234)">
             <button onclick="trackOrder()" style="width:100%; padding:12px; background:var(--primary); border:none; color:white; border-radius:10px; font-weight:bold;">TRACK NOW</button>
             
             <div id="tracking-result" style="display:none; margin-top:20px;">
-                <h4 id="track-id-display" style="color:var(--primary);"></h4>
                 <div class="timeline">
-                    <div class="step active"><i class="fas fa-check-circle"></i> Order Confirmed</div>
-                    <div class="step active"><i class="fas fa-box"></i> Packed & Ready</div>
-                    <div class="step active"><i class="fas fa-truck"></i> Shipped to Karachi Hub</div>
-                    <div class="step"><i class="fas fa-home"></i> Out for Delivery</div>
+                    <div class="step active">Order Confirmed</div>
+                    <div class="step active">Packed & Ready</div>
+                    <div class="step">On the Way</div>
+                    <div class="step">Delivered</div>
                 </div>
             </div>
         </div>
     </div>
 
     <footer>
-        <div class="footer-qr">
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=110x110&data=https://243-max.github.io" alt="QR Code">
-        </div>
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://243-max.github.io" style="background:#fff; padding:5px; border-radius:10px; margin-bottom:10px;">
         <h2 style="color:var(--primary);">ZAIN STORE</h2>
-        <p style="font-size:12px; color:#888; margin:10px 0;">Official Online Store for Premium Tech & Accessories in Pakistan.</p>
-        <div style="display:flex; justify-content:center; gap:20px; margin-top:20px; font-size:20px;">
-            <i class="fab fa-facebook"></i>
-            <i class="fab fa-instagram"></i>
-            <i class="fab fa-whatsapp"></i>
+        <p style="font-size:12px; color:#888;">Official Store for Premium Accessories</p>
+        <div style="display:flex; justify-content:center; gap:20px; margin-top:15px; font-size:20px;">
+            <i class="fab fa-facebook"></i> <i class="fab fa-instagram"></i> <i class="fab fa-whatsapp"></i>
         </div>
-        <p style="font-size:10px; color:#444; margin-top:30px;">© 2026 ZAIN STORE. All Rights Reserved.</p>
+        <p style="font-size:10px; color:#444; margin-top:20px;">© 2026 ZAIN STORE. All Rights Reserved.</p>
     </footer>
 
     <div id="detail-page" class="page">
         <div style="background:var(--primary); padding:15px; display:flex; gap:15px; align-items:center;">
-            <i class="fas fa-arrow-left" onclick="closeDetail()"></i> <b>Product Details</b>
+            <i class="fas fa-arrow-left" onclick="closeDetail()"></i> <b>Product Detail</b>
         </div>
-        <img id="d-img" style="width:100%; height:320px; object-fit:contain; background:#fff;">
-        
+        <img id="d-img" style="width:100%; height:300px; object-fit:contain; background:#fff;">
         <div style="padding:20px;">
             <h2 id="d-name"></h2>
-            <div id="d-price" class="price" style="font-size:26px; margin:10px 0;"></div>
+            <div id="d-price" class="price" style="font-size:24px; margin:10px 0;"></div>
             
-            <p style="font-size:13px; color:#888; border-left:3px solid var(--primary); padding-left:10px; margin-bottom:20px;">
+            <div class="qty-box">
+                <span>Quantity:</span>
+                <button class="qty-btn" onclick="updateQty(-1)">-</button>
+                <b id="qty-val">1</b>
+                <button class="qty-btn" onclick="updateQty(1)">+</button>
+            </div>
+
+            <p style="font-size:12px; color:#888; border-left:3px solid var(--primary); padding-left:10px;">
                 🚚 Free Home Delivery Across Pakistan | 🛡️ 7 Days Return Policy
             </p>
-
-            <div style="background:#111; padding:15px; border-radius:15px; border:1px solid #222;">
-                <h3 style="margin-bottom:15px;">Customer Reviews</h3>
-                <div id="review-display-area"></div>
-                
-                <div style="margin-top:25px; border-top:1px solid #222; padding-top:20px;">
-                    <h4 style="color:var(--primary);">Write a Review</h4>
-                    <input type="text" id="r-name" class="rev-input" placeholder="Your Name">
-                    <textarea id="r-msg" class="rev-input" rows="3" placeholder="Share your experience..."></textarea>
-                    <input type="file" id="r-file" style="margin-bottom:10px; font-size:11px;">
-                    <button onclick="submitReviewData()" style="width:100%; padding:12px; background:var(--primary); border:none; color:white; border-radius:10px; font-weight:bold;">POST REVIEW</button>
-                </div>
+            
+            <div style="margin-top:30px;">
+                <h3>Customer Reviews</h3>
+                <div id="review-area" style="margin-top:10px;"></div>
             </div>
         </div>
-
         <div class="buy-bar">
-            <button class="btn-cart">ADD TO CART</button>
+            <button style="flex:1; background:#222; color:#fff; border:none;">ADD TO CART</button>
             <button class="btn-wa" id="waLink">ORDER ON WHATSAPP</button>
         </div>
     </div>
@@ -193,27 +180,25 @@
     <script>
         const CSV_URL = 'https://docs.google.com/spreadsheets/d/13J6c7r2r6-1jN5czgo8fn0Tmn-XFj7BFhLaUHe4kkRY/gviz/tq?tqx=out:csv';
         let allItems = [];
+        let quantity = 1;
 
-        // Fetch & Render Products
         async function fetchProducts() {
-            try {
-                const res = await fetch(CSV_URL);
-                const data = await res.text();
-                const rows = data.split('\n').slice(1);
-                allItems = rows.map(r => {
-                    const c = r.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                    return { n: c[0].replace(/"/g,""), p: c[1].replace(/"/g,""), i: c[2].replace(/"/g,"") };
-                });
-                render(allItems);
-                setInterval(updateTimer, 1000);
-            } catch(e) { console.error("Error loading products"); }
+            const res = await fetch(CSV_URL);
+            const data = await res.text();
+            const rows = data.split('\n').slice(1);
+            allItems = rows.map(r => {
+                const c = r.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                return { n: c[0].replace(/"/g,""), p: c[1].replace(/"/g,""), i: c[2].replace(/"/g,"") };
+            });
+            render(allItems);
+            startNotification();
         }
 
         function render(list) {
             document.getElementById('productGrid').innerHTML = list.map(p => `
                 <div class="card" onclick="openDetail('${p.n.replace(/'/g,"\\'")}','${p.p}','${p.i}')">
-                    <div class="flash-tag">SALE</div>
-                    <div class="img-box"><img src="${p.i}" onerror="this.src='https://via.placeholder.com/150'"></div>
+                    <div class="sale-badge">SALE</div>
+                    <div class="img-box"><img src="${p.i}"></div>
                     <div class="info">
                         <div style="font-size:11px; height:32px; overflow:hidden;">${p.n}</div>
                         <div class="price">Rs ${p.p}</div>
@@ -222,86 +207,54 @@
             `).join('');
         }
 
-        // Search & Sidebar
+        function openDetail(n, p, i) {
+            quantity = 1; document.getElementById('qty-val').innerText = 1;
+            document.getElementById('d-name').innerText = n;
+            document.getElementById('d-price').innerText = 'Rs ' + p;
+            document.getElementById('d-img').src = i;
+            document.getElementById('waLink').onclick = () => {
+                const total = parseInt(p) * quantity;
+                window.location.href=`https://wa.me/923485491217?text=Assalam-o-Alaikum, I want to order ${quantity}x ${n}. Total: Rs ${total}`;
+            };
+            document.getElementById('detail-page').classList.add('active');
+        }
+
+        function updateQty(val) {
+            quantity = Math.max(1, quantity + val);
+            document.getElementById('qty-val').innerText = quantity;
+        }
+
+        function closeDetail() { document.getElementById('detail-page').classList.remove('active'); }
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('active'); }
+        function setTheme(c) { document.documentElement.style.setProperty('--primary', c); }
         function searchNow() {
             const q = document.getElementById('liveSearch').value.toLowerCase();
             render(allItems.filter(x => x.n.toLowerCase().includes(q)));
         }
 
-        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('active'); }
-        
-        function setTheme(color) { 
-            document.documentElement.style.setProperty('--primary', color); 
-            localStorage.setItem('zain_theme', color);
-        }
-
-        // Tracking Logic
         function trackOrder() {
-            const id = document.getElementById('trackInput').value.toUpperCase();
-            if(id.startsWith("ZAIN-")) {
-                document.getElementById('tracking-result').style.display = 'block';
-                document.getElementById('track-id-display').innerText = "Live Status: " + id;
-                window.scrollBy(0, 300);
-            } else {
-                alert("Please enter a valid Order ID (e.g. ZAIN-1234)");
-            }
+            const id = document.getElementById('trackInput').value;
+            if(id.includes("ZAIN-")) document.getElementById('tracking-result').style.display='block';
+            else alert("Order ID not found!");
         }
 
-        // Review System
-        function submitReviewData() {
-            const name = document.getElementById('r-name').value;
-            const msg = document.getElementById('r-msg').value;
-            const prod = document.getElementById('d-name').innerText;
-            const file = document.getElementById('r-file').files[0];
-
-            if(!name || !msg) return alert("Please enter Name and Message!");
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const review = { name, msg, prod, img: e.target ? e.target.result : null };
-                let store = JSON.parse(localStorage.getItem('zain_reviews_v3') || '[]');
-                store.push(review);
-                localStorage.setItem('zain_reviews_v3', JSON.stringify(store));
-                loadReviews(prod);
-                document.getElementById('r-name').value = ''; document.getElementById('r-msg').value = '';
-            };
-            if(file) reader.readAsDataURL(file); else reader.onload({target:null});
-        }
-
-        function loadReviews(pName) {
-            const data = JSON.parse(localStorage.getItem('zain_reviews_v3') || '[]');
-            const mine = data.filter(r => r.prod === pName);
-            document.getElementById('review-display-area').innerHTML = mine.map(r => `
-                <div class="review-card">
-                    <div class="verified-badge"><i class="fas fa-check-circle"></i> Verified Purchase</div>
-                    <b>${r.name}</b>
-                    <p style="font-size:13px; color:#aaa; margin-top:5px;">${r.msg}</p>
-                    ${r.img ? `<img src="${r.img}" style="width:100%; border-radius:10px; margin-top:10px;">` : ''}
-                </div>
-            `).join('') || "<p style='color:#444;'>No reviews yet. Be the first!</p>";
-        }
-
-        // Detail Page
-        function openDetail(n, p, i) {
-            document.getElementById('d-name').innerText = n;
-            document.getElementById('d-price').innerText = 'Rs ' + p;
-            document.getElementById('d-img').src = i;
-            document.getElementById('waLink').onclick = () => window.location.href=`https://wa.me/923485491217?text=Assalam-o-Alaikum, I want to order: ${n}`;
-            document.getElementById('detail-page').classList.add('active');
-            loadReviews(n);
-        }
-
-        function closeDetail() { document.getElementById('detail-page').classList.remove('active'); }
-
-        function updateTimer() {
+        // Timer Logic
+        setInterval(() => {
             const now = new Date();
-            const t = `${23-now.getHours()}:${59-now.getMinutes()}:${59-now.getSeconds()}`;
-            document.getElementById('flash-timer').innerText = t;
-        }
+            document.getElementById('timer').innerText = `${23-now.getHours()}:${59-now.getMinutes()}:${59-now.getSeconds()}`;
+        }, 1000);
 
-        // Initial Theme Load
-        const st = localStorage.getItem('zain_theme');
-        if(st) setTheme(st);
+        // Fake Notification Logic
+        function startNotification() {
+            const cities = ["Karachi", "Lahore", "Islamabad", "Multan", "Faisalabad"];
+            setInterval(() => {
+                const city = cities[Math.floor(Math.random()*cities.length)];
+                document.getElementById('popup-text').innerText = `Someone from ${city} just placed an order!`;
+                const pop = document.getElementById('sales-popup');
+                pop.style.display = 'flex';
+                setTimeout(() => pop.style.display = 'none', 4000);
+            }, 15000);
+        }
 
         fetchProducts();
     </script>

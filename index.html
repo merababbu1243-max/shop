@@ -3,301 +3,307 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ZAIN STORE | The Infinity Edition</title>
+    <title>ZAIN STORE | All-In-One Pro</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-        :root { --primary: #ff6801; --bg: #0b0b0b; --card: #151515; --text: #ffffff; --success: #2ecc71; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
-        body { background: var(--bg); color: var(--text); padding-bottom: 80px; overflow-x: hidden; }
+        /* --- 1. CORE THEME & CSS --- */
+        :root {
+            --primary: #ff6801;
+            --bg: #000000;
+            --card: #121212;
+            --text: #ffffff;
+            --success: #2ecc71;
+        }
 
-        /* --- NAVIGATION SYSTEM --- */
-        header { background: var(--primary); padding: 15px; position: sticky; top: 0; z-index: 2000; border-radius: 0 0 20px 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.5); }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+        body { background: var(--bg); color: var(--text); padding-bottom: 80px; overflow-x: hidden; transition: 0.3s; }
+
+        /* --- 2. NAVIGATION & SIDEBAR --- */
+        header { 
+            background: var(--primary); padding: 15px; position: sticky; top: 0; z-index: 2000; 
+            border-radius: 0 0 20px 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
         .nav-row { display: flex; justify-content: space-between; align-items: center; }
         
-        /* Bottom Navigation */
-        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #111; display: flex; justify-content: space-around; padding: 12px; border-top: 1px solid #222; z-index: 3000; }
-        .nav-item { color: #888; text-align: center; font-size: 10px; cursor: pointer; }
-        .nav-item.active { color: var(--primary); }
-        .nav-item i { font-size: 20px; display: block; }
-
-        /* Sidebar Menu */
-        .sidebar { position: fixed; top: 0; left: -100%; width: 300px; height: 100%; background: #111; z-index: 5000; transition: 0.4s; padding: 25px; border-right: 3px solid var(--primary); }
+        .sidebar {
+            position: fixed; top: 0; left: -100%; width: 280px; height: 100%; 
+            background: #111; z-index: 5000; transition: 0.4s; padding: 25px;
+            border-right: 3px solid var(--primary); box-shadow: 10px 0 30px rgba(0,0,0,0.8);
+        }
         .sidebar.active { left: 0; }
+        .sidebar-link { display: flex; align-items: center; gap: 15px; padding: 15px 0; color: #ccc; text-decoration: none; border-bottom: 1px solid #222; }
+        
+        .color-dot { width: 30px; height: 30px; border-radius: 50%; display: inline-block; margin: 5px; cursor: pointer; border: 2px solid #fff; }
 
-        /* --- CORE PAGES SYSTEM --- */
-        .page { display: none; padding: 15px; min-height: 100vh; }
-        .page.active { display: block; animation: fadeIn 0.3s; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        /* --- 3. SEARCH & FILTERS --- */
+        .search-container { 
+            background: #fff; border-radius: 12px; display: flex; align-items: center; 
+            padding: 10px 15px; margin-top: 15px; 
+        }
+        .search-container input { border: none; outline: none; width: 100%; margin-left: 10px; color: #333; font-weight: 500; }
 
-        /* --- PRODUCT SYSTEM --- */
-        .banner-slider { width: 100%; height: 150px; background: linear-gradient(45deg, #333, #555); border-radius: 15px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        /* --- 4. PRODUCT GRID --- */
+        .main-container { padding: 15px; }
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .card { background: var(--card); border-radius: 15px; overflow: hidden; border: 1px solid #222; position: relative; transition: 0.3s; }
-        .flash-tag { position: absolute; top: 8px; left: 8px; background: #e74c3c; color: white; font-size: 9px; padding: 3px 8px; border-radius: 50px; font-weight: bold; }
-        .img-box { height: 150px; background: #fff; display: flex; align-items: center; justify-content: center; }
-        .img-box img { width: 80%; height: 80%; object-fit: contain; }
+        .card { 
+            background: var(--card); border-radius: 15px; overflow: hidden; 
+            border: 1px solid #222; position: relative; transition: 0.3s;
+        }
+        .flash-tag {
+            position: absolute; top: 8px; left: 8px; background: #e74c3c;
+            color: white; font-size: 9px; padding: 3px 8px; border-radius: 50px; font-weight: bold; z-index: 5;
+        }
+        .img-box { height: 160px; background: #fff; display: flex; align-items: center; justify-content: center; }
+        .img-box img { width: 85%; height: 85%; object-fit: contain; }
+        .info { padding: 12px; }
+        .price { color: var(--primary); font-weight: 800; font-size: 16px; }
 
-        /* --- CART & CHECKOUT --- */
-        .cart-item { display: flex; gap: 10px; background: #1a1a1a; padding: 10px; border-radius: 10px; margin-bottom: 10px; align-items: center; }
-        .qty-btn { background: #333; color: white; border: none; padding: 5px 10px; border-radius: 5px; }
-        .checkout-box { background: #1a1a1a; padding: 20px; border-radius: 15px; margin-top: 20px; }
-        .input-field { width: 100%; padding: 12px; background: #222; border: 1px solid #333; color: white; border-radius: 8px; margin-bottom: 10px; }
+        /* --- 5. ORDER TRACKING UI --- */
+        .tracking-section { background: #1a1a1a; padding: 20px; border-radius: 20px; margin-top: 20px; border: 1px solid #333; }
+        .timeline { border-left: 2px solid #333; margin-left: 20px; padding-left: 30px; position: relative; margin-top: 20px; }
+        .step { margin-bottom: 25px; position: relative; color: #666; font-size: 13px; }
+        .step.active { color: var(--success); font-weight: bold; }
+        .step::before { content: ''; position: absolute; left: -41px; top: 3px; width: 18px; height: 18px; border-radius: 50%; background: #333; border: 3px solid #000; }
+        .step.active::before { background: var(--success); box-shadow: 0 0 10px var(--success); }
 
-        /* --- USER SYSTEM / ACCOUNT --- */
-        .user-header { text-align: center; padding: 30px; background: #1a1a1a; border-radius: 20px; margin-bottom: 20px; }
-        .profile-pic { width: 80px; height: 80px; border-radius: 50%; background: var(--primary); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-size: 30px; }
+        /* --- 6. DETAIL PAGE & REVIEWS --- */
+        .page { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 6000; overflow-y: auto; }
+        .page.active { display: block; }
+        .rev-input { width: 100%; background: #222; border: 1px solid #333; color: #fff; padding: 12px; border-radius: 10px; margin-bottom: 10px; }
+        .review-card { background: #181818; padding: 12px; border-radius: 12px; margin-top: 10px; border-left: 4px solid var(--primary); }
+        .verified-badge { color: var(--success); font-size: 11px; display: flex; align-items: center; gap: 4px; font-weight: 600; margin-bottom: 5px; }
 
-        /* --- REVIEW SYSTEM --- */
-        .verified-badge { color: var(--success); font-size: 11px; display: flex; align-items: center; gap: 3px; font-weight: 600; }
-        .review-card { background: #111; padding: 12px; border-radius: 10px; border-left: 3px solid var(--primary); margin-top: 10px; }
-
-        /* Theme Changer */
-        .color-dot { width: 25px; height: 25px; border-radius: 50%; display: inline-block; margin-right: 10px; cursor: pointer; border: 2px solid white; }
+        /* --- 7. FOOTER & BOTTOM NAV --- */
+        footer { background: #080808; padding: 40px 20px; text-align: center; border-top: 2px solid var(--primary); margin-top: 40px; }
+        .footer-qr { background: #fff; padding: 10px; display: inline-block; border-radius: 12px; margin-bottom: 15px; }
+        
+        .buy-bar { position: fixed; bottom: 0; width: 100%; height: 65px; display: flex; z-index: 7000; box-shadow: 0 -5px 15px rgba(0,0,0,0.5); }
+        .btn-wa { flex: 1; background: var(--primary); color: #fff; border: none; font-weight: 800; font-size: 16px; }
+        .btn-cart { flex: 1; background: #222; color: #fff; border: none; font-weight: 600; }
     </style>
 </head>
 <body>
 
     <div class="sidebar" id="sidebar">
-        <h2 style="color:var(--primary);">ZAIN STORE</h2>
-        <p style="font-size:12px; color:#666; margin-bottom:20px;">Premium Shopping Experience</p>
-        <div onclick="showPage('home')" class="nav-item"><i class="fas fa-home"></i> Home</div>
-        <div onclick="showPage('account')" class="nav-item"><i class="fas fa-user"></i> My Account</div>
-        <div onclick="showPage('orders')" class="nav-item"><i class="fas fa-box"></i> My Orders</div>
-        <div onclick="showPage('wishlist')" class="nav-item"><i class="fas fa-heart"></i> Wishlist</div>
-        <div onclick="showPage('contact')" class="nav-item"><i class="fas fa-headset"></i> Support</div>
+        <h2 style="color:var(--primary); margin-bottom:10px;">ZAIN STORE</h2>
+        <p style="font-size:11px; color:#666; margin-bottom:25px;">Verified Shopping Experience</p>
+        <a href="#" class="sidebar-link" onclick="location.reload()"><i class="fas fa-home"></i> Home</a>
+        <a href="https://wa.me/923485491217" class="sidebar-link"><i class="fab fa-whatsapp"></i> Support Chat</a>
         
-        <div style="margin-top:40px;">
-            <p style="font-size:11px;">SWITCH THEME:</p>
+        <div style="margin-top:30px;">
+            <p style="font-size:12px; margin-bottom:10px;">CHANGE THEME COLOR:</p>
             <div class="color-dot" style="background:#ff6801;" onclick="setTheme('#ff6801')"></div>
+            <div class="color-dot" style="background:#2ecc71;" onclick="setTheme('#2ecc71')"></div>
+            <div class="color-dot" style="background:#e74c3c;" onclick="setTheme('#e74c3c')"></div>
             <div class="color-dot" style="background:#00bcd4;" onclick="setTheme('#00bcd4')"></div>
-            <div class="color-dot" style="background:#9c27b0;" onclick="setTheme('#9c27b0')"></div>
         </div>
-        <button onclick="toggleMenu()" style="margin-top:40px; width:100%; padding:10px; background:red; border:none; color:white;">CLOSE</button>
+        <button onclick="toggleSidebar()" style="margin-top:40px; width:100%; padding:12px; background:#333; color:#fff; border:none; border-radius:8px;">CLOSE MENU</button>
     </div>
 
     <header>
         <div class="nav-row">
-            <i class="fas fa-bars" onclick="toggleMenu()"></i>
-            <b style="font-size:18px;">ZAIN STORE</b>
-            <div style="position:relative;" onclick="showPage('cart')">
-                <i class="fas fa-shopping-cart"></i>
-                <span id="cart-count" style="position:absolute; top:-10px; right:-10px; background:white; color:black; font-size:10px; padding:2px 5px; border-radius:50%;">0</span>
-            </div>
+            <i class="fas fa-bars" onclick="toggleSidebar()" style="font-size:22px; cursor:pointer;"></i>
+            <b style="font-size:18px; letter-spacing:1px;">ZAIN STORE</b>
+            <i class="fas fa-shopping-cart" style="font-size:20px;"></i>
         </div>
-        <div style="margin-top:10px; background:white; border-radius:10px; padding:8px; display:flex; align-items:center;">
-            <i class="fas fa-search" style="color:#888; margin-right:10px;"></i>
-            <input type="text" id="mainSearch" onkeyup="searchItems()" placeholder="Search Products, Brands, Categories..." style="border:none; outline:none; width:100%; font-size:13px;">
+        <div class="search-container">
+            <i class="fas fa-search" style="color:#888;"></i>
+            <input type="text" id="liveSearch" onkeyup="searchNow()" placeholder="Search (Airpods, Smartwatch)...">
         </div>
     </header>
 
-    <div id="home-page" class="page active">
-        <div class="banner-slider">
-            <h2 style="text-align:center;">FLASH SALE<br><span style="font-size:14px; color:var(--primary);" id="flash-timer">00:00:00</span></h2>
+    <div class="main-container">
+        <div style="background:linear-gradient(45deg, #222, #000); padding:20px; border-radius:15px; border:1px solid var(--primary); margin-bottom:20px; text-align:center;">
+            <h3 style="color:var(--primary);">🔥 FLASH SALE LIVE</h3>
+            <p style="font-size:12px; margin-top:5px;">Ends in: <span id="flash-timer" style="font-weight:bold; color:#fff;">00:00:00</span></p>
         </div>
-        <h3 style="margin-bottom:15px;">Trending Products</h3>
-        <div class="grid" id="productGrid"></div>
-        
-        <div style="text-align:center; padding:40px 0;">
-            <div style="background:white; padding:10px; display:inline-block; border-radius:10px;">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://243-max.github.io" alt="QR">
+
+        <div class="grid" id="productGrid">
             </div>
-            <p style="font-size:11px; margin-top:10px;">SCAN & SHARE STORE</p>
-        </div>
-    </div>
 
-    <div id="cart-page" class="page">
-        <h2>Your Cart</h2>
-        <div id="cart-items-list" style="margin-top:20px;"></div>
-        <div class="checkout-box" id="cart-summary" style="display:none;">
-            <div style="display:flex; justify-content:space-between;"><span>Total:</span><b id="cart-total">Rs 0</b></div>
-            <button onclick="showPage('checkout')" style="width:100%; padding:15px; background:var(--primary); color:white; border:none; border-radius:10px; margin-top:15px; font-weight:bold;">PROCEED TO CHECKOUT</button>
-        </div>
-    </div>
-
-    <div id="checkout-page" class="page">
-        <h2>Checkout Details</h2>
-        <div class="checkout-box">
-            <h4>Shipping Address</h4>
-            <input type="text" class="input-field" placeholder="Full Name">
-            <input type="text" class="input-field" placeholder="Phone Number">
-            <textarea class="input-field" placeholder="Complete Address"></textarea>
+        <div class="tracking-section">
+            <h3>🔍 Track Your Order</h3>
+            <p style="font-size:11px; color:#888; margin-bottom:15px;">Enter your Order ID to see live updates</p>
+            <input type="text" id="trackInput" class="rev-input" placeholder="Order ID (e.g. ZAIN-5482)">
+            <button onclick="trackOrder()" style="width:100%; padding:12px; background:var(--primary); border:none; color:white; border-radius:10px; font-weight:bold;">TRACK NOW</button>
             
-            <h4>Payment Method</h4>
-            <select class="input-field">
-                <option>Cash on Delivery</option>
-                <option>EasyPaisa / JazzCash</option>
-                <option>Bank Transfer</option>
-            </select>
-            <button onclick="placeOrder()" style="width:100%; padding:15px; background:var(--success); color:white; border:none; border-radius:10px; font-weight:bold;">CONFIRM ORDER</button>
+            <div id="tracking-result" style="display:none; margin-top:20px;">
+                <h4 id="track-id-display" style="color:var(--primary);"></h4>
+                <div class="timeline">
+                    <div class="step active"><i class="fas fa-check-circle"></i> Order Confirmed</div>
+                    <div class="step active"><i class="fas fa-box"></i> Packed & Ready</div>
+                    <div class="step active"><i class="fas fa-truck"></i> Shipped to Karachi Hub</div>
+                    <div class="step"><i class="fas fa-home"></i> Out for Delivery</div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div id="account-page" class="page">
-        <div class="user-header">
-            <div class="profile-pic"><i class="fas fa-user"></i></div>
-            <h3>Zain Ali</h3>
-            <p style="font-size:12px; color:#888;">zain@example.com</p>
+    <footer>
+        <div class="footer-qr">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=110x110&data=https://243-max.github.io" alt="QR Code">
         </div>
-        <div class="checkout-box" onclick="showPage('orders')"><i class="fas fa-box"></i> My Orders <i class="fas fa-chevron-right" style="float:right;"></i></div>
-        <div class="checkout-box" onclick="showPage('wishlist')"><i class="fas fa-heart"></i> Wishlist <i class="fas fa-chevron-right" style="float:right;"></i></div>
-        <div class="checkout-box" onclick="alert('Logged Out')"><i class="fas fa-sign-out-alt"></i> Logout</div>
-    </div>
+        <h2 style="color:var(--primary);">ZAIN STORE</h2>
+        <p style="font-size:12px; color:#888; margin:10px 0;">Official Online Store for Premium Tech & Accessories in Pakistan.</p>
+        <div style="display:flex; justify-content:center; gap:20px; margin-top:20px; font-size:20px;">
+            <i class="fab fa-facebook"></i>
+            <i class="fab fa-instagram"></i>
+            <i class="fab fa-whatsapp"></i>
+        </div>
+        <p style="font-size:10px; color:#444; margin-top:30px;">© 2026 ZAIN STORE. All Rights Reserved.</p>
+    </footer>
 
-    <div id="detail-page" class="page" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:4000; background:var(--bg); overflow-y:auto;">
-        <div style="background:var(--primary); padding:15px; display:flex; gap:15px;"><i class="fas fa-arrow-left" onclick="showPage('home')"></i> <b>Product Info</b></div>
-        <img id="d-img" style="width:100%; height:300px; object-fit:contain; background:white;">
+    <div id="detail-page" class="page">
+        <div style="background:var(--primary); padding:15px; display:flex; gap:15px; align-items:center;">
+            <i class="fas fa-arrow-left" onclick="closeDetail()"></i> <b>Product Details</b>
+        </div>
+        <img id="d-img" style="width:100%; height:320px; object-fit:contain; background:#fff;">
+        
         <div style="padding:20px;">
             <h2 id="d-name"></h2>
-            <h1 id="d-price" style="color:var(--primary); margin:10px 0;"></h1>
-            <p style="font-size:13px; color:#aaa;">In Stock | Ships in 24h</p>
+            <div id="d-price" class="price" style="font-size:26px; margin:10px 0;"></div>
             
-            <button onclick="addToCartFromDetail()" style="width:100%; padding:15px; background:var(--primary); color:white; border:none; border-radius:10px; font-weight:bold; margin-top:20px;">ADD TO CART</button>
-            
-            <div style="margin-top:30px;">
-                <h3>Customer Reviews</h3>
-                <div id="reviews-list"></div>
+            <p style="font-size:13px; color:#888; border-left:3px solid var(--primary); padding-left:10px; margin-bottom:20px;">
+                🚚 Free Home Delivery Across Pakistan | 🛡️ 7 Days Return Policy
+            </p>
+
+            <div style="background:#111; padding:15px; border-radius:15px; border:1px solid #222;">
+                <h3 style="margin-bottom:15px;">Customer Reviews</h3>
+                <div id="review-display-area"></div>
+                
+                <div style="margin-top:25px; border-top:1px solid #222; padding-top:20px;">
+                    <h4 style="color:var(--primary);">Write a Review</h4>
+                    <input type="text" id="r-name" class="rev-input" placeholder="Your Name">
+                    <textarea id="r-msg" class="rev-input" rows="3" placeholder="Share your experience..."></textarea>
+                    <input type="file" id="r-file" style="margin-bottom:10px; font-size:11px;">
+                    <button onclick="submitReviewData()" style="width:100%; padding:12px; background:var(--primary); border:none; color:white; border-radius:10px; font-weight:bold;">POST REVIEW</button>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="bottom-nav">
-        <div class="nav-item active" onclick="showPage('home')"><i class="fas fa-home"></i>Home</div>
-        <div class="nav-item" onclick="showPage('cart')"><i class="fas fa-shopping-basket"></i>Shop</div>
-        <div class="nav-item" onclick="showPage('account')"><i class="fas fa-user-circle"></i>Account</div>
+        <div class="buy-bar">
+            <button class="btn-cart">ADD TO CART</button>
+            <button class="btn-wa" id="waLink">ORDER ON WHATSAPP</button>
+        </div>
     </div>
 
     <script>
-        const SHEET_CSV = 'https://docs.google.com/spreadsheets/d/13J6c7r2r6-1jN5czgo8fn0Tmn-XFj7BFhLaUHe4kkRY/gviz/tq?tqx=out:csv';
-        let products = [];
-        let cart = [];
-        let currentDetail = null;
+        const CSV_URL = 'https://docs.google.com/spreadsheets/d/13J6c7r2r6-1jN5czgo8fn0Tmn-XFj7BFhLaUHe4kkRY/gviz/tq?tqx=out:csv';
+        let allItems = [];
 
-        // Fetch & Initialize
-        async function init() {
-            const res = await fetch(SHEET_CSV);
-            const data = await res.text();
-            const rows = data.split('\n').slice(1);
-            products = rows.map(r => {
-                const c = r.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                return { n: c[0].replace(/"/g,""), p: parseInt(c[1].replace(/"/g,"")), i: c[2].replace(/"/g,"") };
-            });
-            renderHome(products);
-            startTimer();
+        // Fetch & Render Products
+        async function fetchProducts() {
+            try {
+                const res = await fetch(CSV_URL);
+                const data = await res.text();
+                const rows = data.split('\n').slice(1);
+                allItems = rows.map(r => {
+                    const c = r.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                    return { n: c[0].replace(/"/g,""), p: c[1].replace(/"/g,""), i: c[2].replace(/"/g,"") };
+                });
+                render(allItems);
+                setInterval(updateTimer, 1000);
+            } catch(e) { console.error("Error loading products"); }
         }
 
-        function renderHome(list) {
+        function render(list) {
             document.getElementById('productGrid').innerHTML = list.map(p => `
-                <div class="card" onclick="openProduct('${p.n.replace(/'/g,"\\'")}','${p.p}','${p.i}')">
-                    <div class="flash-tag">FLASHSALE</div>
+                <div class="card" onclick="openDetail('${p.n.replace(/'/g,"\\'")}','${p.p}','${p.i}')">
+                    <div class="flash-tag">SALE</div>
                     <div class="img-box"><img src="${p.i}" onerror="this.src='https://via.placeholder.com/150'"></div>
                     <div class="info">
                         <div style="font-size:11px; height:32px; overflow:hidden;">${p.n}</div>
-                        <div style="color:var(--primary); font-weight:bold;">Rs ${p.p}</div>
+                        <div class="price">Rs ${p.p}</div>
                     </div>
                 </div>
             `).join('');
         }
 
-        // Navigation
-        function showPage(id) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(id + '-page').classList.add('active');
-            if(id === 'cart') renderCart();
+        // Search & Sidebar
+        function searchNow() {
+            const q = document.getElementById('liveSearch').value.toLowerCase();
+            render(allItems.filter(x => x.n.toLowerCase().includes(q)));
         }
 
-        function toggleMenu() { document.getElementById('sidebar').classList.toggle('active'); }
-
-        // Cart Logic
-        function openProduct(n, p, i) {
-            currentDetail = {n, p, i};
-            document.getElementById('d-name').innerText = n;
-            document.getElementById('d-price').innerText = 'Rs ' + p;
-            document.getElementById('d-img').src = i;
-            showPage('detail');
-            loadMockReviews();
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('active'); }
+        
+        function setTheme(color) { 
+            document.documentElement.style.setProperty('--primary', color); 
+            localStorage.setItem('zain_theme', color);
         }
 
-        function addToCartFromDetail() {
-            cart.push(currentDetail);
-            updateCartUI();
-            alert("Added to cart!");
-        }
-
-        function updateCartUI() {
-            document.getElementById('cart-count').innerText = cart.length;
-        }
-
-        function renderCart() {
-            const list = document.getElementById('cart-items-list');
-            if(cart.length === 0) {
-                list.innerHTML = "<p style='text-align:center;'>Your cart is empty</p>";
-                document.getElementById('cart-summary').style.display = 'none';
-                return;
+        // Tracking Logic
+        function trackOrder() {
+            const id = document.getElementById('trackInput').value.toUpperCase();
+            if(id.startsWith("ZAIN-")) {
+                document.getElementById('tracking-result').style.display = 'block';
+                document.getElementById('track-id-display').innerText = "Live Status: " + id;
+                window.scrollBy(0, 300);
+            } else {
+                alert("Please enter a valid Order ID (e.g. ZAIN-1234)");
             }
-            document.getElementById('cart-summary').style.display = 'block';
-            let total = 0;
-            list.innerHTML = cart.map((item, index) => {
-                total += item.p;
-                return `
-                <div class="cart-item">
-                    <img src="${item.i}" width="50">
-                    <div style="flex:1">
-                        <div style="font-size:12px;">${item.n}</div>
-                        <b>Rs ${item.p}</b>
-                    </div>
-                    <i class="fas fa-trash" onclick="removeFromCart(${index})" style="color:red;"></i>
-                </div>`;
-            }).join('');
-            document.getElementById('cart-total').innerText = 'Rs ' + total;
         }
 
-        function removeFromCart(i) { cart.splice(i, 1); renderCart(); updateCartUI(); }
+        // Review System
+        function submitReviewData() {
+            const name = document.getElementById('r-name').value;
+            const msg = document.getElementById('r-msg').value;
+            const prod = document.getElementById('d-name').innerText;
+            const file = document.getElementById('r-file').files[0];
 
-        // Extra Features
-        function startTimer() {
-            setInterval(() => {
-                const now = new Date();
-                const t = `${23-now.getHours()}:${59-now.getMinutes()}:${59-now.getSeconds()}`;
-                document.getElementById('flash-timer').innerText = t;
-            }, 1000);
+            if(!name || !msg) return alert("Please enter Name and Message!");
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const review = { name, msg, prod, img: e.target ? e.target.result : null };
+                let store = JSON.parse(localStorage.getItem('zain_reviews_v3') || '[]');
+                store.push(review);
+                localStorage.setItem('zain_reviews_v3', JSON.stringify(store));
+                loadReviews(prod);
+                document.getElementById('r-name').value = ''; document.getElementById('r-msg').value = '';
+            };
+            if(file) reader.readAsDataURL(file); else reader.onload({target:null});
         }
 
-        function setTheme(c) {
-            document.documentElement.style.setProperty('--primary', c);
-            localStorage.setItem('zain_theme', c);
-        }
-
-        function loadMockReviews() {
-            const revs = [
-                {name: "Ali Khan", msg: "Bohot achi quality hai!", star: 5},
-                {name: "Sara Ahmed", msg: "Fast delivery, satisfied.", star: 4}
-            ];
-            document.getElementById('reviews-list').innerHTML = revs.map(r => `
+        function loadReviews(pName) {
+            const data = JSON.parse(localStorage.getItem('zain_reviews_v3') || '[]');
+            const mine = data.filter(r => r.prod === pName);
+            document.getElementById('review-display-area').innerHTML = mine.map(r => `
                 <div class="review-card">
                     <div class="verified-badge"><i class="fas fa-check-circle"></i> Verified Purchase</div>
                     <b>${r.name}</b>
-                    <div style="color:#f1c40f;">${'<i class="fas fa-star"></i>'.repeat(r.star)}</div>
-                    <p style="font-size:12px; color:#ccc;">${r.msg}</p>
+                    <p style="font-size:13px; color:#aaa; margin-top:5px;">${r.msg}</p>
+                    ${r.img ? `<img src="${r.img}" style="width:100%; border-radius:10px; margin-top:10px;">` : ''}
                 </div>
-            `).join('');
+            `).join('') || "<p style='color:#444;'>No reviews yet. Be the first!</p>";
         }
 
-        function placeOrder() {
-            alert("Order Placed Successfully! Your Invoice ID: #ZAIN-" + Math.floor(Math.random()*9999));
-            cart = [];
-            updateCartUI();
-            showPage('home');
+        // Detail Page
+        function openDetail(n, p, i) {
+            document.getElementById('d-name').innerText = n;
+            document.getElementById('d-price').innerText = 'Rs ' + p;
+            document.getElementById('d-img').src = i;
+            document.getElementById('waLink').onclick = () => window.location.href=`https://wa.me/923485491217?text=Assalam-o-Alaikum, I want to order: ${n}`;
+            document.getElementById('detail-page').classList.add('active');
+            loadReviews(n);
         }
 
-        function searchItems() {
-            const q = document.getElementById('mainSearch').value.toLowerCase();
-            renderHome(products.filter(x => x.n.toLowerCase().includes(q)));
+        function closeDetail() { document.getElementById('detail-page').classList.remove('active'); }
+
+        function updateTimer() {
+            const now = new Date();
+            const t = `${23-now.getHours()}:${59-now.getMinutes()}:${59-now.getSeconds()}`;
+            document.getElementById('flash-timer').innerText = t;
         }
 
-        init();
+        // Initial Theme Load
+        const st = localStorage.getItem('zain_theme');
+        if(st) setTheme(st);
+
+        fetchProducts();
     </script>
 </body>
 </html>

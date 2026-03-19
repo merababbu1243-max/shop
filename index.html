@@ -3,340 +3,239 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ZAIN STORE | Official Pro App</title>
+    <title>ZAIN STORE | Reviews & Shopping</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     
     <style>
-        /* --- 1. CSS VARIABLES & RESET --- */
         :root {
             --primary: #ff6801;
-            --secondary: #25d366;
             --bg: #000000;
             --card: #161616;
             --text: #ffffff;
-            --gray: #888888;
         }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
-        body { background: var(--bg); color: var(--text); padding-bottom: 90px; overflow-x: hidden; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+        body { background: var(--bg); color: var(--text); padding-bottom: 90px; }
 
-        /* --- 2. HEADER & LIVE SEARCH --- */
-        header { 
-            background: var(--primary); padding: 15px; position: sticky; top: 0; z-index: 2000; 
-            border-bottom-left-radius: 25px; border-bottom-right-radius: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-        }
+        /* --- Header --- */
+        header { background: var(--primary); padding: 15px; position: sticky; top: 0; z-index: 2000; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; }
         .nav-top { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 24px; font-weight: 800; letter-spacing: 1px; color: white; }
+        .search-wrapper { background: white; border-radius: 10px; display: flex; align-items: center; padding: 10px; margin-top: 15px; }
+        .search-wrapper input { border: none; outline: none; width: 100%; margin-left: 10px; color: #333; }
+
+        /* --- Grid --- */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 15px; }
+        .p-card { background: var(--card); border-radius: 15px; overflow: hidden; border: 1px solid #222; }
+        .p-card img { width: 100%; height: 160px; object-fit: cover; background: white; }
+        .p-info { padding: 10px; }
+        .p-price { color: var(--primary); font-weight: bold; font-size: 18px; }
+
+        /* --- Pages --- */
+        .page { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 5000; overflow-y: auto; }
+        .page.active { display: block; }
+        .page-header { background: var(--primary); padding: 15px; display: flex; align-items: center; gap: 15px; font-weight: bold; }
+
+        /* --- REVIEW SYSTEM CSS --- */
+        .review-section { padding: 20px; background: #111; margin-top: 20px; border-radius: 15px; }
+        .rating-stars { color: #f1c40f; margin-bottom: 10px; font-size: 20px; }
+        .review-form input, .review-form textarea { 
+            width: 100%; padding: 12px; margin-bottom: 10px; background: #222; border: 1px solid #444; color: white; border-radius: 8px; 
+        }
+        .file-input-wrapper { margin-bottom: 10px; }
+        .submit-rev-btn { background: var(--primary); color: white; border: none; width: 100%; padding: 12px; border-radius: 8px; font-weight: bold; }
         
-        .search-wrapper { 
-            background: white; border-radius: 12px; display: flex; align-items: center; 
-            padding: 10px 15px; margin-top: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-        .search-wrapper input { 
-            border: none; outline: none; width: 100%; font-size: 14px; color: #333; margin-left: 10px;
-        }
+        .user-review-card { background: #1a1a1a; padding: 15px; border-radius: 12px; margin-top: 15px; border-left: 4px solid var(--primary); }
+        .rev-img-preview { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin-top: 10px; }
 
-        /* --- 3. SIDEBAR MENU --- */
-        .sidebar {
-            position: fixed; top: 0; left: -100%; width: 280px; height: 100%; 
-            background: #111; z-index: 5000; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            padding: 30px 20px; box-shadow: 10px 0 30px rgba(0,0,0,0.5);
-        }
-        .sidebar.active { left: 0; }
-        .sidebar h2 { color: var(--primary); margin-bottom: 30px; border-bottom: 1px solid #333; padding-bottom: 10px; }
-        .menu-link { display: flex; align-items: center; gap: 15px; padding: 15px 0; color: white; text-decoration: none; font-size: 16px; border-bottom: 1px solid #222; }
-        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 4500; display: none; }
-
-        /* --- 4. PRODUCT GRID --- */
-        .main-container { padding: 15px; margin-top: 10px; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .p-card { 
-            background: var(--card); border-radius: 20px; overflow: hidden; 
-            border: 1px solid #222; position: relative; transition: 0.3s;
-        }
-        .p-card:active { transform: scale(0.96); }
-        .p-card img { width: 100%; height: 170px; object-fit: cover; background: white; }
-        .p-info { padding: 12px; }
-        .p-name { font-size: 13px; font-weight: 500; height: 38px; overflow: hidden; margin-bottom: 5px; color: #ddd; }
-        .p-price { font-size: 18px; font-weight: 800; color: var(--primary); }
-
-        /* --- 5. PAGES (DETAIL, CART, PAYMENTS) --- */
-        .page { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 6000; overflow-y: auto; }
-        .page.active { display: block; animation: slideUp 0.3s ease-out; }
-        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-        
-        .page-header { background: var(--primary); padding: 20px; color: white; display: flex; align-items: center; gap: 15px; font-weight: bold; position: sticky; top: 0; z-index: 100; }
-        
-        /* --- 6. CART SYSTEM UI --- */
-        .cart-item { display: flex; gap: 15px; padding: 15px; background: #1a1a1a; margin: 10px; border-radius: 15px; align-items: center; border: 1px solid #333; }
-        .cart-item img { width: 60px; height: 60px; border-radius: 10px; object-fit: cover; }
-        .cart-qty { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
-        .qty-btn { background: #333; color: white; border: none; width: 25px; height: 25px; border-radius: 5px; }
-
-        /* --- 7. BOTTOM NAVIGATION --- */
-        .bottom-nav { 
-            position: fixed; bottom: 0; width: 100%; background: #0a0a0a; 
-            display: flex; justify-content: space-around; padding: 12px 0; 
-            border-top: 1px solid #222; z-index: 4000;
-        }
-        .nav-item { color: var(--gray); text-align: center; font-size: 11px; cursor: pointer; position: relative; }
+        /* --- Bottom Nav --- */
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #0a0a0a; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #222; z-index: 4000; }
+        .nav-item { color: #888; text-align: center; font-size: 11px; }
         .nav-item.active { color: var(--primary); }
-        .nav-item i { font-size: 22px; display: block; margin-bottom: 4px; }
-        .cart-badge { position: absolute; top: -5px; right: -5px; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 10px; font-weight: bold; }
 
-        /* --- 8. FOOTER & QR --- */
-        .footer { background: #080808; padding: 40px 20px; text-align: center; margin-top: 30px; border-top: 2px solid var(--primary); }
-        .qr-box { background: white; padding: 10px; display: inline-block; border-radius: 15px; margin-bottom: 20px; }
-        .support-btn { background: var(--secondary); color: white; padding: 15px 30px; border-radius: 50px; display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-weight: bold; margin-top: 20px; }
-
-        /* Action Buttons */
-        .action-bar { position: fixed; bottom: 0; width: 100%; display: flex; height: 70px; z-index: 7000; }
-        .btn-add { flex: 1; background: #333; color: white; border: none; font-weight: bold; font-size: 16px; }
-        .btn-order { flex: 1; background: var(--primary); color: white; border: none; font-weight: bold; font-size: 16px; }
+        .btn-group { position: fixed; bottom: 0; width: 100%; display: flex; height: 65px; z-index: 6000; }
+        .btn-add { flex: 1; background: #333; color: white; border: none; }
+        .btn-order { flex: 1; background: var(--primary); color: white; border: none; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
-    <nav class="sidebar" id="sidebar">
-        <h2>ZAIN MENU</h2>
-        <a href="#" class="menu-link" onclick="closeAll()"><i class="fas fa-home"></i> Home</a>
-        <a href="#" class="menu-link" onclick="openPage('cart-page')"><i class="fas fa-shopping-cart"></i> My Cart</a>
-        <a href="#" class="menu-link" onclick="openPage('pay-page')"><i class="fas fa-wallet"></i> EasyPaisa</a>
-        <a href="#" class="menu-link" onclick="openPage('ret-page')"><i class="fas fa-undo"></i> Returns</a>
-        <a href="https://wa.me/923485491217" class="menu-link"><i class="fab fa-whatsapp"></i> WhatsApp Support</a>
-    </nav>
-
     <header>
         <div class="nav-top">
-            <i class="fas fa-bars logo" onclick="toggleMenu()"></i>
-            <span class="logo">ZAIN STORE</span>
-            <div style="position: relative;" onclick="openPage('cart-page')">
-                <i class="fas fa-shopping-bag logo"></i>
-                <span class="cart-badge" id="badge-top">0</span>
-            </div>
+            <i class="fas fa-bars" style="font-size:22px;"></i>
+            <b style="font-size:20px;">ZAIN STORE</b>
+            <i class="fas fa-shopping-cart" onclick="openPage('cart-page')"></i>
         </div>
         <div class="search-wrapper">
-            <i class="fas fa-search" style="color: #888;"></i>
-            <input type="text" id="mainSearch" onkeyup="filterProducts()" placeholder="Bra for girls, Bags, Watches...">
+            <i class="fas fa-search" style="color:#888;"></i>
+            <input type="text" id="mainSearch" onkeyup="search()" placeholder="Search Products (Live)...">
         </div>
     </header>
 
-    <div class="main-container">
-        <div class="grid" id="productGrid">
-            </div>
-    </div>
-
-    <footer class="footer">
-        <div class="qr-box">
-            <img id="footer-qr" src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=https://243-max.github.io" alt="QR Code">
-        </div>
-        <h3>ZAIN STORE OFFICIAL</h3>
-        <p style="color: #666; font-size: 14px; margin-top: 10px;">Shop #4, Main Bazar, Rawalpindi Cantt.</p>
-        <a href="https://wa.me/923485491217" class="support-btn">
-            <i class="fab fa-whatsapp"></i> CHAT WITH ZAIN
-        </a>
-    </footer>
+    <div class="grid" id="productGrid"></div>
 
     <div id="detail-page" class="page">
-        <div class="page-header"><i class="fas fa-arrow-left" onclick="closePage('detail-page')"></i> Back to Store</div>
-        <div style="background: linear-gradient(to right, #ff0000, #ff6801); padding: 10px; text-align: center; font-weight: bold; font-size: 13px;">
-            ⚡ FLASH SALE: 20% OFF FOR GIRLS ITEMS!
+        <div class="page-header"><i class="fas fa-arrow-left" onclick="closePage('detail-page')"></i> Back</div>
+        <img id="det-img" style="width:100%; height:300px; object-fit:contain; background:white;">
+        <div style="padding:20px;">
+            <h2 id="det-name"></h2>
+            <h1 id="det-price" style="color:var(--primary);"></h1>
+            
+            <hr style="border:0.1px solid #222; margin:20px 0;">
+
+            <div class="review-section">
+                <h3>Customer Reviews</h3>
+                <div id="display-reviews"></div>
+
+                <div class="review-form" style="margin-top:20px; border-top:1px solid #333; padding-top:20px;">
+                    <h4>Write a Review</h4>
+                    <div class="rating-stars">
+                        <i class="far fa-star" onclick="setStar(1)"></i>
+                        <i class="far fa-star" onclick="setStar(2)"></i>
+                        <i class="far fa-star" onclick="setStar(3)"></i>
+                        <i class="far fa-star" onclick="setStar(4)"></i>
+                        <i class="far fa-star" onclick="setStar(5)"></i>
+                    </div>
+                    <input type="text" id="rev-name" placeholder="Your Name">
+                    <textarea id="rev-text" placeholder="Share your experience..."></textarea>
+                    <div class="file-input-wrapper">
+                        <label style="font-size:12px; color:#888;">Upload Product Photo:</label><br>
+                        <input type="file" id="rev-file" accept="image/*" style="border:none; padding:5px 0;">
+                    </div>
+                    <button class="submit-rev-btn" onclick="submitReview()">POST REVIEW</button>
+                </div>
+            </div>
         </div>
-        <img id="det-img" style="width: 100%; height: 350px; object-fit: contain; background: white;">
-        <div style="padding: 20px;">
-            <h2 id="det-name">Product Name</h2>
-            <h1 id="det-price" style="color: var(--primary); margin: 10px 0;">Rs 0</h1>
-            <p style="color: #888; font-size: 14px; line-height: 1.6;">
-                High-quality premium product from Zain Store. Available for delivery all over Pakistan. Cash on delivery active for Rawalpindi & Islamabad.
-            </p>
-        </div>
-        <div class="action-bar">
-            <button class="btn-add" id="addCartBtn">ADD TO CART</button>
-            <button class="btn-order" id="orderBtn">ORDER NOW</button>
+        <div class="btn-group">
+            <button class="btn-add">ADD TO CART</button>
+            <button class="btn-order" id="wa-btn">ORDER ON WHATSAPP</button>
         </div>
     </div>
 
     <div id="cart-page" class="page">
-        <div class="page-header"><i class="fas fa-arrow-left" onclick="closePage('cart-page')"></i> My Shopping Cart</div>
-        <div id="cart-items-list" style="padding-top: 10px;"></div>
-        <div id="cart-empty" style="text-align: center; padding: 100px 20px; display: none;">
-            <i class="fas fa-shopping-basket" style="font-size: 50px; color: #222;"></i>
-            <p style="margin-top: 10px; color: #555;">Your cart is empty!</p>
-        </div>
-        <div id="cart-checkout" style="position: fixed; bottom: 0; width: 100%; background: #111; padding: 20px; border-top: 1px solid #333;">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
-                <span>Total Bill:</span>
-                <span id="total-price" style="color: var(--primary); font-weight: 800; font-size: 22px;">Rs 0</span>
-            </div>
-            <button onclick="sendOrder()" style="width: 100%; padding: 15px; background: var(--secondary); color: white; border: none; border-radius: 12px; font-weight: bold; font-size: 16px;">
-                ORDER VIA WHATSAPP
-            </button>
-        </div>
-    </div>
-
-    <div id="pay-page" class="page">
-        <div class="page-header"><i class="fas fa-arrow-left" onclick="closePage('pay-page')"></i> Payment Details</div>
-        <div style="padding: 40px 20px; text-align: center;">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Easypaisa_Logo.png/800px-Easypaisa_Logo.png" width="160">
-            <div style="background: #111; padding: 30px; border-radius: 20px; margin-top: 30px; border: 2px dashed var(--primary);">
-                <p style="color: #888;">ACCOUNT HOLDER</p>
-                <h2 style="margin-bottom: 20px;">ZAIN AHMED</h2>
-                <p style="color: #888;">ACCOUNT NUMBER</p>
-                <h1 style="color: var(--secondary); font-size: 28px;">0348 5491217</h1>
-            </div>
-        </div>
+        <div class="page-header"><i class="fas fa-arrow-left" onclick="closePage('cart-page')"></i> Shopping Cart</div>
+        <div id="cart-items" style="padding:20px; text-align:center;">Cart is empty!</div>
     </div>
 
     <div class="bottom-nav">
-        <div class="nav-item active" onclick="closeAll()"><i class="fas fa-home"></i>Home</div>
-        <div class="nav-item" onclick="openPage('cart-page')">
-            <i class="fas fa-shopping-cart"></i>Cart
-            <span class="cart-badge" id="badge-bottom">0</span>
-        </div>
-        <div class="nav-item" onclick="openPage('pay-page')"><i class="fas fa-wallet"></i>Payments</div>
-        <div class="nav-item" onclick="window.location.href='https://wa.me/923485491217'"><i class="fab fa-whatsapp"></i>Help</div>
+        <div class="nav-item active" onclick="location.reload()"><i class="fas fa-home"></i><br>Home</div>
+        <div class="nav-item" onclick="openPage('cart-page')"><i class="fas fa-shopping-cart"></i><br>Cart</div>
+        <div class="nav-item" onclick="window.location.href='https://wa.me/923485491217'"><i class="fab fa-whatsapp"></i><br>Help</div>
     </div>
 
     <script>
         const sheetURL = 'https://docs.google.com/spreadsheets/d/13J6c7r2r6-1jN5czgo8fn0Tmn-XFj7BFhLaUHe4kkRY/gviz/tq?tqx=out:csv';
         let allProducts = [];
-        let cart = JSON.parse(localStorage.getItem('zainCart')) || [];
+        let currentRating = 0;
 
-        // 1. Fetch Data
-        async function fetchStore() {
-            try {
-                const res = await fetch(sheetURL);
-                const csvText = await res.text();
-                const rows = csvText.split('\n').slice(1);
-                allProducts = rows.map(r => {
-                    const c = r.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                    return {
-                        name: c[0].replace(/"/g,''),
-                        price: parseInt(c[1].replace(/"/g,'')),
-                        img: c[2].replace(/"/g,'')
-                    };
-                });
-                render(allProducts);
-                updateCartUI();
-            } catch (err) { console.error("Store Load Failed"); }
+        async function loadStore() {
+            const res = await fetch(sheetURL);
+            const data = await res.text();
+            const rows = data.split('\n').slice(1);
+            allProducts = rows.map(r => {
+                const c = r.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                return { name: c[0].replace(/"/g,''), price: c[1].replace(/"/g,''), img: c[2].replace(/"/g,'') };
+            });
+            render(allProducts);
         }
 
         function render(list) {
-            const grid = document.getElementById('productGrid');
-            grid.innerHTML = list.map(p => `
+            document.getElementById('productGrid').innerHTML = list.map(p => `
                 <div class="p-card" onclick="openDetail('${p.name.replace(/'/g,"\\'")}','${p.price}','${p.img}')">
                     <img src="${p.img}" onerror="this.src='https://via.placeholder.com/150'">
                     <div class="p-info">
-                        <div class="p-name">${p.name}</div>
+                        <div style="font-size:13px; height:38px; overflow:hidden;">${p.name}</div>
                         <div class="p-price">Rs ${p.price}</div>
                     </div>
                 </div>
             `).join('');
         }
 
-        // 2. Search Engine
-        function filterProducts() {
+        function search() {
             const q = document.getElementById('mainSearch').value.toLowerCase();
-            const filtered = allProducts.filter(p => p.name.toLowerCase().includes(q));
-            render(filtered);
+            render(allProducts.filter(p => p.name.toLowerCase().includes(q)));
         }
 
-        // 3. Navigation
-        function toggleMenu() {
-            document.getElementById('sidebar').classList.toggle('active');
-            const overlay = document.getElementById('overlay');
-            overlay.style.display = (overlay.style.display === 'block') ? 'none' : 'block';
-        }
-
-        function openPage(id) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            toggleMenu(); 
-        }
-
-        function closePage(id) { document.getElementById(id).classList.remove('active'); }
-        function closeAll() { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); }
-
-        // 4. Product Detail
         function openDetail(n, p, i) {
             document.getElementById('det-name').innerText = n;
             document.getElementById('det-price').innerText = 'Rs ' + p;
             document.getElementById('det-img').src = i;
-            
-            document.getElementById('addCartBtn').onclick = () => addToCart(n, p, i);
-            document.getElementById('orderBtn').onclick = () => {
-                window.location.href = `https://wa.me/923485491217?text=Assalam o Alaikum! I want to order: ${n} (Rs ${p})`;
-            };
+            document.getElementById('wa-btn').onclick = () => window.location.href=`https://wa.me/923485491217?text=I want to order ${n}`;
             document.getElementById('detail-page').classList.add('active');
+            displayStoredReviews(n);
         }
 
-        // 5. Cart Logic
-        function addToCart(name, price, img) {
-            const index = cart.findIndex(it => it.name === name);
-            if(index > -1) cart[index].qty++;
-            else cart.push({name, price, img, qty: 1});
-            saveCart();
-            alert("Added to Cart! 🛒");
+        function closePage(id) { document.getElementById(id).classList.remove('active'); }
+        function openPage(id) { document.getElementById(id).classList.add('active'); }
+
+        // --- REVIEW LOGIC ---
+        function setStar(n) {
+            currentRating = n;
+            const stars = document.querySelectorAll('.rating-stars i');
+            stars.forEach((s, i) => {
+                s.className = (i < n) ? 'fas fa-star' : 'far fa-star';
+            });
         }
 
-        function updateCartUI() {
-            const list = document.getElementById('cart-items-list');
-            const count = cart.reduce((a, b) => a + b.qty, 0);
-            document.getElementById('badge-top').innerText = count;
-            document.getElementById('badge-bottom').innerText = count;
+        function submitReview() {
+            const name = document.getElementById('rev-name').value;
+            const text = document.getElementById('rev-text').value;
+            const fileInput = document.getElementById('rev-file');
+            const productName = document.getElementById('det-name').innerText;
 
-            if(cart.length === 0) {
-                list.innerHTML = "";
-                document.getElementById('cart-empty').style.display = "block";
-                document.getElementById('cart-checkout').style.display = "none";
+            if(!name || !text || currentRating === 0) return alert("Please fill name, text and rating!");
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const review = {
+                    name, text, rating: currentRating, 
+                    img: e.target ? e.target.result : null,
+                    product: productName,
+                    date: new Date().toLocaleDateString()
+                };
+                saveReview(review);
+            };
+
+            if(fileInput.files[0]) reader.readAsDataURL(fileInput.files[0]);
+            else {
+                saveReview({ name, text, rating: currentRating, img: null, product: productName, date: new Date().toLocaleDateString() });
+            }
+        }
+
+        function saveReview(rev) {
+            let reviews = JSON.parse(localStorage.getItem('zain_reviews')) || [];
+            reviews.push(rev);
+            localStorage.setItem('zain_reviews', JSON.stringify(reviews));
+            alert("Review Posted Successfully!");
+            displayStoredReviews(rev.product);
+            // Reset Form
+            document.getElementById('rev-name').value = '';
+            document.getElementById('rev-text').value = '';
+            setStar(0);
+        }
+
+        function displayStoredReviews(prodName) {
+            const container = document.getElementById('display-reviews');
+            let reviews = JSON.parse(localStorage.getItem('zain_reviews')) || [];
+            const filtered = reviews.filter(r => r.product === prodName);
+
+            if(filtered.length === 0) {
+                container.innerHTML = "<p style='color:#555;'>No reviews yet. Be the first!</p>";
                 return;
             }
 
-            document.getElementById('cart-empty').style.display = "none";
-            document.getElementById('cart-checkout').style.display = "block";
-
-            let total = 0;
-            list.innerHTML = cart.map((item, i) => {
-                total += (item.price * item.qty);
-                return `
-                    <div class="cart-item">
-                        <img src="${item.img}">
-                        <div style="flex:1">
-                            <div style="font-size:14px;">${item.name}</div>
-                            <div style="color:var(--primary); font-weight:bold;">Rs ${item.price}</div>
-                            <div class="cart-qty">
-                                <button class="qty-btn" onclick="changeQty(${i}, -1)">-</button>
-                                <span>${item.qty}</span>
-                                <button class="qty-btn" onclick="changeQty(${i}, 1)">+</button>
-                            </div>
-                        </div>
-                        <i class="fas fa-trash" style="color: #ff4444;" onclick="removeCart(${i})"></i>
+            container.innerHTML = filtered.map(r => `
+                <div class="user-review-card">
+                    <b>${r.name}</b> <span style="font-size:10px; color:#666;">(${r.date})</span>
+                    <div style="color:#f1c40f; font-size:12px; margin:5px 0;">
+                        ${'<i class="fas fa-star"></i>'.repeat(r.rating)}
                     </div>
-                `;
-            }).join('');
-            document.getElementById('total-price').innerText = 'Rs ' + total;
+                    <p style="font-size:14px; color:#ccc;">${r.text}</p>
+                    ${r.img ? `<img src="${r.img}" class="rev-img-preview">` : ''}
+                </div>
+            `).join('');
         }
 
-        function changeQty(i, delta) {
-            cart[i].qty += delta;
-            if(cart[i].qty < 1) cart.splice(i, 1);
-            saveCart();
-        }
-
-        function removeCart(i) { cart.splice(i, 1); saveCart(); }
-        function saveCart() { localStorage.setItem('zainCart', JSON.stringify(cart)); updateCartUI(); }
-
-        function sendOrder() {
-            let msg = "Assalam o Alaikum Zain Ahmed! I want to place an order:\n\n";
-            cart.forEach(it => {
-                msg += `📌 ${it.name}\nQty: ${it.qty} x Rs ${it.price} = Rs ${it.qty * it.price}\n\n`;
-            });
-            msg += `💰 Total Bill: ${document.getElementById('total-price').innerText}\n\n📍 Please confirm my order.`;
-            window.location.href = `https://wa.me/923485491217?text=${encodeURIComponent(msg)}`;
-        }
-
-        fetchStore();
+        loadStore();
     </script>
 </body>
 </html>

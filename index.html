@@ -3,543 +3,256 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ZAIN STORE | Professional Mega App</title>
+    <title>ZAIN STORE | Mega Professional</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-        /* --- 1. CORE SYSTEM & THEME --- */
+        /* --- 1. DYNAMIC THEME SYSTEM --- */
         :root {
-            --primary: #ff6801;
-            --secondary: #25d366;
+            --primary: #ff6801; /* Default Orange */
             --bg: #000000;
             --card: #141414;
             --text: #ffffff;
-            --border: #222222;
-            --star: #f1c40f;
+            --secondary: #25d366;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', sans-serif;
-            -webkit-tap-highlight-color: transparent;
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+        body { background: var(--bg); color: var(--text); padding-bottom: 80px; overflow-x: hidden; transition: 0.3s; }
+
+        /* --- 2. HEADER & MENU --- */
+        header { 
+            background: var(--primary); padding: 15px; position: sticky; top: 0; z-index: 2000; 
+            border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;
+        }
+        .header-top { display: flex; justify-content: space-between; align-items: center; }
+        
+        /* Sidebar Menu */
+        .sidebar {
+            position: fixed; top: 0; left: -280px; width: 280px; height: 100%; 
+            background: #111; z-index: 5000; transition: 0.4s; padding: 25px;
+            box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+        }
+        .sidebar.active { left: 0; }
+        .sidebar h2 { color: var(--primary); border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 20px; }
+        .menu-item { display: flex; align-items: center; gap: 15px; padding: 15px 0; color: white; text-decoration: none; border-bottom: 1px solid #222; }
+
+        /* Color Picker Option */
+        .theme-box { margin-top: 20px; padding: 10px; background: #222; border-radius: 10px; }
+        .color-circle { width: 30px; height: 30px; border-radius: 50%; display: inline-block; cursor: pointer; margin: 5px; border: 2px solid #fff; }
+
+        /* --- 3. LIVE SEARCH --- */
+        .search-box { 
+            background: white; border-radius: 12px; display: flex; align-items: center; 
+            padding: 10px 15px; margin-top: 15px; 
+        }
+        .search-box input { border: none; outline: none; width: 100%; margin-left: 10px; font-size: 14px; }
+
+        /* --- 4. PRODUCT GRID & TIMER --- */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 15px; }
+        .p-card { background: var(--card); border-radius: 20px; overflow: hidden; border: 1px solid #222; position: relative; }
+        .p-card img { width: 100%; height: 160px; object-fit: contain; background: white; }
+        
+        /* Flash Sale Timer */
+        .timer-tag { 
+            position: absolute; top: 5px; left: 5px; background: rgba(255,0,0,0.8); 
+            color: white; font-size: 10px; padding: 4px 8px; border-radius: 50px; font-weight: bold;
         }
 
-        body {
-            background: var(--bg);
-            color: var(--text);
-            padding-bottom: 90px;
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
+        .p-info { padding: 10px; }
+        .p-price { color: var(--primary); font-weight: 800; font-size: 18px; }
 
-        /* --- 2. HEADER & SEARCH (LIVE FILTER) --- */
-        header {
-            background: var(--primary);
-            padding: 18px 15px;
-            position: sticky;
-            top: 0;
-            z-index: 2000;
-            border-radius: 0 0 25px 25px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-        }
+        /* --- 5. QR CODE & FOOTER --- */
+        .footer { text-align: center; padding: 40px 20px; background: #080808; margin-top: 20px; border-top: 2px solid var(--primary); }
+        .qr-frame { background: white; padding: 10px; display: inline-block; border-radius: 15px; margin-bottom: 15px; }
 
-        .header-main {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
+        /* --- 6. PAGES --- */
+        .page { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 6000; overflow-y: auto; }
+        .page.active { display: block; }
+        .page-header { background: var(--primary); padding: 20px; font-weight: bold; display: flex; align-items: center; gap: 15px; }
 
-        .brand-logo {
-            font-size: 24px;
-            font-weight: 800;
-            letter-spacing: 1px;
-            color: white;
-            text-transform: uppercase;
-        }
-
-        .search-container {
-            background: white;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            padding: 12px 18px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
-        .search-container i { color: #888; font-size: 18px; }
-
-        .search-container input {
-            border: none;
-            outline: none;
-            width: 100%;
-            margin-left: 12px;
-            font-size: 14px;
-            color: #333;
-            font-weight: 500;
-        }
-
-        /* --- 3. PRODUCT GRID SYSTEM --- */
-        .container { padding: 15px; margin-top: 5px; }
-
-        .product-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
-        .product-card {
-            background: var(--card);
-            border-radius: 22px;
-            overflow: hidden;
-            border: 1px solid var(--border);
-            position: relative;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .product-card:active { transform: scale(0.95); }
-
-        .image-box {
-            width: 100%;
-            height: 170px;
-            background: white;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .image-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            transition: 0.5s;
-        }
-
-        .product-details { padding: 12px; }
-
-        .product-title {
-            font-size: 13px;
-            font-weight: 600;
-            color: #eeeeee;
-            height: 40px;
-            overflow: hidden;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-        }
-
-        .price-tag {
-            font-size: 18px;
-            font-weight: 800;
-            color: var(--primary);
-            margin-top: 8px;
-            display: block;
-        }
-
-        /* --- 4. FULL PAGE COMPONENTS --- */
-        .page-view {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--bg);
-            z-index: 5000;
-            overflow-y: auto;
-        }
-
-        .page-view.active {
-            display: block;
-            animation: slideUp 0.4s ease-out;
-        }
-
-        @keyframes slideUp {
-            from { transform: translateY(100%); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        .view-header {
-            background: var(--primary);
-            padding: 22px;
-            display: flex;
-            align-items: center;
-            gap: 18px;
-            font-weight: 700;
-            font-size: 18px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        /* --- 5. RATING & REVIEW SYSTEM (ADVANCED) --- */
-        .review-wrapper {
-            background: #111111;
-            padding: 25px 20px;
-            margin: 20px 15px;
-            border-radius: 20px;
-            border: 1px solid #222;
-        }
-
-        .rating-input {
-            display: flex;
-            gap: 12px;
-            margin: 20px 0;
-            font-size: 30px;
-            color: #333;
-        }
-
-        .rating-input i { cursor: pointer; transition: 0.2s; }
-        .rating-input i.active { color: var(--star); transform: scale(1.2); }
-
-        .input-group { margin-bottom: 15px; }
-
-        .input-group label {
-            display: block;
-            font-size: 12px;
-            color: #888;
-            margin-bottom: 5px;
-            margin-left: 5px;
-        }
-
-        .custom-input {
-            width: 100%;
-            background: #1a1a1a;
-            border: 1px solid #333;
-            color: white;
-            padding: 14px;
-            border-radius: 12px;
-            outline: none;
-        }
-
-        .custom-input:focus { border-color: var(--primary); }
-
-        .gallery-upload {
-            background: #222;
-            border: 2px dashed #444;
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        .gallery-upload input {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            opacity: 0;
-            cursor: pointer;
-        }
-
-        .btn-submit-review {
-            background: var(--primary);
-            color: white;
-            border: none;
-            width: 100%;
-            padding: 16px;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 16px;
-            box-shadow: 0 10px 20px rgba(255, 104, 1, 0.2);
-        }
-
-        .review-card {
-            background: #181818;
-            padding: 18px;
-            border-radius: 16px;
-            margin-top: 15px;
-            border-left: 5px solid var(--primary);
-        }
-
-        .rev-user-img {
-            width: 100%;
-            max-height: 250px;
-            object-fit: cover;
-            border-radius: 12px;
-            margin-top: 12px;
-            border: 1px solid #333;
-        }
-
-        /* --- 6. FOOTER & NAVIGATION --- */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background: #0a0a0a;
-            display: flex;
-            justify-content: space-around;
-            padding: 14px 0;
-            border-top: 1px solid #222;
-            z-index: 4000;
-        }
-
-        .nav-link { color: #666; text-align: center; font-size: 11px; text-decoration: none; }
-        .nav-link.active { color: var(--primary); }
-        .nav-link i { font-size: 24px; display: block; margin-bottom: 5px; }
-
-        .buy-now-bar {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            display: flex;
-            height: 75px;
-            z-index: 6000;
-        }
-
-        .btn-secondary { flex: 1; background: #222; color: white; border: none; font-weight: 600; }
-        .btn-primary-action { flex: 1; background: var(--primary); color: white; border: none; font-weight: 800; font-size: 16px; }
-
+        /* Review Section */
+        .rev-form { background: #111; padding: 20px; margin: 15px; border-radius: 15px; }
+        .star-in { color: #444; font-size: 25px; margin-bottom: 15px; }
+        .star-in i.active { color: #f1c40f; }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="header-main">
-            <i class="fas fa-bars brand-logo" onclick="alert('Menu Opening...')"></i>
-            <span class="brand-logo">ZAIN STORE</span>
-            <i class="fas fa-shopping-cart brand-logo" onclick="openPage('cart-view')"></i>
+    <div class="sidebar" id="sidebar">
+        <h2>ZAIN STORE</h2>
+        <a href="#" class="menu-item" onclick="location.reload()"><i class="fas fa-home"></i> Home</a>
+        <div class="theme-box">
+            <p style="font-size: 12px; margin-bottom: 10px;">CHANGE APP COLOR:</p>
+            <div class="color-circle" style="background: #ff6801;" onclick="changeTheme('#ff6801')"></div>
+            <div class="color-circle" style="background: #e91e63;" onclick="changeTheme('#e91e63')"></div>
+            <div class="color-circle" style="background: #2196f3;" onclick="changeTheme('#2196f3')"></div>
+            <div class="color-circle" style="background: #9c27b0;" onclick="changeTheme('#9c27b0')"></div>
         </div>
-        <div class="search-container">
-            <i class="fas fa-search"></i>
-            <input type="text" id="liveSearchInput" onkeyup="handleSearch()" placeholder="Search Products (e.g. Bra for girls, Airpods)...">
+        <a href="#" class="menu-item" style="margin-top:20px;"><i class="fas fa-info-circle"></i> About Us</a>
+        <button onclick="toggleMenu()" style="width:100%; padding:10px; margin-top:20px; background:red; color:white; border:none; border-radius:5px;">CLOSE</button>
+    </div>
+
+    <header id="app-header">
+        <div class="header-top">
+            <i class="fas fa-bars" onclick="toggleMenu()" style="font-size: 22px;"></i>
+            <b style="font-size: 20px;">ZAIN STORE</b>
+            <i class="fas fa-shopping-bag"></i>
+        </div>
+        <div class="search-box">
+            <i class="fas fa-search" style="color: #888;"></i>
+            <input type="text" id="liveSearch" onkeyup="filterProducts()" placeholder="Live Search (e.g. Bra for girls)...">
         </div>
     </header>
 
-    <div class="container">
-        <div class="product-grid" id="mainProductGrid">
-            </div>
+    <div class="grid" id="productGrid"></div>
+
+    <div class="footer">
+        <div class="qr-frame">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=https://243-max.github.io" alt="QR Code">
+        </div>
+        <h3>SCAN TO SHOP</h3>
+        <p style="font-size: 12px; color: #666; margin-top: 10px;">100% Secure Shopping at Zain Store</p>
     </div>
 
-    <div id="detail-view" class="page-view">
-        <div class="view-header">
-            <i class="fas fa-arrow-left" onclick="closePage('detail-view')"></i>
-            <span>Product Details</span>
-        </div>
-        
-        <div class="image-box" style="height: 380px;">
-            <img id="detail-img-main" src="">
-        </div>
-
-        <div style="padding: 25px;">
-            <h2 id="detail-name-main" style="font-size: 22px; margin-bottom: 10px;"></h2>
-            <div id="detail-price-main" class="price-tag" style="font-size: 28px; margin-bottom: 20px;"></div>
+    <div id="detail-page" class="page">
+        <div class="page-header"><i class="fas fa-arrow-left" onclick="closePage()"></i> Product Details</div>
+        <img id="d-img" style="width:100%; height:300px; object-fit:contain; background:white;">
+        <div style="padding:20px;">
+            <h2 id="d-name"></h2>
+            <h1 id="d-price" style="color:var(--primary); margin:10px 0;"></h1>
             
-            <p style="color: #aaa; font-size: 14px;">
-                <i class="fas fa-shipping-fast" style="color: var(--secondary);"></i> Free Home Delivery All Over Pakistan.<br>
-                <i class="fas fa-check-circle" style="color: var(--secondary);"></i> 7 Days Money Back Guarantee.
-            </p>
-
-            <hr style="border: 0.5px solid #222; margin: 30px 0;">
-
-            <div class="review-wrapper">
-                <h3 style="margin-bottom: 10px;">Customer Reviews</h3>
-                <div id="review-list-container"></div>
-
-                <div style="margin-top: 40px; border-top: 1px solid #333; padding-top: 25px;">
-                    <h4 style="color: var(--primary);">Rate this Product</h4>
-                    <div class="rating-input" id="star-input-group">
-                        <i class="fas fa-star" onclick="updateStarRating(1)"></i>
-                        <i class="fas fa-star" onclick="updateStarRating(2)"></i>
-                        <i class="fas fa-star" onclick="updateStarRating(3)"></i>
-                        <i class="fas fa-star" onclick="updateStarRating(4)"></i>
-                        <i class="fas fa-star" onclick="setStar(5)"></i>
-                        <i class="fas fa-star" onclick="updateStarRating(5)"></i>
-                    </div>
-
-                    <div class="input-group">
-                        <label>Your Name</label>
-                        <input type="text" id="reviewer-name" class="custom-input" placeholder="Enter your full name">
-                    </div>
-
-                    <div class="input-group">
-                        <label>Your Feedback</label>
-                        <textarea id="reviewer-msg" class="custom-input" rows="4" placeholder="How was your experience?"></textarea>
-                    </div>
-
-                    <div class="gallery-upload">
-                        <i class="fas fa-cloud-upload-alt" style="font-size: 30px; color: var(--primary);"></i>
-                        <p id="upload-status-text" style="margin-top: 10px;">Add Photo from Gallery</p>
-                        <input type="file" id="reviewer-file" accept="image/*" onchange="handleFileSelect()">
-                    </div>
-
-                    <button class="btn-submit-review" onclick="processReviewSubmission()">SUBMIT YOUR REVIEW</button>
+            <div class="rev-form">
+                <h4>Customer Reviews</h4>
+                <div id="rev-list" style="margin-bottom: 20px;"></div>
+                <div class="star-in" id="star-box">
+                    <i class="fas fa-star" onclick="setStar(1)"></i>
+                    <i class="fas fa-star" onclick="setStar(2)"></i>
+                    <i class="fas fa-star" onclick="setStar(3)"></i>
+                    <i class="fas fa-star" onclick="setStar(4)"></i>
+                    <i class="fas fa-star" onclick="setStar(5)"></i>
                 </div>
+                <input type="text" id="u-name" placeholder="Name" style="width:100%; padding:10px; margin-bottom:10px; background:#222; color:white; border:none; border-radius:5px;">
+                <textarea id="u-msg" placeholder="Write Review..." style="width:100%; padding:10px; background:#222; color:white; border:none; border-radius:5px;"></textarea>
+                <input type="file" id="u-file" style="margin:10px 0;">
+                <button onclick="submitReview()" style="width:100%; padding:15px; background:var(--primary); color:white; border:none; border-radius:10px; font-weight:bold;">SUBMIT REVIEW</button>
             </div>
         </div>
-
-        <div class="buy-now-bar">
-            <button class="btn-secondary">ADD TO CART</button>
-            <button class="btn-primary-action" id="whatsapp-order-btn">ORDER VIA WHATSAPP</button>
-        </div>
-    </div>
-
-    <div id="cart-view" class="page-view">
-        <div class="view-header">
-            <i class="fas fa-arrow-left" onclick="closePage('cart-view')"></i>
-            <span>My Shopping Cart</span>
-        </div>
-        <div style="text-align: center; padding: 100px 20px;">
-            <i class="fas fa-shopping-basket" style="font-size: 60px; color: #222;"></i>
-            <p style="margin-top: 15px; color: #666;">Your cart is currently empty.</p>
-        </div>
-    </div>
-
-    <div class="bottom-nav">
-        <a href="#" class="nav-link active" onclick="location.reload()">
-            <i class="fas fa-home"></i> Home
-        </a>
-        <a href="#" class="nav-link" onclick="openPage('cart-view')">
-            <i class="fas fa-shopping-bag"></i> Cart
-        </a>
-        <a href="https://wa.me/923485491217" class="nav-link">
-            <i class="fab fa-whatsapp"></i> Support
-        </a>
     </div>
 
     <script>
-        const CSV_ENDPOINT = 'https://docs.google.com/spreadsheets/d/13J6c7r2r6-1jN5czgo8fn0Tmn-XFj7BFhLaUHe4kkRY/gviz/tq?tqx=out:csv';
-        let storeData = [];
-        let activeRating = 0;
+        const sheetURL = 'https://docs.google.com/spreadsheets/d/13J6c7r2r6-1jN5czgo8fn0Tmn-XFj7BFhLaUHe4kkRY/gviz/tq?tqx=out:csv';
+        let allProducts = [];
+        let rating = 0;
 
-        // Initialize Store
-        async function initStore() {
-            try {
-                const response = await fetch(CSV_ENDPOINT);
-                const rawData = await response.text();
-                const cleanRows = rawData.split('\n').slice(1);
-                
-                storeData = cleanRows.map(row => {
-                    const parts = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                    return {
-                        name: parts[0].replace(/"/g,''),
-                        price: parts[1].replace(/"/g,''),
-                        image: parts[2].replace(/"/g,'')
-                    };
-                });
-                renderProducts(storeData);
-            } catch (err) {
-                console.error("Critical Error: Product Load Failed");
-            }
+        async function init() {
+            const res = await fetch(sheetURL);
+            const text = await res.text();
+            const rows = text.split('\n').slice(1);
+            allProducts = rows.map(r => {
+                const c = r.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                return { n: c[0].replace(/"/g,""), p: c[1].replace(/"/g,""), i: c[2].replace(/"/g,"") };
+            });
+            render(allProducts);
+            startTimers();
         }
 
-        function renderProducts(list) {
-            const grid = document.getElementById('mainProductGrid');
-            grid.innerHTML = list.map(item => `
-                <div class="product-card" onclick="openDetailPage('${item.name.replace(/'/g,"\\'")}','${item.price}','${item.image}')">
-                    <div class="image-box">
-                        <img src="${item.image}" onerror="this.src='https://via.placeholder.com/200'">
-                    </div>
-                    <div class="product-details">
-                        <div class="product-title">${item.name}</div>
-                        <span class="price-tag">Rs ${item.price}</span>
+        function render(list) {
+            document.getElementById('productGrid').innerHTML = list.map(p => `
+                <div class="p-card" onclick="openDetail('${p.n.replace(/'/g,"\\'")}','${p.p}','${p.i}')">
+                    <div class="timer-tag"><i class="fas fa-clock"></i> <span class="countdown">02:15:00</span></div>
+                    <img src="${p.i}" onerror="this.src='https://via.placeholder.com/150'">
+                    <div class="p-info">
+                        <div style="font-size:12px; height:38px; overflow:hidden;">${p.n}</div>
+                        <div class="p-price">Rs ${p.p}</div>
                     </div>
                 </div>
             `).join('');
         }
 
-        function handleSearch() {
-            const query = document.getElementById('liveSearchInput').value.toLowerCase();
-            const results = storeData.filter(p => p.name.toLowerCase().includes(query));
-            renderProducts(results);
+        // Live Search Logic
+        function filterProducts() {
+            const q = document.getElementById('liveSearch').value.toLowerCase();
+            render(allProducts.filter(x => x.n.toLowerCase().includes(q)));
         }
 
-        function updateStarRating(num) {
-            activeRating = num;
-            const stars = document.querySelectorAll('#star-input-group i');
-            stars.forEach((s, i) => {
-                s.classList.toggle('active', i < num);
-            });
+        // Theme Changer
+        function changeTheme(color) {
+            document.documentElement.style.setProperty('--primary', color);
+            localStorage.setItem('zain_theme', color);
         }
 
-        function handleFileSelect() {
-            const file = document.getElementById('reviewer-file').files[0];
-            if(file) document.getElementById('upload-status-text').innerText = "Photo Selected! ✅";
+        function toggleMenu() { document.getElementById('sidebar').classList.toggle('active'); }
+
+        // Flash Sale Timers
+        function startTimers() {
+            setInterval(() => {
+                document.querySelectorAll('.countdown').forEach(el => {
+                    let now = new Date();
+                    let h = 23 - now.getHours();
+                    let m = 59 - now.getMinutes();
+                    let s = 59 - now.getSeconds();
+                    el.innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+                });
+            }, 1000);
         }
 
-        function processReviewSubmission() {
-            const nameInput = document.getElementById('reviewer-name').value;
-            const msgInput = document.getElementById('reviewer-msg').value;
-            const currentProduct = document.getElementById('detail-name-main').innerText;
-            const fileInput = document.getElementById('reviewer-file').files[0];
+        // Detail & Review Logic
+        function openDetail(n, p, i) {
+            document.getElementById('d-name').innerText = n;
+            document.getElementById('d-price').innerText = 'Rs ' + p;
+            document.getElementById('d-img').src = i;
+            document.getElementById('detail-page').classList.add('active');
+            showReviews(n);
+        }
 
-            if(!nameInput || !msgInput || activeRating === 0) {
-                return alert("Please fill Name, Review and provide a Rating!");
-            }
+        function closePage() { document.getElementById('detail-page').classList.remove('active'); }
+
+        function setStar(n) {
+            rating = n;
+            document.querySelectorAll('#star-box i').forEach((s, i) => s.classList.toggle('active', i < n));
+        }
+
+        function submitReview() {
+            const name = document.getElementById('u-name').value;
+            const msg = document.getElementById('u-msg').value;
+            const prod = document.getElementById('d-name').innerText;
+            const file = document.getElementById('u-file').files[0];
+
+            if(!name || !msg || rating === 0) return alert("Fill all fields!");
 
             const reader = new FileReader();
             reader.onload = function(e) {
-                const reviewObject = {
-                    user: nameInput,
-                    message: msgInput,
-                    rating: activeRating,
-                    product: currentProduct,
-                    imgData: e.target ? e.target.result : null,
-                    timestamp: new Date().toLocaleDateString()
-                };
-                
-                let existingReviews = JSON.parse(localStorage.getItem('zain_mega_reviews') || '[]');
-                existingReviews.push(reviewObject);
-                localStorage.setItem('zain_mega_reviews', JSON.stringify(existingReviews));
-                
-                alert("Thank you! Your review has been posted.");
-                location.reload(); 
+                const review = { name, msg, rating, prod, img: e.target ? e.target.result : null };
+                let reviews = JSON.parse(localStorage.getItem('mega_revs') || '[]');
+                reviews.push(review);
+                localStorage.setItem('mega_revs', JSON.stringify(reviews));
+                alert("Review Added!");
+                showReviews(prod);
             };
-
-            if(fileInput) reader.readAsDataURL(fileInput);
-            else reader.onload({target: null});
+            if(file) reader.readAsDataURL(file); else reader.onload({target:null});
         }
 
-        function loadProductReviews(targetName) {
-            const container = document.getElementById('review-list-container');
-            const allReviews = JSON.parse(localStorage.getItem('zain_mega_reviews') || '[]');
-            const filtered = allReviews.filter(rev => rev.product === targetName);
-
-            if(filtered.length === 0) {
-                container.innerHTML = "<p style='color:#444;'>No reviews for this product yet.</p>";
-                return;
-            }
-
-            container.innerHTML = filtered.map(r => `
-                <div class="review-card">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <b style="color:var(--primary);">${r.user}</b>
-                        <small style="color:#555;">${r.timestamp}</small>
-                    </div>
-                    <div style="color:var(--star); font-size:12px; margin:5px 0;">
-                        ${'<i class="fas fa-star"></i>'.repeat(r.rating)}
-                    </div>
-                    <p style="font-size:14px; color:#ddd; margin-top:8px;">${r.message}</p>
-                    ${r.imgData ? `<img src="${r.imgData}" class="rev-user-img">` : ''}
+        function showReviews(pName) {
+            const list = document.getElementById('rev-list');
+            const reviews = JSON.parse(localStorage.getItem('mega_revs') || '[]');
+            const filtered = reviews.filter(r => r.prod === pName);
+            list.innerHTML = filtered.map(r => `
+                <div style="background:#1a1a1a; padding:10px; margin-bottom:10px; border-radius:10px;">
+                    <b>${r.name}</b> <br>
+                    <div style="color:#f1c40f;">${'<i class="fas fa-star"></i>'.repeat(r.rating)}</div>
+                    <p style="font-size:13px;">${r.msg}</p>
+                    ${r.img ? `<img src="${r.img}" style="width:80px; height:80px; object-fit:cover; margin-top:5px; border-radius:5px;">` : ''}
                 </div>
             `).join('');
         }
 
-        function openDetailPage(name, price, img) {
-            document.getElementById('detail-name-main').innerText = name;
-            document.getElementById('detail-price-main').innerText = 'Rs ' + price;
-            document.getElementById('detail-img-main').src = img;
-            
-            document.getElementById('whatsapp-order-btn').onclick = () => {
-                const text = `Assalam o Alaikum Zain Store! I want to buy:\nProduct: ${name}\nPrice: Rs ${price}`;
-                window.location.href = `https://wa.me/923485491217?text=${encodeURIComponent(text)}`;
-            };
+        // Apply saved theme
+        const savedColor = localStorage.getItem('zain_theme');
+        if(savedColor) changeTheme(savedColor);
 
-            document.getElementById('detail-view').classList.add('active');
-            loadProductReviews(name);
-        }
-
-        function openPage(id) { document.getElementById(id).classList.add('active'); }
-        function closePage(id) { document.getElementById(id).classList.remove('active'); }
-
-        // Start App
-        initStore();
+        init();
     </script>
 </body>
 </html>

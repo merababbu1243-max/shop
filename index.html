@@ -3,209 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ZAIN STORE | Verified Pro</title>
+    <title>ZAIN STORE | Tracking & Pro Edition</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-        /* CSS Variables */
-        :root { --primary: #ff6801; --bg: #000000; --card-bg: #121212; --text: #ffffff; }
-
+        :root { --primary: #ff6801; --bg: #0b0b0b; --card: #151515; --text: #ffffff; --success: #2ecc71; --gray: #888; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
-        body { background: var(--bg); color: var(--text); padding-bottom: 70px; overflow-x: hidden; }
+        body { background: var(--bg); color: var(--text); padding-bottom: 80px; overflow-x: hidden; }
 
-        /* Header & Sidebar */
+        /* --- UI COMPONENTS --- */
         header { background: var(--primary); padding: 15px; position: sticky; top: 0; z-index: 2000; border-radius: 0 0 20px 20px; }
-        .nav-row { display: flex; justify-content: space-between; align-items: center; }
-        .sidebar { position: fixed; top: 0; left: -100%; width: 280px; height: 100%; background: #111; z-index: 5000; transition: 0.4s; padding: 25px; border-right: 2px solid var(--primary); }
-        .sidebar.active { left: 0; }
-        .menu-link { display: flex; align-items: center; gap: 15px; padding: 15px 0; color: #ccc; text-decoration: none; border-bottom: 1px solid #222; }
-
-        /* Theme Dots */
-        .dot { width: 30px; height: 30px; border-radius: 50%; display: inline-block; margin: 5px; cursor: pointer; border: 2px solid #fff; }
-
-        /* Search */
-        .search-container { background: #fff; border-radius: 12px; display: flex; padding: 10px; margin-top: 15px; }
-        .search-container input { border: none; outline: none; width: 100%; margin-left: 10px; }
-
-        /* Grid & Cards */
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 15px; }
-        .card { background: var(--card-bg); border-radius: 15px; overflow: hidden; border: 1px solid #222; position: relative; }
-        .flash-tag { position: absolute; top: 8px; left: 8px; background: red; color: white; font-size: 9px; padding: 3px 7px; border-radius: 50px; font-weight: bold; }
-        .img-box { height: 160px; background: #fff; display: flex; align-items: center; justify-content: center; }
-        .img-box img { width: 85%; height: 85%; object-fit: contain; }
-        .info { padding: 10px; }
-        .price { color: var(--primary); font-weight: 800; }
-
-        /* Review Design */
-        .review-card { background: #181818; padding: 15px; border-radius: 12px; margin-top: 15px; border-left: 4px solid var(--primary); }
-        .verified-badge { color: #2ecc71; font-size: 11px; font-weight: 600; display: flex; align-items: center; gap: 4px; margin-bottom: 5px; }
-        .rev-img-display { width: 100%; max-height: 200px; object-fit: cover; border-radius: 10px; margin-top: 10px; }
-
-        /* Page */
-        .page { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 6000; overflow-y: auto; }
+        .page { display: none; padding: 15px; min-height: 100vh; animation: fadeIn 0.4s; }
         .page.active { display: block; }
-        .rev-input { width: 100%; background: #222; border: 1px solid #333; color: #fff; padding: 12px; border-radius: 10px; margin-bottom: 10px; }
-        
-        .buy-bar { position: fixed; bottom: 0; width: 100%; height: 60px; display: flex; }
-        .btn-wa { flex: 1; background: var(--primary); color: #fff; border: none; font-weight: 800; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Tracking Timeline UI */
+        .tracking-box { background: #1a1a1a; padding: 20px; border-radius: 15px; margin-top: 20px; }
+        .timeline { border-left: 2px solid #333; margin-left: 20px; padding-left: 30px; position: relative; }
+        .step { margin-bottom: 25px; position: relative; color: var(--gray); }
+        .step.active { color: var(--success); font-weight: bold; }
+        .step::before { content: ''; position: absolute; left: -41px; top: 5px; width: 20px; height: 20px; border-radius: 50%; background: #333; border: 4px solid var(--bg); }
+        .step.active::before { background: var(--success); box-shadow: 0 0 10px var(--success); }
+
+        /* Order Success Modal */
+        #order-success { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 9000; align-items: center; justify-content: center; text-align: center; }
+        .success-card { background: #fff; color: #000; padding: 30px; border-radius: 20px; width: 85%; }
+
+        /* Form Inputs */
+        .input-box { width: 100%; padding: 12px; background: #222; border: 1px solid #333; color: white; border-radius: 10px; margin-bottom: 12px; }
+        .btn-track { background: var(--primary); color: #fff; border: none; padding: 12px 25px; border-radius: 10px; font-weight: bold; width: 100%; cursor: pointer; }
+
+        /* Navigation */
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #111; display: flex; justify-content: space-around; padding: 12px; border-top: 1px solid #222; z-index: 3000; }
+        .nav-item { color: #888; text-align: center; font-size: 10px; }
+        .nav-item.active { color: var(--primary); }
     </style>
 </head>
 <body>
 
-    <div class="sidebar" id="mainSidebar">
-        <h2 style="color:var(--primary); margin-bottom:20px;">ZAIN STORE</h2>
-        <a href="#" class="menu-link" onclick="location.reload()"><i class="fas fa-home"></i> Home</a>
-        <div style="margin-top:20px;">
-            <p style="font-size:12px; color:#888;">THEME COLOR:</p>
-            <div class="dot" style="background:#ff6801;" onclick="setTheme('#ff6801')"></div>
-            <div class="dot" style="background:#2ecc71;" onclick="setTheme('#2ecc71')"></div>
-            <div class="dot" style="background:#e74c3c;" onclick="setTheme('#e74c3c')"></div>
-        </div>
-        <button onclick="toggleSidebar()" style="margin-top:30px; width:100%; padding:10px;">CLOSE</button>
-    </div>
-
     <header>
-        <div class="nav-row">
-            <i class="fas fa-bars" onclick="toggleSidebar()"></i>
-            <span style="font-weight:800;">ZAIN STORE</span>
-            <i class="fas fa-shopping-bag"></i>
-        </div>
-        <div class="search-container">
-            <i class="fas fa-search" style="color:#888;"></i>
-            <input type="text" id="liveSearch" onkeyup="searchNow()" placeholder="Search products...">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <i class="fas fa-bars" onclick="alert('Sidebar Menu Connected')"></i>
+            <b style="font-size:18px;">ZAIN STORE PRO</b>
+            <i class="fas fa-search" onclick="showPage('home')"></i>
         </div>
     </header>
 
-    <div class="grid" id="productGrid"></div>
-
-    <div style="text-align:center; padding:30px;">
-        <div style="background:#fff; padding:10px; display:inline-block; border-radius:10px;">
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://243-max.github.io">
+    <div id="home-page" class="page active">
+        <div style="background: linear-gradient(to right, #ff6801, #ff9d5c); padding: 20px; border-radius: 15px; margin-bottom: 20px;">
+            <h3>Flash Sale Live! ✅</h3>
+            <p style="font-size: 12px;">Ends In: <span id="timer">00:00:00</span></p>
         </div>
-        <p style="margin-top:10px; font-size:12px;">SCAN TO SHARE SITE</p>
-    </div>
-
-    <div id="detail-page" class="page">
-        <div style="background:var(--primary); padding:15px; display:flex; gap:15px; align-items:center;">
-            <i class="fas fa-arrow-left" onclick="closeDetail()"></i> <b>Product Details</b>
+        <h3>Check Order Status</h3>
+        <div class="tracking-box">
+            <input type="text" id="trackInput" class="input-box" placeholder="Enter Order ID (e.g. ZAIN-1234)">
+            <button class="btn-track" onclick="trackOrder()">TRACK NOW</button>
         </div>
-        <img id="d-img" style="width:100%; height:250px; object-fit:contain; background:#fff;">
-        <div style="padding:20px;">
-            <h2 id="d-name"></h2>
-            <h2 id="d-price" style="color:var(--primary); margin:10px 0;"></h2>
-            
-            <div style="background:#111; padding:15px; border-radius:15px;">
-                <h3>Reviews</h3>
-                <div id="review-display-area"></div>
-                <hr style="border:0.5px solid #333; margin:20px 0;">
-                <input type="text" id="r-name" class="rev-input" placeholder="Your Name">
-                <textarea id="r-msg" class="rev-input" placeholder="Your Feedback"></textarea>
-                <input type="file" id="r-file" style="margin-bottom:10px;">
-                <button onclick="submitReviewData()" style="width:100%; padding:12px; background:var(--primary); border:none; color:#fff; border-radius:10px; font-weight:bold;">POST REVIEW</button>
+        
+        <div id="tracking-result" style="display:none;">
+            <div class="tracking-box">
+                <h4 id="track-id-display" style="color:var(--primary);"></h4>
+                <div class="timeline">
+                    <div class="step active"><i class="fas fa-check-circle"></i> Order Placed</div>
+                    <div class="step active"><i class="fas fa-box"></i> Packed & Ready</div>
+                    <div class="step active"><i class="fas fa-truck"></i> On the Way</div>
+                    <div class="step"><i class="fas fa-home"></i> Delivered</div>
+                </div>
             </div>
         </div>
-        <div class="buy-bar">
-            <button class="btn-wa" id="waLink">ORDER ON WHATSAPP</button>
+    </div>
+
+    <div id="tracking-page" class="page">
+        <h2>Order Tracking</h2>
+        <p>Enter your ID to see live location.</p>
         </div>
+
+    <div id="cart-page" class="page">
+        <h2>Order Confirmation</h2>
+        <div class="tracking-box">
+            <input type="text" id="custName" class="input-box" placeholder="Customer Name">
+            <input type="text" id="custPhone" class="input-box" placeholder="WhatsApp Number">
+            <textarea id="custAddr" class="input-box" placeholder="Shipping Address"></textarea>
+            <button class="btn-track" style="background:var(--success);" onclick="placeFinalOrder()">CONFIRM & GENERATE INVOICE</button>
+        </div>
+    </div>
+
+    <div id="order-success">
+        <div class="success-card">
+            <i class="fas fa-check-circle" style="font-size: 60px; color: var(--success);"></i>
+            <h2 style="margin-top:15px;">Order Placed!</h2>
+            <p style="margin: 10px 0;">Order ID: <b id="new-order-id"></b></p>
+            <p style="font-size: 13px; color: #666;">Note: Please take a screenshot for tracking.</p>
+            <button class="btn-track" onclick="closeSuccess()">GO TO HOME</button>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <div class="nav-item active" onclick="showPage('home')"><i class="fas fa-home"></i>Home</div>
+        <div class="nav-item" onclick="showPage('cart')"><i class="fas fa-shopping-bag"></i>Order</div>
+        <div class="nav-item" onclick="alert('Notification System Active')"><i class="fas fa-bell"></i>Alerts</div>
     </div>
 
     <script>
-        const CSV_URL = 'https://docs.google.com/spreadsheets/d/13J6c7r2r6-1jN5czgo8fn0Tmn-XFj7BFhLaUHe4kkRY/gviz/tq?tqx=out:csv';
-        let allItems = [];
-
-        async function fetchProducts() {
-            const res = await fetch(CSV_URL);
-            const data = await res.text();
-            const rows = data.split('\n').slice(1);
-            allItems = rows.map(r => {
-                const c = r.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                return { n: c[0].replace(/"/g,""), p: c[1].replace(/"/g,""), i: c[2].replace(/"/g,"") };
-            });
-            render(allItems);
-            setInterval(updateTimers, 1000);
+        // Page Switching
+        function showPage(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(id + '-page').classList.add('active');
         }
 
-        function render(list) {
-            document.getElementById('productGrid').innerHTML = list.map(p => `
-                <div class="card" onclick="openDetail('${p.n.replace(/'/g,"\\'")}','${p.p}','${p.i}')">
-                    <div class="flash-tag">SALE <span class="t-text">00:00:00</span></div>
-                    <div class="img-box"><img src="${p.i}"></div>
-                    <div class="info">
-                        <div style="font-size:11px; height:32px; overflow:hidden;">${p.n}</div>
-                        <div class="price">Rs ${p.p}</div>
-                    </div>
-                </div>
-            `).join('');
+        // Order Placement Logic
+        function placeFinalOrder() {
+            const name = document.getElementById('custName').value;
+            const phone = document.getElementById('custPhone').value;
+            if(!name || !phone) return alert("Please fill all details!");
+
+            const orderID = "ZAIN-" + Math.floor(1000 + Math.random() * 9000);
+            document.getElementById('new-order-id').innerText = orderID;
+            
+            // Save to LocalStorage for tracking
+            localStorage.setItem(orderID, JSON.stringify({
+                status: 'shipped',
+                name: name,
+                date: new Date().toLocaleDateString()
+            }));
+
+            document.getElementById('order-success').style.display = 'flex';
         }
 
-        function updateTimers() {
+        function closeSuccess() {
+            document.getElementById('order-success').style.display = 'none';
+            showPage('home');
+        }
+
+        // Tracking Logic
+        function trackOrder() {
+            const id = document.getElementById('trackInput').value.toUpperCase();
+            const orderData = localStorage.getItem(id);
+
+            if(orderData) {
+                document.getElementById('tracking-result').style.display = 'block';
+                document.getElementById('track-id-display').innerText = "Status for " + id;
+                // You can customize timeline based on orderData.status here
+            } else {
+                alert("Order ID not found! Try ZAIN-1234 (Sample)");
+            }
+        }
+
+        // Timer
+        setInterval(() => {
             const now = new Date();
             const time = `${23-now.getHours()}:${59-now.getMinutes()}:${59-now.getSeconds()}`;
-            document.querySelectorAll('.t-text').forEach(el => el.innerText = time);
-        }
-
-        function searchNow() {
-            const q = document.getElementById('liveSearch').value.toLowerCase();
-            render(allItems.filter(x => x.n.toLowerCase().includes(q)));
-        }
-
-        function toggleSidebar() { document.getElementById('mainSidebar').classList.toggle('active'); }
-        
-        function setTheme(color) { 
-            document.documentElement.style.setProperty('--primary', color); 
-            localStorage.setItem('userTheme', color);
-        }
-
-        function submitReviewData() {
-            const name = document.getElementById('r-name').value;
-            const msg = document.getElementById('r-msg').value;
-            const prod = document.getElementById('d-name').innerText;
-            const file = document.getElementById('r-file').files[0];
-
-            if(!name || !msg) return alert("Enter Name & Msg");
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const review = { name, msg, prod, img: e.target ? e.target.result : null };
-                let store = JSON.parse(localStorage.getItem('zain_final_revs') || '[]');
-                store.push(review);
-                localStorage.setItem('zain_final_revs', JSON.stringify(store));
-                loadReviews(prod);
-                document.getElementById('r-name').value = ''; document.getElementById('r-msg').value = '';
-            };
-            if(file) reader.readAsDataURL(file); else reader.onload({target:null});
-        }
-
-        function loadReviews(pName) {
-            const data = JSON.parse(localStorage.getItem('zain_final_revs') || '[]');
-            const mine = data.filter(r => r.prod === pName);
-            document.getElementById('review-display-area').innerHTML = mine.map(r => `
-                <div class="review-card">
-                    <div class="verified-badge"><i class="fas fa-check-circle"></i> Verified Purchase</div>
-                    <b>${r.name}</b>
-                    <p style="font-size:13px; color:#aaa;">${r.msg}</p>
-                    ${r.img ? `<img src="${r.img}" class="rev-img-display">` : ''}
-                </div>
-            `).join('');
-        }
-
-        function openDetail(n, p, i) {
-            document.getElementById('d-name').innerText = n;
-            document.getElementById('d-price').innerText = 'Rs ' + p;
-            document.getElementById('d-img').src = i;
-            document.getElementById('waLink').onclick = () => window.location.href=`https://wa.me/923485491217?text=I want: ${n}`;
-            document.getElementById('detail-page').classList.add('active');
-            loadReviews(n);
-        }
-
-        function closeDetail() { document.getElementById('detail-page').classList.remove('active'); }
-
-        const savedTheme = localStorage.getItem('userTheme');
-        if(savedTheme) setTheme(savedTheme);
-
-        fetchProducts();
+            document.getElementById('timer').innerText = time;
+        }, 1000);
     </script>
 </body>
 </html>

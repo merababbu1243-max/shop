@@ -5,206 +5,245 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ZAIN STORE | Official</title>
     <style>
-        /* --- Aapka Original Design (Zero Changes) --- */
+        /* --- Base Styles (Aapka Original Black Theme) --- */
         :root { --primary: #ff6801; --bg: #000000; --card: #1a1a1a; --text: #ffffff; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 80px; }
-        header { background: var(--primary); padding: 12px 15px; position: sticky; top: 0; z-index: 1000; }
+        body.light-mode { --bg: #ffffff; --card: #f5f5f5; --text: #222222; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 70px; transition: 0.3s; overflow-x: hidden; }
+
+        /* --- Header & Search (Active) --- */
+        header { background: var(--primary); padding: 12px 15px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.5); }
         .nav-top { display: flex; justify-content: space-between; align-items: center; }
-        .search-box { background: white; border-radius: 4px; display: flex; align-items: center; padding: 5px 10px; margin-top: 10px; }
-        .search-box input { border: none; width: 100%; outline: none; padding: 5px; }
+        .search-box { background: white; border-radius: 6px; display: flex; align-items: center; padding: 8px 12px; margin-top: 10px; height: 25px; }
+        .search-box input { border: none; outline: none; width: 100%; font-size: 14px; color: #333; }
 
-        /* Grid Layout */
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 15px; }
-        .card { background: var(--card); border-radius: 12px; overflow: hidden; border: 1px solid #333; position: relative; }
-        .card img { width: 100%; height: 160px; object-fit: cover; background: white; }
-        .card-info { padding: 10px; }
+        /* --- Sidebar (Menu Bar Active) --- */
+        .sidebar { position: fixed; top: 0; left: -280px; width: 250px; height: 100%; background: #111; z-index: 9999; transition: 0.4s; padding: 20px; box-shadow: 5px 0 15px rgba(0,0,0,0.5); border-right: 1px solid var(--primary); }
+        .sidebar.active { left: 0; }
+        .sidebar a { display: block; color: white; padding: 15px 10px; text-decoration: none; border-bottom: 1px solid #222; font-weight: bold; }
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 9998; }
 
-        /* Full Pages (Detail & Return) */
-        .full-page { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 5000; overflow-y: auto; }
-        .page-header { display: flex; align-items: center; padding: 15px; background: var(--primary); color: white; gap: 15px; }
+        /* --- Product Grid --- */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 15px; }
+        .card { background: var(--card); border-radius: 12px; overflow: hidden; border: 1px solid #333; transition: 0.3s; }
+        .card img { width: 100%; height: 150px; object-fit: contain; background: white; }
+        .card-body { padding: 10px; }
+
+        /* --- Full Pages (EasyPaisa, Cart, Detail) --- */
+        .full-page { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 8000; overflow-y: auto; }
+        .page-header { background: var(--primary); color: white; padding: 15px; display: flex; align-items: center; gap: 15px; position: sticky; top: 0; }
         
-        /* Flash Sale Bar */
-        .flash-bar { background: #ff4747; color: white; padding: 10px; font-weight: bold; display: flex; justify-content: space-between; font-size: 14px; }
+        /* Flash Sale Timer Bar */
+        .timer-bar { background: #ff4747; color: white; padding: 8px 15px; display: flex; justify-content: space-between; font-weight: bold; font-size: 13px; }
 
-        /* Review Section Fix (Uper) */
-        .review-section { padding: 15px; background: #111; margin: 10px; border-radius: 10px; }
-        .rev-input { width: 100%; padding: 12px; border-radius: 5px; border: none; margin-bottom: 8px; box-sizing: border-box; }
+        /* --- Lamba Footer (Professional) --- */
+        footer { background: #0a0a0a; padding: 40px 20px; border-top: 2px solid var(--primary); text-align: center; margin-top: 30px; }
+        .footer-qr { width: 120px; background: white; padding: 5px; border-radius: 8px; margin-bottom: 15px; }
+        .footer-info { font-size: 13px; color: #888; line-height: 1.6; }
 
-        /* Return Options */
-        .ret-box { background: #222; padding: 15px; margin: 10px; border-radius: 10px; border: 1px solid #444; }
-        .option { display: block; margin-bottom: 12px; font-size: 14px; }
-
-        /* Bottom Navigation */
-        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #000; display: flex; border-top: 1px solid #333; padding: 10px 0; z-index: 4000; }
-        .nav-item { flex: 1; text-align: center; font-size: 11px; color: #888; cursor: pointer; }
-        .nav-item.active { color: var(--primary); }
-
-        /* Dots Menu Popup */
-        #dots-panel { display: none; position: absolute; top: 50px; right: 10px; background: white; color: black; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); z-index: 9000; min-width: 140px; }
-        #dots-panel div { padding: 12px; border-bottom: 1px solid #eee; font-size: 14px; font-weight: bold; }
-
-        /* Footer QR Section (Aapka Pasandeeda) */
-        .footer { padding: 40px 20px; text-align: center; background: #000; border-top: 1px solid #222; }
-        .qr-img { width: 120px; filter: invert(0); margin-bottom: 15px; background: white; padding: 5px; border-radius: 10px; }
+        /* --- Bottom Nav --- */
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #000; display: flex; border-top: 1px solid #333; padding: 10px 0; z-index: 5000; }
+        .nav-btn { flex: 1; text-align: center; font-size: 11px; color: #888; }
+        .nav-btn.active { color: var(--primary); }
     </style>
 </head>
 <body>
 
+<div id="overlay" class="overlay" onclick="closeSidebar()"></div>
+
+<div id="sidebar" class="sidebar">
+    <h2 style="color:var(--primary);">ZAIN MENU</h2>
+    <a href="#" onclick="closeSidebar()">🏠 Home</a>
+    <a href="#" onclick="openPage('page-cart')">🛒 My Cart (<span id="cart-count-side">0</span>)</a>
+    <a href="#" onclick="openPage('page-easypaisa')">💳 EasyPaisa Payment</a>
+    <a href="#" onclick="openPage('page-return')">🔄 Return Product</a>
+    <a href="#" onclick="toggleTheme()">🎨 Change Theme</a>
+    <a href="https://wa.me/923485491217" style="color: #25D366;">📞 WhatsApp Support</a>
+</div>
+
 <header>
     <div class="nav-top">
-        <span style="font-size:22px;">☰</span>
-        <b style="letter-spacing:1px;">ZAIN STORE</b>
-        <div style="display:flex; gap:15px; align-items:center;">
-            <div style="border:1px solid white; padding:2px 8px; border-radius:5px; font-size:12px;">Theme</div>
-            <span onclick="toggleDots()" style="font-size:24px; cursor:pointer;">⋮</span>
-        </div>
-    </div>
-    <div id="dots-panel">
-        <div onclick="location.reload()">🔄 Refresh</div>
-        <div onclick="openPage('page-return')">🔄 Return Item</div>
-        <div onclick="alert('WhatsApp: 0348-5491217')">📞 Support</div>
+        <span onclick="openSidebar()" style="font-size: 24px; cursor: pointer;">☰</span>
+        <b style="font-size: 20px; letter-spacing: 1px;">ZAIN STORE</b>
+        <span onclick="openPage('page-cart')" style="font-size: 22px; cursor: pointer;">🛒</span>
     </div>
     <div class="search-box">
-        🔍 <input type="text" id="searchInput" onkeyup="search()" placeholder="Search products...">
+        🔍 <input type="text" id="mainSearch" onkeyup="liveSearch()" placeholder="Search gadgets...">
     </div>
 </header>
 
-<div id="main-grid" class="grid"></div>
+<div id="product-grid" class="grid">
+    </div>
 
-<div class="footer">
-    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://243-max.github.io" class="qr-img">
-    <p><b>ZAIN STORE | RAWALPINDI</b></p>
-    <p style="font-size:12px; color:#888;">Premium Gadgets Hub. Shop #4, Main Bazar.</p>
+<footer>
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://243-max.github.io" class="footer-qr">
+    <h3>ZAIN STORE | Official</h3>
+    <p class="footer-info">
+        Rawalpindi's trusted hub for premium gadgets.<br>
+        📍 Shop #4, Near Al-Noor Plaza, Main Bazar.<br>
+        WhatsApp: 0348-5491217<br>
+        © 2026 Zain Store. Built by Zain Ahmed.
+    </p>
+</footer>
+
+<div id="page-easypaisa" class="full-page">
+    <div class="page-header"><span onclick="closeAll()" style="font-size:24px;">⬅️</span> <b>EasyPaisa Payment</b></div>
+    <div style="padding: 30px; text-align: center;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Easypaisa_Logo.png/1200px-Easypaisa_Logo.png" width="200">
+        <div style="background:#1a1a1a; padding:20px; border-radius:15px; margin-top:30px; border:1px solid #333;">
+            <p style="color:#888;">Account Title</p>
+            <h2 style="margin:0;">ZAIN AHMED</h2>
+            <hr style="border:0; border-top:1px solid #333; margin:15px 0;">
+            <p style="color:#888;">Account Number</p>
+            <h2 style="margin:0; color:#25D366;">0348 5491217</h2>
+        </div>
+        <p style="margin-top:20px; font-size:13px; color:#aaa;">Please send the screenshot of payment on WhatsApp after transfer.</p>
+        <button onclick="window.location.href='https://wa.me/923485491217'" style="background:var(--primary); color:white; border:none; padding:15px; width:100%; border-radius:8px; font-weight:bold; margin-top:20px;">Send Screenshot on WhatsApp</button>
+    </div>
+</div>
+
+<div id="page-cart" class="full-page">
+    <div class="page-header"><span onclick="closeAll()" style="font-size:24px;">⬅️</span> <b>My Cart</b></div>
+    <div id="cart-items" style="padding:15px;">
+        <p style="text-align:center; color:#888;">Your cart is empty.</p>
+    </div>
+    <div style="position:fixed; bottom:0; width:100%; padding:20px; background:#111; box-sizing:border-box; border-top:1px solid #333;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
+            <b>Total Amount:</b>
+            <b id="cart-total" style="color:var(--primary);">Rs 0</b>
+        </div>
+        <button onclick="openPage('page-easypaisa')" style="width:100%; background:var(--primary); color:white; border:none; padding:15px; border-radius:8px; font-weight:bold;">Proceed to Checkout</button>
+    </div>
 </div>
 
 <div id="page-detail" class="full-page">
-    <div class="page-header"><span onclick="closeAll()" style="font-size:24px;">⬅️</span> <b id="d-title-top">Product</b></div>
-    <div class="flash-bar">
-        <span>⚡ FLASH SALE ENDS IN:</span>
-        <span id="timer-display">02:44:00</span>
+    <div class="page-header"><span onclick="closeAll()" style="font-size:24px;">⬅️</span> <b id="det-title">Product Details</b></div>
+    <div class="timer-bar">
+        <span>🔥 FLASH SALE ENDS IN:</span>
+        <span id="flash-timer">02:59:59</span>
     </div>
-    <img id="d-img" style="width:100%; height:320px; object-fit:contain; background:white;">
-    
-    <div style="padding:15px;">
-        <h2 id="d-name" style="margin:5px 0;"></h2>
-        <div id="d-price" style="font-size:24px; color:var(--primary); font-weight:bold;"></div>
-        
-        <div class="review-section">
-            <h4 style="margin:0 0 10px 0;">Write a Review ⭐</h4>
-            <input type="text" class="rev-input" id="reviewInput" placeholder="What do you think?">
-            <button onclick="alert('Review Posted!')" style="width:100%; padding:10px; background:var(--primary); border:none; color:white; border-radius:5px; font-weight:bold;">Post Review</button>
+    <img id="det-img" style="width:100%; height:300px; object-fit:contain; background:white;">
+    <div style="padding:20px;">
+        <h2 id="det-name" style="margin:0;"></h2>
+        <h3 id="det-price" style="color:var(--primary); margin-top:10px;"></h3>
+        <p style="color:#888; font-size:14px;">In Stock | Free Delivery in Rawalpindi</p>
+        <div style="background:#111; padding:15px; border-radius:10px; margin:20px 0;">
+            <h4 style="margin:0 0 10px 0;">Product Reviews ⭐</h4>
+            <input type="text" id="revInput" style="width:100%; padding:10px; border-radius:5px; border:none;" placeholder="Write a review...">
+            <button onclick="alert('Review submitted!')" style="background:var(--primary); color:white; border:none; padding:8px 15px; border-radius:5px; margin-top:10px; font-weight:bold;">Submit</button>
         </div>
-
-        <button onclick="openPage('page-return')" style="width:100%; padding:10px; background:none; border:1px solid #444; color:#888; border-radius:5px; margin-top:10px;">Return Policy & Filing</button>
     </div>
-
-    <div style="position:fixed; bottom:0; width:100%; display:flex; height:60px; z-index:6000;">
-        <button style="flex:1; background:#00d1ff; color:white; border:none; font-weight:bold; font-size:16px;">Add to Cart</button>
-        <button id="buyLink" style="flex:1; background:var(--primary); color:white; border:none; font-weight:bold; font-size:16px;">Buy Now</button>
-    </div>
-</div>
-
-<div id="page-return" class="full-page">
-    <div class="page-header"><span onclick="closeAll()" style="font-size:24px;">⬅️</span> <b>Return Product</b></div>
-    <div class="ret-box">
-        <h3>Select Return Reason</h3>
-        <label class="option"><input type="radio" name="ret" value="damaged"> ❌ Damaged/Broken Item</label>
-        <label class="option"><input type="radio" name="ret" value="wrong"> 📦 Received Wrong Item</label>
-        <label class="option"><input type="radio" name="ret" value="not-same"> 🖼️ Not as shown in Picture</label>
-        <label class="option"><input type="radio" name="ret" value="quality"> 👎 Quality not satisfied</label>
-        
-        <textarea id="ret-msg" style="width:100%; height:80px; margin-top:10px; border-radius:5px; padding:10px; box-sizing:border-box;" placeholder="Extra details..."></textarea>
-        
-        <button onclick="handleReturn()" style="width:100%; background:var(--primary); color:white; border:none; padding:15px; border-radius:8px; margin-top:20px; font-weight:bold;">Submit Return Request</button>
+    <div style="position:fixed; bottom:0; width:100%; display:flex; height:60px;">
+        <button id="addCartBtn" style="flex:1; background:#00d1ff; color:white; border:none; font-weight:bold;">Add to Cart</button>
+        <button id="buyNowBtn" style="flex:1; background:var(--primary); color:white; border:none; font-weight:bold;">Buy Now</button>
     </div>
 </div>
 
 <div class="bottom-nav">
-    <div class="nav-item active" onclick="closeAll()">🏠<br>Home</div>
-    <div class="nav-item" onclick="openPage('page-return')">🔄<br>Returns</div>
-    <div class="nav-item" onclick="alert('WhatsApp Support: 0348-5491217')">👤<br>Account</div>
+    <div class="nav-btn active" onclick="closeAll()">🏠<br>Home</div>
+    <div class="nav-btn" onclick="openPage('page-cart')">🛒<br>Cart (<span id="cart-count-bottom">0</span>)</div>
+    <div class="nav-btn" onclick="openPage('page-easypaisa')">💳<br>EasyPaisa</div>
 </div>
 
 <script>
-    // --- Data Fetching ---
-    const sheetID = '13J6c7r2r6-1jN5czgo8fn0Tmn-XFj7BFhLaUHe4kkRY';
-    const csvURL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv`;
-    let allProducts = [];
+    const csvURL = 'https://docs.google.com/spreadsheets/d/13J6c7r2r6-1jN5czgo8fn0Tmn-XFj7BFhLaUHe4kkRY/gviz/tq?tqx=out:csv';
+    let allData = [];
+    let cart = [];
 
-    async function fetchData() {
-        const response = await fetch(csvURL);
-        const data = await response.text();
-        const rows = data.split('\n').slice(1);
-        allProducts = rows.map(r => {
-            const cols = r.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-            return { name: cols[0].replace(/"/g,''), price: cols[1].replace(/"/g,''), img: cols[2].replace(/"/g,'') };
+    // --- Core Logic ---
+    async function loadData() {
+        const res = await fetch(csvURL);
+        const text = await res.text();
+        const rows = text.split('\n').slice(1);
+        allData = rows.map(r => {
+            const c = r.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+            return { n: c[0].replace(/"/g,""), p: c[1].replace(/"/g,""), i: c[2].replace(/"/g,"") };
         });
-        display(allProducts);
+        displayProducts(allData);
     }
 
-    function display(items) {
-        document.getElementById('main-grid').innerHTML = items.map(p => `
-            <div class="card" onclick="openDetail('${p.name.replace(/'/g,"\\'")}','${p.price}','${p.img}')">
-                <img src="${p.img}">
-                <div class="card-info">
-                    <div style="font-size:13px; height:34px; overflow:hidden;">${p.name}</div>
-                    <div style="color:var(--primary); font-weight:bold; margin-top:5px;">Rs ${p.price}</div>
+    function displayProducts(data) {
+        document.getElementById('product-grid').innerHTML = data.map(p => `
+            <div class="card" onclick="openDetail('${p.n.replace(/'/g,"\\'")}','${p.p}','${p.i}')">
+                <img src="${p.i}">
+                <div class="card-body">
+                    <div style="font-size:12px; height:32px; overflow:hidden;">${p.n}</div>
+                    <div style="color:var(--primary); font-weight:bold; margin-top:5px;">Rs ${p.p}</div>
                 </div>
             </div>
         `).join('');
     }
 
-    // --- Core Functions ---
-    function openDetail(n, p, i) {
-        document.getElementById('d-name').innerText = n;
-        document.getElementById('d-title-top').innerText = n.substring(0,15)+'...';
-        document.getElementById('d-price').innerText = 'Rs ' + p;
-        document.getElementById('d-img').src = i;
-        document.getElementById('buyLink').onclick = () => window.location.href=`https://wa.me/923485491217?text=Hi, I want to buy: ${n}`;
-        openPage('page-detail');
-        runTimer(); // Timer starts
+    // --- Search & Pages ---
+    function liveSearch() {
+        const q = document.getElementById('mainSearch').value.toLowerCase();
+        displayProducts(allData.filter(x => x.n.toLowerCase().includes(q)));
     }
 
-    function runTimer() {
-        let seconds = 9840; // 2h 44m
-        const display = document.getElementById('timer-display');
-        const countdown = setInterval(() => {
+    function openSidebar() { document.getElementById('sidebar').classList.add('active'); document.getElementById('overlay').style.display='block'; }
+    function closeSidebar() { document.getElementById('sidebar').classList.remove('active'); document.getElementById('overlay').style.display='none'; }
+    function openPage(id) { closeAll(); document.getElementById(id).style.display = 'block'; }
+    function closeAll() { 
+        document.querySelectorAll('.full-page').forEach(p => p.style.display = 'none'); 
+        closeSidebar();
+    }
+
+    // --- Detail & Cart Logic ---
+    function openDetail(n, p, i) {
+        document.getElementById('det-name').innerText = n;
+        document.getElementById('det-price').innerText = 'Rs ' + p;
+        document.getElementById('det-img').src = i;
+        document.getElementById('det-title').innerText = n.substring(0,15)+'...';
+        
+        document.getElementById('addCartBtn').onclick = () => addToCart(n, p);
+        document.getElementById('buyNowBtn').onclick = () => window.location.href=`https://wa.me/923485491217?text=Hi, I want to buy: ${n}`;
+        
+        openPage('page-detail');
+        startTimer();
+    }
+
+    function addToCart(n, p) {
+        cart.push({name: n, price: parseInt(p.replace(/,/g,''))});
+        updateCartUI();
+        alert('Added to cart!');
+    }
+
+    function updateCartUI() {
+        const list = document.getElementById('cart-items');
+        const count = cart.length;
+        document.getElementById('cart-count-side').innerText = count;
+        document.getElementById('cart-count-bottom').innerText = count;
+        
+        if(count === 0) {
+            list.innerHTML = '<p style="text-align:center; color:#888;">Your cart is empty.</p>';
+        } else {
+            let total = 0;
+            list.innerHTML = cart.map((item, index) => {
+                total += item.price;
+                return `<div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #222;">
+                    <span style="font-size:13px; max-width:70%;">${item.name}</span>
+                    <b>Rs ${item.price}</b>
+                </div>`;
+            }).join('');
+            document.getElementById('cart-total').innerText = 'Rs ' + total;
+        }
+    }
+
+    // --- Active Timer ---
+    function startTimer() {
+        let seconds = 10800; // 3 hours
+        const display = document.getElementById('flash-timer');
+        const interval = setInterval(() => {
             let h = Math.floor(seconds / 3600);
             let m = Math.floor((seconds % 3600) / 60);
             let s = seconds % 60;
             display.innerText = `${h<10?'0'+h:h}:${m<10?'0'+m:m}:${s<10?'0'+s:s}`;
-            if (seconds-- <= 0) clearInterval(countdown);
+            if (seconds-- <= 0) clearInterval(interval);
         }, 1000);
     }
 
-    function toggleDots() {
-        const p = document.getElementById('dots-panel');
-        p.style.display = p.style.display === 'block' ? 'none' : 'block';
-    }
+    function toggleTheme() { document.body.classList.toggle('light-mode'); }
 
-    function openPage(id) { 
-        closeAll(); 
-        document.getElementById(id).style.display = 'block'; 
-    }
-
-    function closeAll() { 
-        document.querySelectorAll('.full-page').forEach(p => p.style.display = 'none'); 
-        document.getElementById('dots-panel').style.display = 'none';
-    }
-
-    function handleReturn() {
-        const reason = document.querySelector('input[name="ret"]:checked');
-        if(!reason) return alert("Please select a reason!");
-        alert("Return request submitted! Zain Store team will contact you soon.");
-        closeAll();
-    }
-
-    function search() {
-        const query = document.getElementById('searchInput').value.toLowerCase();
-        display(allProducts.filter(p => p.name.toLowerCase().includes(query)));
-    }
-
-    fetchData();
+    loadData();
 </script>
 </body>
 </html>

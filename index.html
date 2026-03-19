@@ -3,160 +3,301 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ZAIN STORE | Tracking & Pro Edition</title>
+    <title>ZAIN STORE | The Infinity Edition</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-        :root { --primary: #ff6801; --bg: #0b0b0b; --card: #151515; --text: #ffffff; --success: #2ecc71; --gray: #888; }
+        :root { --primary: #ff6801; --bg: #0b0b0b; --card: #151515; --text: #ffffff; --success: #2ecc71; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
         body { background: var(--bg); color: var(--text); padding-bottom: 80px; overflow-x: hidden; }
 
-        /* --- UI COMPONENTS --- */
-        header { background: var(--primary); padding: 15px; position: sticky; top: 0; z-index: 2000; border-radius: 0 0 20px 20px; }
-        .page { display: none; padding: 15px; min-height: 100vh; animation: fadeIn 0.4s; }
-        .page.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* Tracking Timeline UI */
-        .tracking-box { background: #1a1a1a; padding: 20px; border-radius: 15px; margin-top: 20px; }
-        .timeline { border-left: 2px solid #333; margin-left: 20px; padding-left: 30px; position: relative; }
-        .step { margin-bottom: 25px; position: relative; color: var(--gray); }
-        .step.active { color: var(--success); font-weight: bold; }
-        .step::before { content: ''; position: absolute; left: -41px; top: 5px; width: 20px; height: 20px; border-radius: 50%; background: #333; border: 4px solid var(--bg); }
-        .step.active::before { background: var(--success); box-shadow: 0 0 10px var(--success); }
-
-        /* Order Success Modal */
-        #order-success { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 9000; align-items: center; justify-content: center; text-align: center; }
-        .success-card { background: #fff; color: #000; padding: 30px; border-radius: 20px; width: 85%; }
-
-        /* Form Inputs */
-        .input-box { width: 100%; padding: 12px; background: #222; border: 1px solid #333; color: white; border-radius: 10px; margin-bottom: 12px; }
-        .btn-track { background: var(--primary); color: #fff; border: none; padding: 12px 25px; border-radius: 10px; font-weight: bold; width: 100%; cursor: pointer; }
-
-        /* Navigation */
+        /* --- NAVIGATION SYSTEM --- */
+        header { background: var(--primary); padding: 15px; position: sticky; top: 0; z-index: 2000; border-radius: 0 0 20px 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.5); }
+        .nav-row { display: flex; justify-content: space-between; align-items: center; }
+        
+        /* Bottom Navigation */
         .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #111; display: flex; justify-content: space-around; padding: 12px; border-top: 1px solid #222; z-index: 3000; }
-        .nav-item { color: #888; text-align: center; font-size: 10px; }
+        .nav-item { color: #888; text-align: center; font-size: 10px; cursor: pointer; }
         .nav-item.active { color: var(--primary); }
+        .nav-item i { font-size: 20px; display: block; }
+
+        /* Sidebar Menu */
+        .sidebar { position: fixed; top: 0; left: -100%; width: 300px; height: 100%; background: #111; z-index: 5000; transition: 0.4s; padding: 25px; border-right: 3px solid var(--primary); }
+        .sidebar.active { left: 0; }
+
+        /* --- CORE PAGES SYSTEM --- */
+        .page { display: none; padding: 15px; min-height: 100vh; }
+        .page.active { display: block; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* --- PRODUCT SYSTEM --- */
+        .banner-slider { width: 100%; height: 150px; background: linear-gradient(45deg, #333, #555); border-radius: 15px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .card { background: var(--card); border-radius: 15px; overflow: hidden; border: 1px solid #222; position: relative; transition: 0.3s; }
+        .flash-tag { position: absolute; top: 8px; left: 8px; background: #e74c3c; color: white; font-size: 9px; padding: 3px 8px; border-radius: 50px; font-weight: bold; }
+        .img-box { height: 150px; background: #fff; display: flex; align-items: center; justify-content: center; }
+        .img-box img { width: 80%; height: 80%; object-fit: contain; }
+
+        /* --- CART & CHECKOUT --- */
+        .cart-item { display: flex; gap: 10px; background: #1a1a1a; padding: 10px; border-radius: 10px; margin-bottom: 10px; align-items: center; }
+        .qty-btn { background: #333; color: white; border: none; padding: 5px 10px; border-radius: 5px; }
+        .checkout-box { background: #1a1a1a; padding: 20px; border-radius: 15px; margin-top: 20px; }
+        .input-field { width: 100%; padding: 12px; background: #222; border: 1px solid #333; color: white; border-radius: 8px; margin-bottom: 10px; }
+
+        /* --- USER SYSTEM / ACCOUNT --- */
+        .user-header { text-align: center; padding: 30px; background: #1a1a1a; border-radius: 20px; margin-bottom: 20px; }
+        .profile-pic { width: 80px; height: 80px; border-radius: 50%; background: var(--primary); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-size: 30px; }
+
+        /* --- REVIEW SYSTEM --- */
+        .verified-badge { color: var(--success); font-size: 11px; display: flex; align-items: center; gap: 3px; font-weight: 600; }
+        .review-card { background: #111; padding: 12px; border-radius: 10px; border-left: 3px solid var(--primary); margin-top: 10px; }
+
+        /* Theme Changer */
+        .color-dot { width: 25px; height: 25px; border-radius: 50%; display: inline-block; margin-right: 10px; cursor: pointer; border: 2px solid white; }
     </style>
 </head>
 <body>
 
+    <div class="sidebar" id="sidebar">
+        <h2 style="color:var(--primary);">ZAIN STORE</h2>
+        <p style="font-size:12px; color:#666; margin-bottom:20px;">Premium Shopping Experience</p>
+        <div onclick="showPage('home')" class="nav-item"><i class="fas fa-home"></i> Home</div>
+        <div onclick="showPage('account')" class="nav-item"><i class="fas fa-user"></i> My Account</div>
+        <div onclick="showPage('orders')" class="nav-item"><i class="fas fa-box"></i> My Orders</div>
+        <div onclick="showPage('wishlist')" class="nav-item"><i class="fas fa-heart"></i> Wishlist</div>
+        <div onclick="showPage('contact')" class="nav-item"><i class="fas fa-headset"></i> Support</div>
+        
+        <div style="margin-top:40px;">
+            <p style="font-size:11px;">SWITCH THEME:</p>
+            <div class="color-dot" style="background:#ff6801;" onclick="setTheme('#ff6801')"></div>
+            <div class="color-dot" style="background:#00bcd4;" onclick="setTheme('#00bcd4')"></div>
+            <div class="color-dot" style="background:#9c27b0;" onclick="setTheme('#9c27b0')"></div>
+        </div>
+        <button onclick="toggleMenu()" style="margin-top:40px; width:100%; padding:10px; background:red; border:none; color:white;">CLOSE</button>
+    </div>
+
     <header>
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-            <i class="fas fa-bars" onclick="alert('Sidebar Menu Connected')"></i>
-            <b style="font-size:18px;">ZAIN STORE PRO</b>
-            <i class="fas fa-search" onclick="showPage('home')"></i>
+        <div class="nav-row">
+            <i class="fas fa-bars" onclick="toggleMenu()"></i>
+            <b style="font-size:18px;">ZAIN STORE</b>
+            <div style="position:relative;" onclick="showPage('cart')">
+                <i class="fas fa-shopping-cart"></i>
+                <span id="cart-count" style="position:absolute; top:-10px; right:-10px; background:white; color:black; font-size:10px; padding:2px 5px; border-radius:50%;">0</span>
+            </div>
+        </div>
+        <div style="margin-top:10px; background:white; border-radius:10px; padding:8px; display:flex; align-items:center;">
+            <i class="fas fa-search" style="color:#888; margin-right:10px;"></i>
+            <input type="text" id="mainSearch" onkeyup="searchItems()" placeholder="Search Products, Brands, Categories..." style="border:none; outline:none; width:100%; font-size:13px;">
         </div>
     </header>
 
     <div id="home-page" class="page active">
-        <div style="background: linear-gradient(to right, #ff6801, #ff9d5c); padding: 20px; border-radius: 15px; margin-bottom: 20px;">
-            <h3>Flash Sale Live! ✅</h3>
-            <p style="font-size: 12px;">Ends In: <span id="timer">00:00:00</span></p>
+        <div class="banner-slider">
+            <h2 style="text-align:center;">FLASH SALE<br><span style="font-size:14px; color:var(--primary);" id="flash-timer">00:00:00</span></h2>
         </div>
-        <h3>Check Order Status</h3>
-        <div class="tracking-box">
-            <input type="text" id="trackInput" class="input-box" placeholder="Enter Order ID (e.g. ZAIN-1234)">
-            <button class="btn-track" onclick="trackOrder()">TRACK NOW</button>
-        </div>
+        <h3 style="margin-bottom:15px;">Trending Products</h3>
+        <div class="grid" id="productGrid"></div>
         
-        <div id="tracking-result" style="display:none;">
-            <div class="tracking-box">
-                <h4 id="track-id-display" style="color:var(--primary);"></h4>
-                <div class="timeline">
-                    <div class="step active"><i class="fas fa-check-circle"></i> Order Placed</div>
-                    <div class="step active"><i class="fas fa-box"></i> Packed & Ready</div>
-                    <div class="step active"><i class="fas fa-truck"></i> On the Way</div>
-                    <div class="step"><i class="fas fa-home"></i> Delivered</div>
-                </div>
+        <div style="text-align:center; padding:40px 0;">
+            <div style="background:white; padding:10px; display:inline-block; border-radius:10px;">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://243-max.github.io" alt="QR">
             </div>
+            <p style="font-size:11px; margin-top:10px;">SCAN & SHARE STORE</p>
         </div>
     </div>
-
-    <div id="tracking-page" class="page">
-        <h2>Order Tracking</h2>
-        <p>Enter your ID to see live location.</p>
-        </div>
 
     <div id="cart-page" class="page">
-        <h2>Order Confirmation</h2>
-        <div class="tracking-box">
-            <input type="text" id="custName" class="input-box" placeholder="Customer Name">
-            <input type="text" id="custPhone" class="input-box" placeholder="WhatsApp Number">
-            <textarea id="custAddr" class="input-box" placeholder="Shipping Address"></textarea>
-            <button class="btn-track" style="background:var(--success);" onclick="placeFinalOrder()">CONFIRM & GENERATE INVOICE</button>
+        <h2>Your Cart</h2>
+        <div id="cart-items-list" style="margin-top:20px;"></div>
+        <div class="checkout-box" id="cart-summary" style="display:none;">
+            <div style="display:flex; justify-content:space-between;"><span>Total:</span><b id="cart-total">Rs 0</b></div>
+            <button onclick="showPage('checkout')" style="width:100%; padding:15px; background:var(--primary); color:white; border:none; border-radius:10px; margin-top:15px; font-weight:bold;">PROCEED TO CHECKOUT</button>
         </div>
     </div>
 
-    <div id="order-success">
-        <div class="success-card">
-            <i class="fas fa-check-circle" style="font-size: 60px; color: var(--success);"></i>
-            <h2 style="margin-top:15px;">Order Placed!</h2>
-            <p style="margin: 10px 0;">Order ID: <b id="new-order-id"></b></p>
-            <p style="font-size: 13px; color: #666;">Note: Please take a screenshot for tracking.</p>
-            <button class="btn-track" onclick="closeSuccess()">GO TO HOME</button>
+    <div id="checkout-page" class="page">
+        <h2>Checkout Details</h2>
+        <div class="checkout-box">
+            <h4>Shipping Address</h4>
+            <input type="text" class="input-field" placeholder="Full Name">
+            <input type="text" class="input-field" placeholder="Phone Number">
+            <textarea class="input-field" placeholder="Complete Address"></textarea>
+            
+            <h4>Payment Method</h4>
+            <select class="input-field">
+                <option>Cash on Delivery</option>
+                <option>EasyPaisa / JazzCash</option>
+                <option>Bank Transfer</option>
+            </select>
+            <button onclick="placeOrder()" style="width:100%; padding:15px; background:var(--success); color:white; border:none; border-radius:10px; font-weight:bold;">CONFIRM ORDER</button>
+        </div>
+    </div>
+
+    <div id="account-page" class="page">
+        <div class="user-header">
+            <div class="profile-pic"><i class="fas fa-user"></i></div>
+            <h3>Zain Ali</h3>
+            <p style="font-size:12px; color:#888;">zain@example.com</p>
+        </div>
+        <div class="checkout-box" onclick="showPage('orders')"><i class="fas fa-box"></i> My Orders <i class="fas fa-chevron-right" style="float:right;"></i></div>
+        <div class="checkout-box" onclick="showPage('wishlist')"><i class="fas fa-heart"></i> Wishlist <i class="fas fa-chevron-right" style="float:right;"></i></div>
+        <div class="checkout-box" onclick="alert('Logged Out')"><i class="fas fa-sign-out-alt"></i> Logout</div>
+    </div>
+
+    <div id="detail-page" class="page" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:4000; background:var(--bg); overflow-y:auto;">
+        <div style="background:var(--primary); padding:15px; display:flex; gap:15px;"><i class="fas fa-arrow-left" onclick="showPage('home')"></i> <b>Product Info</b></div>
+        <img id="d-img" style="width:100%; height:300px; object-fit:contain; background:white;">
+        <div style="padding:20px;">
+            <h2 id="d-name"></h2>
+            <h1 id="d-price" style="color:var(--primary); margin:10px 0;"></h1>
+            <p style="font-size:13px; color:#aaa;">In Stock | Ships in 24h</p>
+            
+            <button onclick="addToCartFromDetail()" style="width:100%; padding:15px; background:var(--primary); color:white; border:none; border-radius:10px; font-weight:bold; margin-top:20px;">ADD TO CART</button>
+            
+            <div style="margin-top:30px;">
+                <h3>Customer Reviews</h3>
+                <div id="reviews-list"></div>
+            </div>
         </div>
     </div>
 
     <div class="bottom-nav">
         <div class="nav-item active" onclick="showPage('home')"><i class="fas fa-home"></i>Home</div>
-        <div class="nav-item" onclick="showPage('cart')"><i class="fas fa-shopping-bag"></i>Order</div>
-        <div class="nav-item" onclick="alert('Notification System Active')"><i class="fas fa-bell"></i>Alerts</div>
+        <div class="nav-item" onclick="showPage('cart')"><i class="fas fa-shopping-basket"></i>Shop</div>
+        <div class="nav-item" onclick="showPage('account')"><i class="fas fa-user-circle"></i>Account</div>
     </div>
 
     <script>
-        // Page Switching
+        const SHEET_CSV = 'https://docs.google.com/spreadsheets/d/13J6c7r2r6-1jN5czgo8fn0Tmn-XFj7BFhLaUHe4kkRY/gviz/tq?tqx=out:csv';
+        let products = [];
+        let cart = [];
+        let currentDetail = null;
+
+        // Fetch & Initialize
+        async function init() {
+            const res = await fetch(SHEET_CSV);
+            const data = await res.text();
+            const rows = data.split('\n').slice(1);
+            products = rows.map(r => {
+                const c = r.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                return { n: c[0].replace(/"/g,""), p: parseInt(c[1].replace(/"/g,"")), i: c[2].replace(/"/g,"") };
+            });
+            renderHome(products);
+            startTimer();
+        }
+
+        function renderHome(list) {
+            document.getElementById('productGrid').innerHTML = list.map(p => `
+                <div class="card" onclick="openProduct('${p.n.replace(/'/g,"\\'")}','${p.p}','${p.i}')">
+                    <div class="flash-tag">FLASHSALE</div>
+                    <div class="img-box"><img src="${p.i}" onerror="this.src='https://via.placeholder.com/150'"></div>
+                    <div class="info">
+                        <div style="font-size:11px; height:32px; overflow:hidden;">${p.n}</div>
+                        <div style="color:var(--primary); font-weight:bold;">Rs ${p.p}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Navigation
         function showPage(id) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(id + '-page').classList.add('active');
+            if(id === 'cart') renderCart();
         }
 
-        // Order Placement Logic
-        function placeFinalOrder() {
-            const name = document.getElementById('custName').value;
-            const phone = document.getElementById('custPhone').value;
-            if(!name || !phone) return alert("Please fill all details!");
+        function toggleMenu() { document.getElementById('sidebar').classList.toggle('active'); }
 
-            const orderID = "ZAIN-" + Math.floor(1000 + Math.random() * 9000);
-            document.getElementById('new-order-id').innerText = orderID;
-            
-            // Save to LocalStorage for tracking
-            localStorage.setItem(orderID, JSON.stringify({
-                status: 'shipped',
-                name: name,
-                date: new Date().toLocaleDateString()
-            }));
-
-            document.getElementById('order-success').style.display = 'flex';
+        // Cart Logic
+        function openProduct(n, p, i) {
+            currentDetail = {n, p, i};
+            document.getElementById('d-name').innerText = n;
+            document.getElementById('d-price').innerText = 'Rs ' + p;
+            document.getElementById('d-img').src = i;
+            showPage('detail');
+            loadMockReviews();
         }
 
-        function closeSuccess() {
-            document.getElementById('order-success').style.display = 'none';
+        function addToCartFromDetail() {
+            cart.push(currentDetail);
+            updateCartUI();
+            alert("Added to cart!");
+        }
+
+        function updateCartUI() {
+            document.getElementById('cart-count').innerText = cart.length;
+        }
+
+        function renderCart() {
+            const list = document.getElementById('cart-items-list');
+            if(cart.length === 0) {
+                list.innerHTML = "<p style='text-align:center;'>Your cart is empty</p>";
+                document.getElementById('cart-summary').style.display = 'none';
+                return;
+            }
+            document.getElementById('cart-summary').style.display = 'block';
+            let total = 0;
+            list.innerHTML = cart.map((item, index) => {
+                total += item.p;
+                return `
+                <div class="cart-item">
+                    <img src="${item.i}" width="50">
+                    <div style="flex:1">
+                        <div style="font-size:12px;">${item.n}</div>
+                        <b>Rs ${item.p}</b>
+                    </div>
+                    <i class="fas fa-trash" onclick="removeFromCart(${index})" style="color:red;"></i>
+                </div>`;
+            }).join('');
+            document.getElementById('cart-total').innerText = 'Rs ' + total;
+        }
+
+        function removeFromCart(i) { cart.splice(i, 1); renderCart(); updateCartUI(); }
+
+        // Extra Features
+        function startTimer() {
+            setInterval(() => {
+                const now = new Date();
+                const t = `${23-now.getHours()}:${59-now.getMinutes()}:${59-now.getSeconds()}`;
+                document.getElementById('flash-timer').innerText = t;
+            }, 1000);
+        }
+
+        function setTheme(c) {
+            document.documentElement.style.setProperty('--primary', c);
+            localStorage.setItem('zain_theme', c);
+        }
+
+        function loadMockReviews() {
+            const revs = [
+                {name: "Ali Khan", msg: "Bohot achi quality hai!", star: 5},
+                {name: "Sara Ahmed", msg: "Fast delivery, satisfied.", star: 4}
+            ];
+            document.getElementById('reviews-list').innerHTML = revs.map(r => `
+                <div class="review-card">
+                    <div class="verified-badge"><i class="fas fa-check-circle"></i> Verified Purchase</div>
+                    <b>${r.name}</b>
+                    <div style="color:#f1c40f;">${'<i class="fas fa-star"></i>'.repeat(r.star)}</div>
+                    <p style="font-size:12px; color:#ccc;">${r.msg}</p>
+                </div>
+            `).join('');
+        }
+
+        function placeOrder() {
+            alert("Order Placed Successfully! Your Invoice ID: #ZAIN-" + Math.floor(Math.random()*9999));
+            cart = [];
+            updateCartUI();
             showPage('home');
         }
 
-        // Tracking Logic
-        function trackOrder() {
-            const id = document.getElementById('trackInput').value.toUpperCase();
-            const orderData = localStorage.getItem(id);
-
-            if(orderData) {
-                document.getElementById('tracking-result').style.display = 'block';
-                document.getElementById('track-id-display').innerText = "Status for " + id;
-                // You can customize timeline based on orderData.status here
-            } else {
-                alert("Order ID not found! Try ZAIN-1234 (Sample)");
-            }
+        function searchItems() {
+            const q = document.getElementById('mainSearch').value.toLowerCase();
+            renderHome(products.filter(x => x.n.toLowerCase().includes(q)));
         }
 
-        // Timer
-        setInterval(() => {
-            const now = new Date();
-            const time = `${23-now.getHours()}:${59-now.getMinutes()}:${59-now.getSeconds()}`;
-            document.getElementById('timer').innerText = time;
-        }, 1000);
+        init();
     </script>
 </body>
 </html>

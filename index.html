@@ -3,190 +3,198 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ZAIN STORE | Cart & Offers</title>
+    <title>ZAIN STORE | Official Pro App</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
     <style>
-        /* --- 1. PREMIUM STYLING --- */
+        /* --- 1. CSS VARIABLES & RESET --- */
         :root {
             --primary: #ff6801;
+            --secondary: #25d366;
             --bg: #000000;
             --card: #161616;
             --text: #ffffff;
-            --secondary: #25d366;
+            --gray: #888888;
         }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+        body { background: var(--bg); color: var(--text); padding-bottom: 90px; overflow-x: hidden; }
 
-        .pink-mode { --primary: #ff4081; --bg: #fff0f5; --card: #ffffff; --text: #000; }
-        
-        * { box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background: var(--bg); color: var(--text); margin: 0; padding-bottom: 80px; transition: 0.3s; }
-
-        /* --- 2. HEADER & SEARCH --- */
+        /* --- 2. HEADER & LIVE SEARCH --- */
         header { 
-            background: var(--primary); padding: 15px; position: sticky; top: 0; z-index: 1000; 
-            border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;
+            background: var(--primary); padding: 15px; position: sticky; top: 0; z-index: 2000; 
+            border-bottom-left-radius: 25px; border-bottom-right-radius: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
-        .header-row { display: flex; justify-content: space-between; align-items: center; }
-        .search-box { 
-            background: white; border-radius: 50px; display: flex; align-items: center; 
-            padding: 8px 15px; margin-top: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        .nav-top { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 24px; font-weight: 800; letter-spacing: 1px; color: white; }
+        
+        .search-wrapper { 
+            background: white; border-radius: 12px; display: flex; align-items: center; 
+            padding: 10px 15px; margin-top: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
-        .search-box input { border: none; outline: none; width: 100%; margin-left: 10px; font-size: 14px; }
+        .search-wrapper input { 
+            border: none; outline: none; width: 100%; font-size: 14px; color: #333; margin-left: 10px;
+        }
 
-        /* --- 3. SIDEBAR --- */
+        /* --- 3. SIDEBAR MENU --- */
         .sidebar {
-            position: fixed; top: 0; left: -100%; width: 80%; height: 100%; 
-            background: #111; z-index: 3000; transition: 0.5s; padding: 25px;
+            position: fixed; top: 0; left: -100%; width: 280px; height: 100%; 
+            background: #111; z-index: 5000; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 30px 20px; box-shadow: 10px 0 30px rgba(0,0,0,0.5);
         }
         .sidebar.active { left: 0; }
-        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2500; display: none; }
+        .sidebar h2 { color: var(--primary); margin-bottom: 30px; border-bottom: 1px solid #333; padding-bottom: 10px; }
+        .menu-link { display: flex; align-items: center; gap: 15px; padding: 15px 0; color: white; text-decoration: none; font-size: 16px; border-bottom: 1px solid #222; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 4500; display: none; }
 
         /* --- 4. PRODUCT GRID --- */
-        .container { padding: 15px; }
+        .main-container { padding: 15px; margin-top: 10px; }
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .p-card { 
             background: var(--card); border-radius: 20px; overflow: hidden; 
-            border: 1px solid #333; position: relative; transition: 0.3s;
+            border: 1px solid #222; position: relative; transition: 0.3s;
         }
-        .p-card img { width: 100%; height: 170px; object-fit: cover; }
+        .p-card:active { transform: scale(0.96); }
+        .p-card img { width: 100%; height: 170px; object-fit: cover; background: white; }
         .p-info { padding: 12px; }
-        .p-name { font-size: 14px; font-weight: 500; margin-bottom: 5px; height: 40px; overflow: hidden; }
-        .p-price { font-weight: bold; color: var(--primary); font-size: 17px; }
+        .p-name { font-size: 13px; font-weight: 500; height: 38px; overflow: hidden; margin-bottom: 5px; color: #ddd; }
+        .p-price { font-size: 18px; font-weight: 800; color: var(--primary); }
 
-        /* --- 5. CART & DETAIL PAGES --- */
-        .page { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 4000; overflow-y: auto; }
-        .page.active { display: block; animation: slideIn 0.3s ease-out; }
-        @keyframes slideIn { from { transform: translateY(100%); } to { transform: translateY(0); } }
-
-        .page-nav { background: var(--primary); padding: 20px; display: flex; align-items: center; gap: 15px; color: white; font-weight: bold; }
+        /* --- 5. PAGES (DETAIL, CART, PAYMENTS) --- */
+        .page { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 6000; overflow-y: auto; }
+        .page.active { display: block; animation: slideUp 0.3s ease-out; }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
         
-        /* Discount Banner in Details */
-        .promo-banner {
-            background: linear-gradient(45deg, #ff0000, #ff6801);
-            color: white; padding: 12px; margin: 15px; border-radius: 12px;
-            text-align: center; font-weight: bold; font-size: 14px;
-        }
+        .page-header { background: var(--primary); padding: 20px; color: white; display: flex; align-items: center; gap: 15px; font-weight: bold; position: sticky; top: 0; z-index: 100; }
+        
+        /* --- 6. CART SYSTEM UI --- */
+        .cart-item { display: flex; gap: 15px; padding: 15px; background: #1a1a1a; margin: 10px; border-radius: 15px; align-items: center; border: 1px solid #333; }
+        .cart-item img { width: 60px; height: 60px; border-radius: 10px; object-fit: cover; }
+        .cart-qty { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+        .qty-btn { background: #333; color: white; border: none; width: 25px; height: 25px; border-radius: 5px; }
 
-        /* --- 6. CART ITEMS UI --- */
-        .cart-item {
-            display: flex; align-items: center; gap: 15px; padding: 15px;
-            border-bottom: 1px solid #333; background: var(--card); margin: 10px; border-radius: 15px;
+        /* --- 7. BOTTOM NAVIGATION --- */
+        .bottom-nav { 
+            position: fixed; bottom: 0; width: 100%; background: #0a0a0a; 
+            display: flex; justify-content: space-around; padding: 12px 0; 
+            border-top: 1px solid #222; z-index: 4000;
         }
-        .cart-item img { width: 70px; height: 70px; border-radius: 10px; object-fit: cover; }
-        .cart-controls { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
-        .qty-btn { background: #333; color: white; border: none; width: 30px; height: 30px; border-radius: 50%; }
-
-        /* --- 7. BOTTOM NAV --- */
-        .bottom-nav {
-            position: fixed; bottom: 0; width: 100%; background: #111;
-            display: flex; justify-content: space-around; padding: 12px 0;
-            border-top: 1.5px solid var(--primary); z-index: 2000;
-        }
-        .nav-item { color: #888; text-align: center; font-size: 10px; cursor: pointer; position: relative; }
-        .nav-item i { font-size: 22px; display: block; margin-bottom: 4px; }
+        .nav-item { color: var(--gray); text-align: center; font-size: 11px; cursor: pointer; position: relative; }
         .nav-item.active { color: var(--primary); }
-        .badge { position: absolute; top: -5px; right: -5px; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 10px; }
+        .nav-item i { font-size: 22px; display: block; margin-bottom: 4px; }
+        .cart-badge { position: absolute; top: -5px; right: -5px; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 10px; font-weight: bold; }
+
+        /* --- 8. FOOTER & QR --- */
+        .footer { background: #080808; padding: 40px 20px; text-align: center; margin-top: 30px; border-top: 2px solid var(--primary); }
+        .qr-box { background: white; padding: 10px; display: inline-block; border-radius: 15px; margin-bottom: 20px; }
+        .support-btn { background: var(--secondary); color: white; padding: 15px 30px; border-radius: 50px; display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-weight: bold; margin-top: 20px; }
 
         /* Action Buttons */
-        .action-bar { position: fixed; bottom: 0; width: 100%; display: flex; height: 65px; z-index: 5000; }
-        .btn-cart { flex: 1; background: #00d1ff; color: white; border: none; font-weight: bold; }
-        .btn-buy { flex: 1; background: var(--primary); color: white; border: none; font-weight: bold; }
+        .action-bar { position: fixed; bottom: 0; width: 100%; display: flex; height: 70px; z-index: 7000; }
+        .btn-add { flex: 1; background: #333; color: white; border: none; font-weight: bold; font-size: 16px; }
+        .btn-order { flex: 1; background: var(--primary); color: white; border: none; font-weight: bold; font-size: 16px; }
     </style>
 </head>
 <body>
 
     <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
-    <div class="sidebar" id="sidebar">
-        <h2 style="color: var(--primary);">ZAIN MENU</h2>
-        <hr style="border: 0.5px solid #333;">
-        <div style="margin-top: 20px;">
-            <p onclick="closeAllPages()">🏠 Home Page</p>
-            <p onclick="openPage('cart-page')">🛒 My Cart</p>
-            <p onclick="openPage('ep-page')">💳 EasyPaisa</p>
-            <p onclick="openPage('ret-page')">🔄 Return Policy</p>
-            <p onclick="toggleTheme()">🎨 Change Theme</p>
-        </div>
-        <p style="position: absolute; bottom: 20px; font-size: 12px; color: #666;">Version 4.0.1 (Pro)</p>
-    </div>
+    <nav class="sidebar" id="sidebar">
+        <h2>ZAIN MENU</h2>
+        <a href="#" class="menu-link" onclick="closeAll()"><i class="fas fa-home"></i> Home</a>
+        <a href="#" class="menu-link" onclick="openPage('cart-page')"><i class="fas fa-shopping-cart"></i> My Cart</a>
+        <a href="#" class="menu-link" onclick="openPage('pay-page')"><i class="fas fa-wallet"></i> EasyPaisa</a>
+        <a href="#" class="menu-link" onclick="openPage('ret-page')"><i class="fas fa-undo"></i> Returns</a>
+        <a href="https://wa.me/923485491217" class="menu-link"><i class="fab fa-whatsapp"></i> WhatsApp Support</a>
+    </nav>
 
     <header>
-        <div class="header-row">
-            <i class="fas fa-bars" style="font-size: 24px; color: white;" onclick="toggleMenu()"></i>
-            <span class="logo" style="font-size: 22px; font-weight: 800; color: white;">ZAIN STORE</span>
+        <div class="nav-top">
+            <i class="fas fa-bars logo" onclick="toggleMenu()"></i>
+            <span class="logo">ZAIN STORE</span>
             <div style="position: relative;" onclick="openPage('cart-page')">
-                <i class="fas fa-shopping-bag" style="font-size: 24px; color: white;"></i>
-                <span class="badge" id="cart-count-top">0</span>
+                <i class="fas fa-shopping-bag logo"></i>
+                <span class="cart-badge" id="badge-top">0</span>
             </div>
         </div>
-        <div class="search-box">
-            <i class="fas fa-search" style="color: #999;"></i>
-            <input type="text" id="searchInput" onkeyup="search()" placeholder="Search bags, watches, gadgets...">
+        <div class="search-wrapper">
+            <i class="fas fa-search" style="color: #888;"></i>
+            <input type="text" id="mainSearch" onkeyup="filterProducts()" placeholder="Bra for girls, Bags, Watches...">
         </div>
     </header>
 
-    <div class="container">
+    <div class="main-container">
         <div class="grid" id="productGrid">
             </div>
     </div>
 
-    <div id="detail-page" class="page">
-        <div class="page-nav"><i class="fas fa-arrow-left" onclick="closePage('detail-page')"></i> Product Details</div>
-        <div class="promo-banner">🔥 RAMADAN SPECIAL: Get 15% Cashback on EasyPaisa!</div>
-        <img id="det-img" style="width: 100%; height: 380px; object-fit: contain; background: white;">
-        
-        <div style="padding: 20px;">
-            <h2 id="det-name" style="margin-bottom: 5px;"></h2>
-            <div id="det-price" style="font-size: 26px; color: var(--primary); font-weight: 900;"></div>
-            <p style="color: #888; font-size: 13px;">Free Delivery | 7 Days Check Warranty | Original Product</p>
-            
-            <div style="margin-top: 20px; background: var(--card); padding: 15px; border-radius: 15px;">
-                <h4 style="margin: 0;">Description</h4>
-                <p style="font-size: 14px; color: #bbb;">Premium quality product available at Zain Store Rawalpindi. Fast shipping all over Pakistan.</p>
-            </div>
+    <footer class="footer">
+        <div class="qr-box">
+            <img id="footer-qr" src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=https://243-max.github.io" alt="QR Code">
         </div>
+        <h3>ZAIN STORE OFFICIAL</h3>
+        <p style="color: #666; font-size: 14px; margin-top: 10px;">Shop #4, Main Bazar, Rawalpindi Cantt.</p>
+        <a href="https://wa.me/923485491217" class="support-btn">
+            <i class="fab fa-whatsapp"></i> CHAT WITH ZAIN
+        </a>
+    </footer>
 
+    <div id="detail-page" class="page">
+        <div class="page-header"><i class="fas fa-arrow-left" onclick="closePage('detail-page')"></i> Back to Store</div>
+        <div style="background: linear-gradient(to right, #ff0000, #ff6801); padding: 10px; text-align: center; font-weight: bold; font-size: 13px;">
+            ⚡ FLASH SALE: 20% OFF FOR GIRLS ITEMS!
+        </div>
+        <img id="det-img" style="width: 100%; height: 350px; object-fit: contain; background: white;">
+        <div style="padding: 20px;">
+            <h2 id="det-name">Product Name</h2>
+            <h1 id="det-price" style="color: var(--primary); margin: 10px 0;">Rs 0</h1>
+            <p style="color: #888; font-size: 14px; line-height: 1.6;">
+                High-quality premium product from Zain Store. Available for delivery all over Pakistan. Cash on delivery active for Rawalpindi & Islamabad.
+            </p>
+        </div>
         <div class="action-bar">
-            <button class="btn-cart" id="addToCartBtn">ADD TO CART</button>
-            <button class="btn-buy" id="buyNowBtn">ORDER NOW</button>
+            <button class="btn-add" id="addCartBtn">ADD TO CART</button>
+            <button class="btn-order" id="orderBtn">ORDER NOW</button>
         </div>
     </div>
 
     <div id="cart-page" class="page">
-        <div class="page-nav"><i class="fas fa-arrow-left" onclick="closePage('cart-page')"></i> My Shopping Cart</div>
-        <div id="cart-items-container">
-            </div>
-        <div id="empty-cart" style="text-align: center; padding: 50px; display: none;">
-            <i class="fas fa-shopping-cart" style="font-size: 50px; color: #333;"></i>
-            <p>Your cart is empty!</p>
+        <div class="page-header"><i class="fas fa-arrow-left" onclick="closePage('cart-page')"></i> My Shopping Cart</div>
+        <div id="cart-items-list" style="padding-top: 10px;"></div>
+        <div id="cart-empty" style="text-align: center; padding: 100px 20px; display: none;">
+            <i class="fas fa-shopping-basket" style="font-size: 50px; color: #222;"></i>
+            <p style="margin-top: 10px; color: #555;">Your cart is empty!</p>
         </div>
-        <div id="cart-footer" style="position: fixed; bottom: 0; width: 100%; background: #111; padding: 20px; border-top: 1px solid #333;">
+        <div id="cart-checkout" style="position: fixed; bottom: 0; width: 100%; background: #111; padding: 20px; border-top: 1px solid #333;">
             <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
-                <span>Total Amount:</span>
-                <span id="total-price" style="color: var(--primary); font-weight: bold; font-size: 20px;">Rs 0</span>
+                <span>Total Bill:</span>
+                <span id="total-price" style="color: var(--primary); font-weight: 800; font-size: 22px;">Rs 0</span>
             </div>
-            <button onclick="checkout()" style="width: 100%; padding: 15px; background: var(--secondary); color: white; border: none; border-radius: 10px; font-weight: bold;">CHECKOUT ON WHATSAPP</button>
+            <button onclick="sendOrder()" style="width: 100%; padding: 15px; background: var(--secondary); color: white; border: none; border-radius: 12px; font-weight: bold; font-size: 16px;">
+                ORDER VIA WHATSAPP
+            </button>
         </div>
     </div>
 
-    <div id="ep-page" class="page">
-        <div class="page-nav"><i class="fas fa-arrow-left" onclick="closePage('ep-page')"></i> Payment Methods</div>
-        <div style="padding: 30px; text-align: center;">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Easypaisa_Logo.png/800px-Easypaisa_Logo.png" width="180">
+    <div id="pay-page" class="page">
+        <div class="page-header"><i class="fas fa-arrow-left" onclick="closePage('pay-page')"></i> Payment Details</div>
+        <div style="padding: 40px 20px; text-align: center;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Easypaisa_Logo.png/800px-Easypaisa_Logo.png" width="160">
             <div style="background: #111; padding: 30px; border-radius: 20px; margin-top: 30px; border: 2px dashed var(--primary);">
-                <p style="color: #888;">Account Name</p>
-                <h3>ZAIN AHMED</h3>
-                <p style="color: #888; margin-top: 20px;">Account Number</p>
-                <h1 style="color: var(--secondary);">0348 5491217</h1>
+                <p style="color: #888;">ACCOUNT HOLDER</p>
+                <h2 style="margin-bottom: 20px;">ZAIN AHMED</h2>
+                <p style="color: #888;">ACCOUNT NUMBER</p>
+                <h1 style="color: var(--secondary); font-size: 28px;">0348 5491217</h1>
             </div>
         </div>
     </div>
 
     <div class="bottom-nav">
-        <div class="nav-item active" onclick="closeAllPages()"><i class="fas fa-home"></i>Home</div>
+        <div class="nav-item active" onclick="closeAll()"><i class="fas fa-home"></i>Home</div>
         <div class="nav-item" onclick="openPage('cart-page')">
             <i class="fas fa-shopping-cart"></i>Cart
-            <span class="badge" id="cart-count-bottom">0</span>
+            <span class="cart-badge" id="badge-bottom">0</span>
         </div>
-        <div class="nav-item" onclick="openPage('ep-page')"><i class="fas fa-wallet"></i>Payments</div>
+        <div class="nav-item" onclick="openPage('pay-page')"><i class="fas fa-wallet"></i>Payments</div>
         <div class="nav-item" onclick="window.location.href='https://wa.me/923485491217'"><i class="fab fa-whatsapp"></i>Help</div>
     </div>
 
@@ -195,23 +203,30 @@
         let allProducts = [];
         let cart = JSON.parse(localStorage.getItem('zainCart')) || [];
 
-        // --- FETCH DATA ---
-        async function init() {
-            const res = await fetch(sheetURL);
-            const data = await res.text();
-            const rows = data.split('\n').slice(1);
-            allProducts = rows.map(r => {
-                const c = r.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                return { name: c[0].replace(/"/g,''), price: parseInt(c[1].replace(/"/g,'')), img: c[2].replace(/"/g,'') };
-            });
-            render(allProducts);
-            updateCartUI();
+        // 1. Fetch Data
+        async function fetchStore() {
+            try {
+                const res = await fetch(sheetURL);
+                const csvText = await res.text();
+                const rows = csvText.split('\n').slice(1);
+                allProducts = rows.map(r => {
+                    const c = r.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                    return {
+                        name: c[0].replace(/"/g,''),
+                        price: parseInt(c[1].replace(/"/g,'')),
+                        img: c[2].replace(/"/g,'')
+                    };
+                });
+                render(allProducts);
+                updateCartUI();
+            } catch (err) { console.error("Store Load Failed"); }
         }
 
         function render(list) {
-            document.getElementById('productGrid').innerHTML = list.map(p => `
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = list.map(p => `
                 <div class="p-card" onclick="openDetail('${p.name.replace(/'/g,"\\'")}','${p.price}','${p.img}')">
-                    <img src="${p.img}">
+                    <img src="${p.img}" onerror="this.src='https://via.placeholder.com/150'">
                     <div class="p-info">
                         <div class="p-name">${p.name}</div>
                         <div class="p-price">Rs ${p.price}</div>
@@ -220,130 +235,108 @@
             `).join('');
         }
 
-        // --- SEARCH ---
-        function search() {
-            const q = document.getElementById('searchInput').value.toLowerCase();
-            render(allProducts.filter(p => p.name.toLowerCase().includes(q)));
+        // 2. Search Engine
+        function filterProducts() {
+            const q = document.getElementById('mainSearch').value.toLowerCase();
+            const filtered = allProducts.filter(p => p.name.toLowerCase().includes(q));
+            render(filtered);
         }
 
-        // --- CART LOGIC ---
+        // 3. Navigation
+        function toggleMenu() {
+            document.getElementById('sidebar').classList.toggle('active');
+            const overlay = document.getElementById('overlay');
+            overlay.style.display = (overlay.style.display === 'block') ? 'none' : 'block';
+        }
+
+        function openPage(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            toggleMenu(); 
+        }
+
+        function closePage(id) { document.getElementById(id).classList.remove('active'); }
+        function closeAll() { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); }
+
+        // 4. Product Detail
         function openDetail(n, p, i) {
             document.getElementById('det-name').innerText = n;
             document.getElementById('det-price').innerText = 'Rs ' + p;
             document.getElementById('det-img').src = i;
             
-            document.getElementById('addToCartBtn').onclick = () => addToCart(n, p, i);
-            document.getElementById('buyNowBtn').onclick = () => {
-                window.location.href = `https://wa.me/923485491217?text=Assalam o Alaikum! I want to buy: ${n} (Rs ${p})`;
+            document.getElementById('addCartBtn').onclick = () => addToCart(n, p, i);
+            document.getElementById('orderBtn').onclick = () => {
+                window.location.href = `https://wa.me/923485491217?text=Assalam o Alaikum! I want to order: ${n} (Rs ${p})`;
             };
-            openPage('detail-page');
+            document.getElementById('detail-page').classList.add('active');
         }
 
-        function addToCart(n, p, i) {
-            const index = cart.findIndex(item => item.name === n);
-            if (index > -1) cart[index].qty++;
-            else cart.push({ name: n, price: p, img: i, qty: 1 });
-            
+        // 5. Cart Logic
+        function addToCart(name, price, img) {
+            const index = cart.findIndex(it => it.name === name);
+            if(index > -1) cart[index].qty++;
+            else cart.push({name, price, img, qty: 1});
             saveCart();
-            alert('Item added to cart!');
+            alert("Added to Cart! 🛒");
         }
 
         function updateCartUI() {
-            const container = document.getElementById('cart-items-container');
+            const list = document.getElementById('cart-items-list');
             const count = cart.reduce((a, b) => a + b.qty, 0);
-            document.getElementById('cart-count-top').innerText = count;
-            document.getElementById('cart-count-bottom').innerText = count;
+            document.getElementById('badge-top').innerText = count;
+            document.getElementById('badge-bottom').innerText = count;
 
-            if (cart.length === 0) {
-                container.innerHTML = "";
-                document.getElementById('empty-cart').style.display = "block";
-                document.getElementById('cart-footer').style.display = "none";
+            if(cart.length === 0) {
+                list.innerHTML = "";
+                document.getElementById('cart-empty').style.display = "block";
+                document.getElementById('cart-checkout').style.display = "none";
                 return;
             }
 
-            document.getElementById('empty-cart').style.display = "none";
-            document.getElementById('cart-footer').style.display = "block";
+            document.getElementById('cart-empty').style.display = "none";
+            document.getElementById('cart-checkout').style.display = "block";
 
             let total = 0;
-            container.innerHTML = cart.map((item, idx) => {
-                total += item.price * item.qty;
+            list.innerHTML = cart.map((item, i) => {
+                total += (item.price * item.qty);
                 return `
                     <div class="cart-item">
                         <img src="${item.img}">
                         <div style="flex:1">
                             <div style="font-size:14px;">${item.name}</div>
                             <div style="color:var(--primary); font-weight:bold;">Rs ${item.price}</div>
-                            <div class="cart-controls">
-                                <button class="qty-btn" onclick="updateQty(${idx}, -1)">-</button>
+                            <div class="cart-qty">
+                                <button class="qty-btn" onclick="changeQty(${i}, -1)">-</button>
                                 <span>${item.qty}</span>
-                                <button class="qty-btn" onclick="updateQty(${idx}, 1)">+</button>
+                                <button class="qty-btn" onclick="changeQty(${i}, 1)">+</button>
                             </div>
                         </div>
-                        <i class="fas fa-trash" style="color:red;" onclick="removeItem(${idx})"></i>
+                        <i class="fas fa-trash" style="color: #ff4444;" onclick="removeCart(${i})"></i>
                     </div>
                 `;
             }).join('');
             document.getElementById('total-price').innerText = 'Rs ' + total;
         }
 
-        function updateQty(idx, change) {
-            cart[idx].qty += change;
-            if (cart[idx].qty < 1) cart.splice(idx, 1);
+        function changeQty(i, delta) {
+            cart[i].qty += delta;
+            if(cart[i].qty < 1) cart.splice(i, 1);
             saveCart();
         }
 
-        function removeItem(idx) {
-            cart.splice(idx, 1);
-            saveCart();
-        }
+        function removeCart(i) { cart.splice(i, 1); saveCart(); }
+        function saveCart() { localStorage.setItem('zainCart', JSON.stringify(cart)); updateCartUI(); }
 
-        function saveCart() {
-            localStorage.setItem('zainCart', JSON.stringify(cart));
-            updateCartUI();
-        }
-
-        function checkout() {
-            let msg = "Assalam o Alaikum Zain Store! I want to order:\n\n";
-            cart.forEach(item => {
-                msg += `• ${item.name} (Qty: ${item.qty}) - Rs ${item.price * item.qty}\n`;
+        function sendOrder() {
+            let msg = "Assalam o Alaikum Zain Ahmed! I want to place an order:\n\n";
+            cart.forEach(it => {
+                msg += `📌 ${it.name}\nQty: ${it.qty} x Rs ${it.price} = Rs ${it.qty * it.price}\n\n`;
             });
-            msg += `\nTotal Bill: ${document.getElementById('total-price').innerText}`;
+            msg += `💰 Total Bill: ${document.getElementById('total-price').innerText}\n\n📍 Please confirm my order.`;
             window.location.href = `https://wa.me/923485491217?text=${encodeURIComponent(msg)}`;
         }
 
-        // --- NAVIGATION ---
-        function openPage(id) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            toggleMenu(false);
-        }
-
-        function closePage(id) {
-            document.getElementById(id).classList.remove('active');
-        }
-
-        function closeAllPages() {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        }
-
-        function toggleMenu(show) {
-            const side = document.getElementById('sidebar');
-            const over = document.getElementById('overlay');
-            if (show === false || side.classList.contains('active')) {
-                side.classList.remove('active');
-                over.style.display = 'none';
-            } else {
-                side.classList.add('active');
-                over.style.display = 'block';
-            }
-        }
-
-        function toggleTheme() {
-            document.body.classList.toggle('pink-mode');
-            toggleMenu(false);
-        }
-
-        init();
+        fetchStore();
     </script>
 </body>
 </html>

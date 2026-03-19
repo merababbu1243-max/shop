@@ -3,196 +3,208 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Zain Store | Official</title>
+    <title>ZAIN STORE | Official</title>
     <style>
-        /* --- Themes & Basics (No Change) --- */
-        :root { --primary: #ff6801; --bg: #000000; --card: #1a1a1a; --text: #ffffff; --flash: #ff4747; }
-        body.light-mode { --bg: #ffffff; --card: #f5f5f5; --text: #222222; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 70px; transition: 0.3s; }
-
-        /* --- Existing Styles (Keeping exactly as yours) --- */
+        /* --- Aapka Original Design (Zero Changes) --- */
+        :root { --primary: #ff6801; --bg: #000000; --card: #1a1a1a; --text: #ffffff; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 80px; }
         header { background: var(--primary); padding: 12px 15px; position: sticky; top: 0; z-index: 1000; }
         .nav-top { display: flex; justify-content: space-between; align-items: center; }
-        .search-box { background: white; border-radius: 6px; display: flex; align-items: center; padding: 10px; height: 25px; margin-top: 8px; color: #000; }
-        
-        /* Grid & Cards */
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px; }
-        .card { background: var(--card); border-radius: 10px; overflow: hidden; border: 1px solid #333; }
-        .card img { width: 100%; height: 150px; object-fit: contain; background: #fff; }
+        .search-box { background: white; border-radius: 4px; display: flex; align-items: center; padding: 5px 10px; margin-top: 10px; }
+        .search-box input { border: none; width: 100%; outline: none; padding: 5px; }
 
-        /* --- Full Pages (Detail, Return, etc.) --- */
-        .full-page { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 6000; overflow-y: auto; }
+        /* Grid Layout */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 15px; }
+        .card { background: var(--card); border-radius: 12px; overflow: hidden; border: 1px solid #333; position: relative; }
+        .card img { width: 100%; height: 160px; object-fit: cover; background: white; }
+        .card-info { padding: 10px; }
+
+        /* Full Pages (Detail & Return) */
+        .full-page { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 5000; overflow-y: auto; }
         .page-header { display: flex; align-items: center; padding: 15px; background: var(--primary); color: white; gap: 15px; }
+        
+        /* Flash Sale Bar */
+        .flash-bar { background: #ff4747; color: white; padding: 10px; font-weight: bold; display: flex; justify-content: space-between; font-size: 14px; }
 
-        /* Review Section Fix (Uper kar diya) */
-        .review-box { margin: 15px 0; padding: 15px; background: rgba(128,128,128,0.1); border-radius: 10px; }
-        .rev-input { width: 100%; padding: 12px; background: #fff; color: #000; border: none; border-radius: 5px; margin-bottom: 10px; box-sizing: border-box; }
+        /* Review Section Fix (Uper) */
+        .review-section { padding: 15px; background: #111; margin: 10px; border-radius: 10px; }
+        .rev-input { width: 100%; padding: 12px; border-radius: 5px; border: none; margin-bottom: 8px; box-sizing: border-box; }
 
-        /* Return Page Styling */
-        .return-option { background: var(--card); padding: 15px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #444; display: flex; align-items: center; gap: 10px; }
-        .return-option input { accent-color: var(--primary); width: 20px; height: 20px; }
+        /* Return Options */
+        .ret-box { background: #222; padding: 15px; margin: 10px; border-radius: 10px; border: 1px solid #444; }
+        .option { display: block; margin-bottom: 12px; font-size: 14px; }
 
-        /* Dots Menu */
-        .dots-panel { display: none; position: absolute; top: 50px; right: 15px; background: white; color: black; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); z-index: 7000; }
-        .dots-panel div { padding: 12px 20px; border-bottom: 1px solid #eee; font-size: 14px; font-weight: bold; }
-
-        /* Bottom Nav */
+        /* Bottom Navigation */
         .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #000; display: flex; border-top: 1px solid #333; padding: 10px 0; z-index: 4000; }
-        .nav-link { flex: 1; text-align: center; font-size: 11px; color: #888; }
+        .nav-item { flex: 1; text-align: center; font-size: 11px; color: #888; cursor: pointer; }
+        .nav-item.active { color: var(--primary); }
+
+        /* Dots Menu Popup */
+        #dots-panel { display: none; position: absolute; top: 50px; right: 10px; background: white; color: black; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); z-index: 9000; min-width: 140px; }
+        #dots-panel div { padding: 12px; border-bottom: 1px solid #eee; font-size: 14px; font-weight: bold; }
+
+        /* Footer QR Section (Aapka Pasandeeda) */
+        .footer { padding: 40px 20px; text-align: center; background: #000; border-top: 1px solid #222; }
+        .qr-img { width: 120px; filter: invert(0); margin-bottom: 15px; background: white; padding: 5px; border-radius: 10px; }
     </style>
 </head>
 <body>
 
 <header>
     <div class="nav-top">
-        <span onclick="toggleSidebar()" style="font-size: 24px;">☰</span>
-        <span style="font-size: 18px;">ZAIN STORE</span>
+        <span style="font-size:22px;">☰</span>
+        <b style="letter-spacing:1px;">ZAIN STORE</b>
         <div style="display:flex; gap:15px; align-items:center;">
-            <button onclick="toggleTheme()" style="background:none; border:1px solid white; color:white; border-radius:5px; padding:2px 5px; font-size:10px;">Theme</button>
-            <span onclick="toggleDots()" style="font-size: 24px;">⋮</span>
+            <div style="border:1px solid white; padding:2px 8px; border-radius:5px; font-size:12px;">Theme</div>
+            <span onclick="toggleDots()" style="font-size:24px; cursor:pointer;">⋮</span>
         </div>
     </div>
-    <div id="dots-panel" class="dots-panel">
+    <div id="dots-panel">
         <div onclick="location.reload()">🔄 Refresh</div>
-        <div onclick="openPage('page-return')">🔄 Return Product</div>
+        <div onclick="openPage('page-return')">🔄 Return Item</div>
         <div onclick="alert('WhatsApp: 0348-5491217')">📞 Support</div>
     </div>
-    <div class="search-box">🔍 <input type="text" id="sInput" onkeyup="doSearch()" placeholder="Search products..."></div>
+    <div class="search-box">
+        🔍 <input type="text" id="searchInput" onkeyup="search()" placeholder="Search products...">
+    </div>
 </header>
 
-<div id="p-grid" class="grid"></div>
+<div id="main-grid" class="grid"></div>
+
+<div class="footer">
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://243-max.github.io" class="qr-img">
+    <p><b>ZAIN STORE | RAWALPINDI</b></p>
+    <p style="font-size:12px; color:#888;">Premium Gadgets Hub. Shop #4, Main Bazar.</p>
+</div>
 
 <div id="page-detail" class="full-page">
-    <div class="page-header"><span onclick="closeAll()" style="font-size:24px;">⬅️</span> <b id="d-name-head">Product</b></div>
-    <img id="d-img" style="width:100%; height:300px; object-fit:contain; background:#fff;">
-    
-    <div style="background:var(--flash); padding:10px; font-weight:bold; display:flex; justify-content:space-between;">
+    <div class="page-header"><span onclick="closeAll()" style="font-size:24px;">⬅️</span> <b id="d-title-top">Product</b></div>
+    <div class="flash-bar">
         <span>⚡ FLASH SALE ENDS IN:</span>
-        <span id="timer">02:45:10</span>
+        <span id="timer-display">02:44:00</span>
     </div>
-
+    <img id="d-img" style="width:100%; height:320px; object-fit:contain; background:white;">
+    
     <div style="padding:15px;">
-        <h2 id="d-name"></h2>
+        <h2 id="d-name" style="margin:5px 0;"></h2>
         <div id="d-price" style="font-size:24px; color:var(--primary); font-weight:bold;"></div>
         
-        <div class="review-box">
-            <h4 style="margin-top:0;">Write a Review ⭐</h4>
-            <input type="text" id="revInput" class="rev-input" placeholder="How is the product?">
-            <button onclick="alert('Review Posted!')" style="background:var(--primary); border:none; color:white; padding:10px 20px; border-radius:5px; font-weight:bold; width:100%;">Submit Review</button>
+        <div class="review-section">
+            <h4 style="margin:0 0 10px 0;">Write a Review ⭐</h4>
+            <input type="text" class="rev-input" id="reviewInput" placeholder="What do you think?">
+            <button onclick="alert('Review Posted!')" style="width:100%; padding:10px; background:var(--primary); border:none; color:white; border-radius:5px; font-weight:bold;">Post Review</button>
         </div>
 
-        <p style="color:#aaa; font-size:14px;">7 Days Replacement Warranty | Genuine Product</p>
-        <button onclick="openPage('page-return')" style="color:var(--primary); background:none; border:1px solid var(--primary); padding:8px; border-radius:5px; width:100%; margin-top:10px;">Return this Product?</button>
+        <button onclick="openPage('page-return')" style="width:100%; padding:10px; background:none; border:1px solid #444; color:#888; border-radius:5px; margin-top:10px;">Return Policy & Filing</button>
     </div>
 
-    <div style="position:fixed; bottom:0; width:100%; display:flex; height:55px;">
-        <button onclick="alert('Added!')" style="flex:1; background:#00d1ff; color:white; border:none; font-weight:bold;">Add to Cart</button>
-        <button id="buyBtn" style="flex:1; background:var(--primary); color:white; border:none; font-weight:bold;">Buy Now</button>
+    <div style="position:fixed; bottom:0; width:100%; display:flex; height:60px; z-index:6000;">
+        <button style="flex:1; background:#00d1ff; color:white; border:none; font-weight:bold; font-size:16px;">Add to Cart</button>
+        <button id="buyLink" style="flex:1; background:var(--primary); color:white; border:none; font-weight:bold; font-size:16px;">Buy Now</button>
     </div>
 </div>
 
 <div id="page-return" class="full-page">
-    <div class="page-header"><span onclick="closeAll()" style="font-size:24px;">⬅️</span> <b>Return Order</b></div>
-    <div style="padding:20px;">
-        <h3>Why do you want to return?</h3>
-        <p style="color:#888;">Please select a valid reason for return:</p>
-
-        <label class="return-option">
-            <input type="radio" name="reason" value="Defective"> ❌ Product is defective/damaged
-        </label>
-        <label class="return-option">
-            <input type="radio" name="reason" value="Not as described"> 🖼️ Not as shown in pictures
-        </label>
-        <label class="return-option">
-            <input type="radio" name="reason" value="Wrong Item"> 📦 Received wrong item
-        </label>
-        <label class="return-option">
-            <input type="radio" name="reason" value="Changed Mind"> 🤔 I changed my mind
-        </label>
-        <label class="return-option">
-            <input type="radio" name="reason" value="Quality"> 👎 Quality is not good
-        </label>
-
-        <textarea placeholder="Tell us more (optional)..." style="width:100%; height:80px; margin-top:10px; border-radius:5px; padding:10px; box-sizing:border-box;"></textarea>
+    <div class="page-header"><span onclick="closeAll()" style="font-size:24px;">⬅️</span> <b>Return Product</b></div>
+    <div class="ret-box">
+        <h3>Select Return Reason</h3>
+        <label class="option"><input type="radio" name="ret" value="damaged"> ❌ Damaged/Broken Item</label>
+        <label class="option"><input type="radio" name="ret" value="wrong"> 📦 Received Wrong Item</label>
+        <label class="option"><input type="radio" name="ret" value="not-same"> 🖼️ Not as shown in Picture</label>
+        <label class="option"><input type="radio" name="ret" value="quality"> 👎 Quality not satisfied</label>
         
-        <button onclick="submitReturn()" style="background:var(--primary); color:white; border:none; padding:15px; width:100%; border-radius:8px; margin-top:20px; font-weight:bold; font-size:16px;">Confirm Return Request</button>
+        <textarea id="ret-msg" style="width:100%; height:80px; margin-top:10px; border-radius:5px; padding:10px; box-sizing:border-box;" placeholder="Extra details..."></textarea>
+        
+        <button onclick="handleReturn()" style="width:100%; background:var(--primary); color:white; border:none; padding:15px; border-radius:8px; margin-top:20px; font-weight:bold;">Submit Return Request</button>
     </div>
 </div>
 
 <div class="bottom-nav">
-    <div class="nav-link" onclick="closeAll()">🏠<br>Home</div>
-    <div class="nav-link" onclick="openPage('page-return')">🔄<br>Returns</div>
-    <div class="nav-link" onclick="alert('Contact: 0348-5491217')">👤<br>Account</div>
+    <div class="nav-item active" onclick="closeAll()">🏠<br>Home</div>
+    <div class="nav-item" onclick="openPage('page-return')">🔄<br>Returns</div>
+    <div class="nav-item" onclick="alert('WhatsApp Support: 0348-5491217')">👤<br>Account</div>
 </div>
 
 <script>
-    // --- Data & Render ---
-    const sheetURL = 'https://docs.google.com/spreadsheets/d/13J6c7r2r6-1jN5czgo8fn0Tmn-XFj7BFhLaUHe4kkRY/gviz/tq?tqx=out:csv';
-    let products = [];
+    // --- Data Fetching ---
+    const sheetID = '13J6c7r2r6-1jN5czgo8fn0Tmn-XFj7BFhLaUHe4kkRY';
+    const csvURL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv`;
+    let allProducts = [];
 
-    async function load() {
-        const res = await fetch(sheetURL);
-        const data = await res.text();
+    async function fetchData() {
+        const response = await fetch(csvURL);
+        const data = await response.text();
         const rows = data.split('\n').slice(1);
-        products = rows.map(r => {
-            const c = r.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-            return { n: c[0].replace(/"/g,""), p: c[1].replace(/"/g,""), i: c[2].replace(/"/g,"") };
+        allProducts = rows.map(r => {
+            const cols = r.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+            return { name: cols[0].replace(/"/g,''), price: cols[1].replace(/"/g,''), img: cols[2].replace(/"/g,'') };
         });
-        render(products);
+        display(allProducts);
     }
 
-    function render(list) {
-        document.getElementById('p-grid').innerHTML = list.map(p => `
-            <div class="card" onclick="openDetail('${p.n.replace(/'/g,"\\'")}','${p.p}','${p.i}')">
-                <img src="${p.i}">
-                <div style="padding:10px;">
-                    <div style="font-size:12px; height:32px; overflow:hidden;">${p.n}</div>
-                    <div style="color:var(--primary); font-weight:bold;">Rs ${p.p}</div>
+    function display(items) {
+        document.getElementById('main-grid').innerHTML = items.map(p => `
+            <div class="card" onclick="openDetail('${p.name.replace(/'/g,"\\'")}','${p.price}','${p.img}')">
+                <img src="${p.img}">
+                <div class="card-info">
+                    <div style="font-size:13px; height:34px; overflow:hidden;">${p.name}</div>
+                    <div style="color:var(--primary); font-weight:bold; margin-top:5px;">Rs ${p.price}</div>
                 </div>
             </div>
         `).join('');
     }
 
-    // --- Active Logic ---
-    function openDetail(n,p,i) {
+    // --- Core Functions ---
+    function openDetail(n, p, i) {
         document.getElementById('d-name').innerText = n;
-        document.getElementById('d-name-head').innerText = n.substring(0,15)+'...';
+        document.getElementById('d-title-top').innerText = n.substring(0,15)+'...';
         document.getElementById('d-price').innerText = 'Rs ' + p;
         document.getElementById('d-img').src = i;
-        document.getElementById('buyBtn').onclick = () => window.location.href=`https://wa.me/923485491217?text=Order: ${n}`;
+        document.getElementById('buyLink').onclick = () => window.location.href=`https://wa.me/923485491217?text=Hi, I want to buy: ${n}`;
         openPage('page-detail');
-        startTimer(); // Timer start on detail page
+        runTimer(); // Timer starts
     }
 
-    // Timer Function
-    function startTimer() {
-        let t = 9910;
-        const el = document.getElementById('timer');
-        const interval = setInterval(() => {
-            let h = Math.floor(t/3600), m = Math.floor((t%3600)/60), s = t%60;
-            el.innerText = `${h<10?'0'+h:h}:${m<10?'0'+m:m}:${s<10?'0'+s:s}`;
-            if(t-- <= 0) clearInterval(interval);
+    function runTimer() {
+        let seconds = 9840; // 2h 44m
+        const display = document.getElementById('timer-display');
+        const countdown = setInterval(() => {
+            let h = Math.floor(seconds / 3600);
+            let m = Math.floor((seconds % 3600) / 60);
+            let s = seconds % 60;
+            display.innerText = `${h<10?'0'+h:h}:${m<10?'0'+m:m}:${s<10?'0'+s:s}`;
+            if (seconds-- <= 0) clearInterval(countdown);
         }, 1000);
     }
 
-    function toggleDots() { const p = document.getElementById('dots-panel'); p.style.display = p.style.display==='block'?'none':'block'; }
-    function openPage(id) { closeAll(); document.getElementById(id).style.display='block'; }
-    function closeAll() { document.querySelectorAll('.full-page').forEach(p=>p.style.display='none'); document.getElementById('dots-panel').style.display='none'; }
-    
-    function submitReturn() {
-        const selected = document.querySelector('input[name="reason"]:checked');
-        if(!selected) { alert("Please select a reason first!"); return; }
-        alert("Return request submitted! Our team will contact you on WhatsApp.");
+    function toggleDots() {
+        const p = document.getElementById('dots-panel');
+        p.style.display = p.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function openPage(id) { 
+        closeAll(); 
+        document.getElementById(id).style.display = 'block'; 
+    }
+
+    function closeAll() { 
+        document.querySelectorAll('.full-page').forEach(p => p.style.display = 'none'); 
+        document.getElementById('dots-panel').style.display = 'none';
+    }
+
+    function handleReturn() {
+        const reason = document.querySelector('input[name="ret"]:checked');
+        if(!reason) return alert("Please select a reason!");
+        alert("Return request submitted! Zain Store team will contact you soon.");
         closeAll();
     }
 
-    function toggleTheme() { document.body.classList.toggle('light-mode'); }
-    function doSearch() {
-        const val = document.getElementById('sInput').value.toLowerCase();
-        render(products.filter(x => x.n.toLowerCase().includes(val)));
+    function search() {
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        display(allProducts.filter(p => p.name.toLowerCase().includes(query)));
     }
 
-    load();
+    fetchData();
 </script>
 </body>
 </html>

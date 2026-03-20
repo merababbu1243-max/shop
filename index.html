@@ -7,41 +7,50 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #a32cc4; --bg: #000000; --card: #121212; --text: #ffffff; --success: #2ecc71; --star: #f1c40f; }
+        :root { --primary: #a32cc4; --bg: #000; --card: #121212; --text: #fff; --success: #2ecc71; --star: #f1c40f; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
-        body { background: var(--bg); color: var(--text); padding-bottom: 80px; }
+        body { background: var(--bg); color: var(--text); padding-bottom: 80px; overflow-x: hidden; }
 
         /* Loader */
         #loader { position: fixed; width: 100%; height: 100%; background: #000; z-index: 9999; display: flex; align-items: center; justify-content: center; flex-direction: column; color: var(--primary); }
         .spinner { width: 40px; height: 40px; border: 4px solid #222; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        header { background: var(--primary); padding: 15px; position: sticky; top: 0; z-index: 2000; border-radius: 0 0 20px 20px; }
-        .nav-row { display: flex; justify-content: space-between; align-items: center; }
-        .sidebar { position: fixed; top: 0; left: -100%; width: 280px; height: 100%; background: #111; z-index: 9000; transition: 0.4s; padding: 25px; border-right: 3px solid var(--primary); }
+        /* Header & Sidebar */
+        header { background: var(--primary); padding: 15px; position: sticky; top: 0; z-index: 2000; border-radius: 0 0 20px 20px; box-shadow: 0 4px 15px rgba(163, 44, 196, 0.3); }
+        .sidebar { position: fixed; top: 0; left: -100%; width: 280px; height: 100%; background: #111; z-index: 9000; transition: 0.4s; padding: 25px; border-right: 2px solid var(--primary); }
         .sidebar.active { left: 0; }
         .sidebar-link { display: flex; align-items: center; gap: 15px; padding: 15px 0; color: #ccc; cursor: pointer; border-bottom: 1px solid #222; }
+
+        /* Banner Slider */
+        .slider { width: 100%; height: 160px; overflow: hidden; margin-top: 15px; border-radius: 15px; position: relative; border: 1px solid #333; }
+        .slides { display: flex; width: 300%; height: 100%; animation: slide 10s infinite; }
+        .slide { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 20px; color: #fff; background-size: cover; background-position: center; }
+        @keyframes slide { 0%, 30% { transform: translateX(0); } 33%, 63% { transform: translateX(-33.33%); } 66%, 100% { transform: translateX(-66.66%); } }
+
+        /* Categories Bar */
+        .categories-bar { display: flex; gap: 10px; overflow-x: auto; padding: 15px 0; scrollbar-width: none; }
+        .cat-btn { padding: 8px 20px; background: #1a1a1a; border-radius: 20px; border: 1px solid #333; white-space: nowrap; font-size: 12px; cursor: pointer; }
+        .cat-btn.active { background: var(--primary); border-color: var(--primary); }
 
         .page { display: none; padding: 15px; min-height: 100vh; animation: fadeIn 0.3s; }
         .page.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .card { background: var(--card); border-radius: 15px; overflow: hidden; border: 1px solid #222; }
-        .img-box { height: 160px; background: #fff; display: flex; align-items: center; justify-content: center; }
+        .img-box { height: 150px; background: #fff; display: flex; align-items: center; justify-content: center; }
         .img-box img { width: 85%; height: 85%; object-fit: contain; }
-        .info { padding: 12px; }
 
         .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #000; display: flex; justify-content: space-around; padding: 12px; border-top: 2px solid var(--primary); z-index: 4000; }
         .nav-item { color: #888; text-align: center; font-size: 10px; cursor: pointer; }
         .nav-item.active { color: var(--primary); }
         
+        /* Wheel CSS */
+        #wheel { width: 250px; height: 250px; border-radius: 50%; border: 8px solid #333; margin: 20px auto; transition: 4s cubic-bezier(0.1, 0, 0.1, 1); background: conic-gradient(#ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000); position: relative; }
+        #wheel::after { content: '▼'; position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 25px; color: var(--primary); }
+
         .input-style { width: 100%; padding: 14px; background: #1a1a1a; border: 1px solid #333; color: #fff; border-radius: 10px; margin-bottom: 12px; }
-        .wa-btn { position: fixed; bottom: 0; width: 100%; padding: 20px; background: var(--success); color: #fff; border: none; font-weight: bold; z-index: 8001; }
-        
-        /* Payment Badge */
-        .pay-badge { background: #111; padding: 15px; border-radius: 15px; border: 1px solid #333; margin-top: 10px; display: flex; align-items: center; gap: 15px; }
-        .pay-badge img { width: 50px; border-radius: 5px; }
     </style>
 </head>
 <body>
@@ -49,86 +58,99 @@
     <div id="loader"><div class="spinner"></div><h2>ZAIN STORE</h2></div>
 
     <div class="sidebar" id="sidebar">
-        <h2 style="color:var(--primary);">ZAIN STORE</h2>
+        <h2 style="color:var(--primary); margin-bottom:20px;">ZAIN STORE</h2>
         <div class="sidebar-link" onclick="showPage('home')"><i class="fas fa-home"></i> Home</div>
+        <div class="sidebar-link" onclick="showPage('spin')"><i class="fas fa-dharmachakra"></i> Lucky Spin</div>
         <div class="sidebar-link" onclick="showPage('pay')"><i class="fas fa-wallet"></i> Payment Methods</div>
         <div class="sidebar-link" onclick="showPage('returns')"><i class="fas fa-undo"></i> Return Policy</div>
-        <button onclick="toggleSidebar(false)" style="margin-top:40px; width:100%; padding:10px; background:var(--primary); color:#fff; border:none; border-radius:10px;">CLOSE</button>
+        <button onclick="toggleSidebar(false)" style="margin-top:40px; width:100%; padding:10px; background:var(--primary); border:none; border-radius:10px; color:#fff;">CLOSE</button>
     </div>
 
     <header>
         <div class="nav-row">
             <i class="fas fa-bars" onclick="toggleSidebar(true)"></i>
             <b>ZAIN STORE</b>
-            <button onclick="toggleCurrency()" id="currBtn" style="background:#000; color:#fff; border:none; padding:5px 10px; border-radius:5px; font-size:10px;">PKR</button>
+            <button onclick="toggleCurrency()" id="currBtn" style="background:#000; color:#fff; border:1px solid #444; padding:5px 10px; border-radius:5px; font-size:10px;">PKR</button>
         </div>
         <div style="background:#fff; border-radius:10px; display:flex; padding:8px 15px; margin-top:10px;">
-            <input type="text" id="mainSearch" onkeyup="render()" placeholder="Search products..." style="border:none; outline:none; width:100%;">
+            <input type="text" id="mainSearch" onkeyup="render()" placeholder="Search mobile accessories..." style="border:none; outline:none; width:100%;">
         </div>
     </header>
 
     <div id="home-page" class="page active">
+        <div class="slider">
+            <div class="slides">
+                <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://img.freepik.com/free-vector/gradient-purple-sale-background_23-2149117180.jpg');">RAMADAN SPECIAL SALE</div>
+                <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://img.freepik.com/free-vector/flat-sale-background-with-abstract-shapes_23-2149117181.jpg');">50% OFF ON COVERS</div>
+                <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://img.freepik.com/free-vector/modern-sale-banner-design_23-2149117182.jpg');">FASTEST DELIVERY</div>
+            </div>
+        </div>
+
+        <div class="categories-bar">
+            <div class="cat-btn active" onclick="filterCat('All', this)">All</div>
+            <div class="cat-btn" onclick="filterCat('Covers', this)">Covers</div>
+            <div class="cat-btn" onclick="filterCat('Chargers', this)">Chargers</div>
+            <div class="cat-btn" onclick="filterCat('Airpods', this)">Airpods</div>
+        </div>
+
         <div class="grid" id="productGrid"></div>
         
         <div style="text-align:center; padding:40px 20px; border-top:1px solid #222; margin-top:30px; background:#080808;">
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=https://243-max.github.io" style="background:#fff; padding:8px; border-radius:10px;">
-            <p style="margin-top:10px; font-weight:bold; color:var(--primary);">ZAIN STORE | RAWALPINDI</p>
-            <p style="font-size:11px; color:#666;">Shop #4, Main Bazar, Rawalpindi<br>0348-5491217</p>
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://243-max.github.io" style="background:#fff; padding:8px; border-radius:10px;">
+            <p style="margin-top:15px; font-weight:bold; color:var(--primary);">SCAN TO VISIT OFFICIAL SITE</p>
+            <p style="font-size:11px; color:#666; margin-top:10px;">Rawalpindi, Pakistan | WhatsApp: 0348-5491217</p>
+        </div>
+    </div>
+
+    <div id="spin-page" class="page">
+        <div style="text-align:center;">
+            <h2>Lucky Spin & Win</h2>
+            <p style="font-size:12px; color:#888;">Order se pehle koshish karein!</p>
+            <div id="wheel"></div>
+            <button onclick="spinWheel()" style="width:100%; padding:15px; background:var(--primary); color:#fff; border:none; border-radius:50px; font-weight:bold; font-size:18px;">SPIN NOW</button>
+            <div id="spinMsg" style="margin-top:20px; color:var(--success); font-weight:bold;"></div>
         </div>
     </div>
 
     <div id="pay-page" class="page">
-        <h2 style="color:var(--primary); margin-bottom:20px;">Payment Methods</h2>
-        <div class="pay-badge">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Easypaisa_logo.png/640px-Easypaisa_logo.png">
-            <div><b>EasyPaisa</b><br><small>0348-5491217 (Zain Ali)</small></div>
-        </div>
-        <div class="pay-badge">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/2/23/JazzCash_logo.png">
-            <div><b>JazzCash</b><br><small>0348-5491217 (Zain Ali)</small></div>
-        </div>
-        <p style="margin-top:20px; font-size:13px; color:#888;">* Payment karne ke baad screenshot WhatsApp par zaroor bhein.</p>
-    </div>
-
-    <div id="returns-page" class="page">
-        <h2 style="color:var(--primary);"><i class="fas fa-undo"></i> Return Policy</h2>
-        <div style="background:#111; padding:20px; border-radius:15px; margin-top:15px; line-height:1.6;">
-            <p>1. 7 Days Replacement Policy.</p>
-            <p>2. Faulty items will be exchanged.</p>
-            <p>3. WhatsApp us for any issues.</p>
+        <h2 style="color:var(--primary);">Payment Methods</h2>
+        <div style="background:#111; padding:20px; border-radius:15px; border:1px solid #333; margin-top:15px;">
+            <p><b>EasyPaisa / JazzCash</b></p>
+            <p style="font-size:24px; color:var(--success); margin:10px 0;">0348 5491217</p>
+            <p>Name: <b>Zain Ali</b></p>
+            <hr style="border:1px solid #222; margin:15px 0;">
+            <p style="font-size:12px; color:#888;">Payment karne ke baad screenshot WhatsApp par bhejein order number ke sath.</p>
         </div>
     </div>
 
     <div id="detail-page" class="page" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:8000; background:#000; overflow-y:auto; display:none;">
         <div style="background:var(--primary); padding:15px; display:flex; align-items:center; gap:15px;">
-            <i class="fas fa-arrow-left" onclick="closeDetail()"></i> <b>Checkout Detail</b>
+            <i class="fas fa-arrow-left" onclick="closeDetail()"></i> <b>Product Details</b>
         </div>
-        <img id="d-img" style="width:100%; height:250px; object-fit:contain; background:#fff;">
+        <img id="d-img" style="width:100%; height:300px; object-fit:contain; background:#fff;">
         <div style="padding:20px;">
             <h2 id="d-name"></h2>
             <h1 id="d-price" style="color:var(--primary);"></h1>
-            
-            <div style="background:#111; padding:15px; border-radius:15px; margin-top:15px;">
-                <input type="text" id="c-name" class="input-style" placeholder="Customer Name">
+            <div style="margin-top:15px;">
+                <input type="text" id="c-name" class="input-style" placeholder="Your Full Name">
                 <input type="number" id="c-phone" class="input-style" placeholder="WhatsApp Number">
-                <textarea id="c-addr" class="input-style" placeholder="Complete Address" style="height:70px;"></textarea>
+                <textarea id="c-addr" class="input-style" placeholder="Complete Home Address" style="height:80px;"></textarea>
             </div>
-
-            <div id="reviews-list" style="margin-top:20px; padding-bottom:100px;"></div>
+            <button onclick="sendOrder()" style="width:100%; padding:18px; background:var(--success); color:#fff; border:none; border-radius:12px; font-weight:bold; font-size:16px;"><i class="fab fa-whatsapp"></i> ORDER ON WHATSAPP</button>
         </div>
-        <button onclick="sendOrder()" class="wa-btn">CONFIRM ORDER ON WHATSAPP</button>
     </div>
 
     <div class="bottom-nav">
         <div class="nav-item active" onclick="showPage('home')"><i class="fas fa-home"></i><br>Home</div>
+        <div class="nav-item" onclick="showPage('spin')"><i class="fas fa-dharmachakra"></i><br>Spin</div>
         <div class="nav-item" onclick="showPage('pay')"><i class="fas fa-wallet"></i><br>Pay</div>
-        <div class="nav-item" onclick="showPage('returns')"><i class="fas fa-undo"></i><br>Returns</div>
     </div>
 
     <script>
         const CSV_URL = 'https://docs.google.com/spreadsheets/d/13J6c7r2r6-1jN5czgo8fn0Tmn-XFj7BFhLaUHe4kkRY/gviz/tq?tqx=out:csv';
         let products = [];
         let isUSD = false;
+        let currentCat = 'All';
 
         async function init() {
             const res = await fetch(CSV_URL);
@@ -136,24 +158,41 @@
             const rows = data.split('\n').slice(1);
             products = rows.map(r => {
                 const c = r.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                return { n: c[0].replace(/"/g,""), p: c[1].replace(/"/g,""), i: c[2].replace(/"/g,"") };
+                return { 
+                    n: c[0].replace(/"/g,""), 
+                    p: c[1].replace(/"/g,""), 
+                    i: c[2].replace(/"/g,""),
+                    cat: c[3] ? c[3].replace(/"/g,"").trim() : 'All'
+                };
             });
             render();
-            setTimeout(() => { document.getElementById('loader').style.display='none'; }, 1000);
+            setTimeout(() => { document.getElementById('loader').style.display='none'; }, 1500);
         }
 
         function render() {
             const grid = document.getElementById('productGrid');
             const query = document.getElementById('mainSearch').value.toLowerCase();
-            grid.innerHTML = products.filter(x => x.n.toLowerCase().includes(query)).map(p => `
+            const filtered = products.filter(p => 
+                (currentCat === 'All' || p.cat === currentCat) && 
+                p.n.toLowerCase().includes(query)
+            );
+
+            grid.innerHTML = filtered.map(p => `
                 <div class="card" onclick="openDetail('${p.n.replace(/'/g,"\\'")}','${p.p}','${p.i}')">
                     <div class="img-box"><img src="${p.i}"></div>
-                    <div class="info">
+                    <div class="info" style="padding:12px;">
                         <div style="font-size:11px; height:32px; overflow:hidden;">${p.n}</div>
-                        <div class="price">${isUSD ? '$ '+(parseInt(p.p)/280).toFixed(2) : 'Rs '+p.p}</div>
+                        <div style="color:var(--primary); font-weight:800; margin-top:5px;">${isUSD ? '$ '+(parseInt(p.p)/280).toFixed(2) : 'Rs '+p.p}</div>
                     </div>
                 </div>
             `).join('');
+        }
+
+        function filterCat(cat, btn) {
+            currentCat = cat;
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            render();
         }
 
         function openDetail(n, p, i) {
@@ -171,15 +210,23 @@
             const cN = document.getElementById('c-name').value;
             const cP = document.getElementById('c-phone').value;
             const cA = document.getElementById('c-addr').value;
-            if(!cN || !cP || !cA) return alert("Details bharein!");
-            const msg = `*ZAIN STORE ORDER*%0A📦*Item:* ${n}%0A💰*Price:* ${p}%0A👤*Name:* ${cN}%0A📞*Phone:* ${cP}%0A📍*Addr:* ${cA}%0A💳*Method:* Cash/EasyPaisa`;
+            if(!cN || !cP || !cA) return alert("Please fill all details!");
+            const msg = `*NEW ORDER - ZAIN STORE*%0A📦*Item:* ${n}%0A💰*Price:* ${p}%0A👤*Name:* ${cN}%0A📞*Phone:* ${cP}%0A📍*Addr:* ${cA}`;
             window.location.href = `https://wa.me/923485491217?text=${msg}`;
+        }
+
+        function spinWheel() {
+            const w = document.getElementById('wheel');
+            const deg = Math.floor(Math.random() * 5000) + 2000;
+            w.style.transform = `rotate(${deg}deg)`;
+            setTimeout(() => { document.getElementById('spinMsg').innerText = "JACKPOT! CODE: ZAIN10 (10% OFF)"; }, 4100);
         }
 
         function showPage(id) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(id + '-page').classList.add('active');
             toggleSidebar(false);
+            window.scrollTo(0,0);
         }
 
         function toggleSidebar(v) { document.getElementById('sidebar').classList.toggle('active', v); }

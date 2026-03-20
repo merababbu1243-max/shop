@@ -7,212 +7,162 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #a32cc4; --bg: #000; --card: #121212; --text: #fff; --success: #2ecc71; }
+        :root { --primary: #a32cc4; --bg: #000; --card: #121212; --text: #fff; --success: #2ecc71; --accent: #f39c12; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
         body { background: var(--bg); color: var(--text); padding-bottom: 80px; overflow-x: hidden; }
 
-        /* Loader */
-        #loader { position: fixed; width: 100%; height: 100%; background: #000; z-index: 9999; display: flex; align-items: center; justify-content: center; flex-direction: column; color: var(--primary); }
-        .spinner { width: 40px; height: 40px; border: 4px solid #222; border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        /* Timer Styling */
+        .timer-box { background: linear-gradient(45deg, #1a1a1a, #000); border: 1px solid var(--primary); border-radius: 15px; padding: 15px; text-align: center; margin: 15px 0; }
+        #timer { font-size: 24px; font-weight: 800; color: #fff; letter-spacing: 2px; }
 
-        /* Header & Sidebar */
+        /* Review Section */
+        .review-section { margin-top: 25px; padding-top: 20px; border-top: 1px solid #333; }
+        .stars { color: var(--accent); margin-bottom: 10px; font-size: 18px; }
+        .upload-btn { width: 100%; padding: 12px; background: #1a1a1a; border: 2px dashed #444; color: #ccc; border-radius: 10px; margin-bottom: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
+
+        /* Header & Common UI */
         header { background: var(--primary); padding: 15px; position: sticky; top: 0; z-index: 2000; border-radius: 0 0 20px 20px; }
-        .sidebar { position: fixed; top: 0; left: -100%; width: 280px; height: 100%; background: #111; z-index: 9000; transition: 0.4s; padding: 25px; border-right: 2px solid var(--primary); }
-        .sidebar.active { left: 0; }
-        .sidebar-link { display: flex; align-items: center; gap: 15px; padding: 15px 0; color: #ccc; cursor: pointer; border-bottom: 1px solid #222; }
-
-        /* Banner Slider */
-        .slider { width: 100%; height: 160px; overflow: hidden; margin-top: 15px; border-radius: 15px; position: relative; border: 1px solid #333; }
-        .slides { display: flex; width: 300%; height: 100%; animation: slide 10s infinite; }
-        .slide { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px; color: #fff; background-size: cover; background-position: center; }
-        @keyframes slide { 0%, 30% { transform: translateX(0); } 33%, 63% { transform: translateX(-33.33%); } 66%, 100% { transform: translateX(-66.66%); } }
-
-        /* Categories Bar */
-        .categories-bar { display: flex; gap: 10px; overflow-x: auto; padding: 15px 0; scrollbar-width: none; }
-        .cat-btn { padding: 8px 20px; background: #1a1a1a; border-radius: 20px; border: 1px solid #333; white-space: nowrap; font-size: 12px; cursor: pointer; }
-        .cat-btn.active { background: var(--primary); border-color: var(--primary); }
-
-        .page { display: none; padding: 15px; min-height: 100vh; animation: fadeIn 0.3s; }
-        .page.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 10px; }
         .card { background: var(--card); border-radius: 15px; overflow: hidden; border: 1px solid #222; }
         .img-box { height: 150px; background: #fff; display: flex; align-items: center; justify-content: center; }
         .img-box img { width: 85%; height: 85%; object-fit: contain; }
-
+        
+        .input-style { width: 100%; padding: 14px; background: #1a1a1a; border: 1px solid #333; color: #fff; border-radius: 10px; margin-bottom: 12px; outline: none; }
         .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #000; display: flex; justify-content: space-around; padding: 12px; border-top: 2px solid var(--primary); z-index: 4000; }
         .nav-item { color: #888; text-align: center; font-size: 10px; cursor: pointer; }
         .nav-item.active { color: var(--primary); }
-        
-        /* Wheel Styling */
-        #wheel { width: 250px; height: 250px; border-radius: 50%; border: 8px solid #333; margin: 20px auto; transition: 4s cubic-bezier(0.1, 0, 0.1, 1); background: conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00); position: relative; }
-        #wheel::after { content: '▼'; position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 25px; color: var(--primary); }
-
-        .input-style { width: 100%; padding: 14px; background: #1a1a1a; border: 1px solid #333; color: #fff; border-radius: 10px; margin-bottom: 12px; }
-        .return-card { background: #111; padding: 15px; border-radius: 12px; margin-bottom: 10px; display: flex; align-items: center; gap: 15px; border-left: 4px solid var(--primary); }
     </style>
 </head>
 <body>
 
-    <div id="loader"><div class="spinner"></div><h2>ZAIN STORE</h2></div>
-
-    <div class="sidebar" id="sidebar">
-        <h2 style="color:var(--primary); margin-bottom:20px;">ZAIN STORE</h2>
-        <div class="sidebar-link" onclick="showPage('home')"><i class="fas fa-home"></i> Home</div>
-        <div class="sidebar-link" onclick="showPage('spin')"><i class="fas fa-dharmachakra"></i> Lucky Spin</div>
-        <div class="sidebar-link" onclick="showPage('pay')"><i class="fas fa-wallet"></i> Payment Methods</div>
-        <div class="sidebar-link" onclick="showPage('returns')"><i class="fas fa-undo"></i> Return Policy</div>
-        <button onclick="toggleSidebar(false)" style="margin-top:40px; width:100%; padding:10px; background:var(--primary); border:none; border-radius:10px; color:#fff;">CLOSE</button>
-    </div>
-
     <header>
-        <div class="nav-row">
-            <i class="fas fa-bars" onclick="toggleSidebar(true)"></i>
-            <b>ZAIN STORE</b>
-            <button onclick="toggleCurrency()" id="currBtn" style="background:#000; color:#fff; border:1px solid #444; padding:5px 10px; border-radius:5px; font-size:10px;">PKR</button>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <i class="fas fa-bars"></i>
+            <b style="font-size:18px;">ZAIN STORE</b>
+            <i class="fas fa-shopping-bag"></i>
         </div>
         <div style="background:#fff; border-radius:10px; display:flex; padding:8px 15px; margin-top:10px;">
             <input type="text" id="mainSearch" onkeyup="render()" placeholder="Search Products..." style="border:none; outline:none; width:100%;">
         </div>
     </header>
 
-    <div id="home-page" class="page active">
-        <div class="slider">
-            <div class="slides">
-                <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://img.freepik.com/free-vector/gradient-purple-sale-background_23-2149117180.jpg');">SPECIAL DISCOUNT</div>
-                <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://img.freepik.com/free-vector/flat-sale-background-with-abstract-shapes_23-2149117181.jpg');">NEW ARRIVALS</div>
-                <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://img.freepik.com/free-vector/modern-sale-banner-design_23-2149117182.jpg');">FAST DELIVERY</div>
-            </div>
-        </div>
-
-        <div class="categories-bar">
-            <div class="cat-btn active" onclick="filterCat('All', this)">All</div>
-            <div class="cat-btn" onclick="filterCat('Covers', this)">Covers</div>
-            <div class="cat-btn" onclick="filterCat('Watches', this)">Watches</div>
-            <div class="cat-btn" onclick="filterCat('Gadgets', this)">Gadgets</div>
+    <div id="home-page" class="page active" style="padding:15px;">
+        <div class="timer-box">
+            <p style="color:var(--primary); font-size:12px; font-weight:bold; text-transform:uppercase;">Flash Sale Ending In</p>
+            <div id="timer">00:00:00</div>
         </div>
 
         <div class="grid" id="productGrid"></div>
         
         <div style="text-align:center; padding:40px 20px; border-top:1px solid #222; margin-top:30px; background:#080808;">
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://243-max.github.io" style="background:#fff; padding:8px; border-radius:10px;">
+            <div style="background:#fff; padding:10px; display:inline-block; border-radius:15px;">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://243-max.github.io" style="display:block;">
+            </div>
             <p style="margin-top:15px; font-weight:bold; color:var(--primary);">ZAIN STORE | RAWALPINDI</p>
-            <p style="font-size:11px; color:#aaa; margin-top:5px;">Premium Gadgets Hub. Fast Delivery across Pakistan.</p>
-            <p style="font-size:11px; color:#666; margin-top:10px;"><i class="fas fa-map-marker-alt"></i> Shop #4, Main Bazar, Rawalpindi<br><i class="fas fa-phone"></i> 0348-5491217</p>
+            <p style="font-size:11px; color:#666; margin-top:5px;"><i class="fas fa-map-marker-alt"></i> Shop #4, Main Bazar, Rawalpindi</p>
         </div>
     </div>
 
-    <div id="spin-page" class="page">
-        <div style="text-align:center;">
-            <h2 style="color:var(--primary);">Lucky Spin & Win</h2>
-            <div id="wheel"></div>
-            <button onclick="spinWheel()" style="width:100%; padding:15px; background:var(--primary); color:#fff; border:none; border-radius:50px; font-weight:bold;">SPIN NOW</button>
-            <div id="spinMsg" style="margin-top:20px; color:var(--success); font-weight:bold;"></div>
-        </div>
-    </div>
-
-    <div id="pay-page" class="page">
-        <h2 style="color:var(--primary); margin-bottom:15px;">Payment Center</h2>
-        <div style="background:#00b894; padding:25px; border-radius:20px; text-align:center; border: 2px dashed #fff;">
-            <i class="fas fa-wallet" style="font-size:40px; margin-bottom:10px;"></i>
-            <h3>EasyPaisa Details</h3>
-            <p style="margin-top:10px;">Name: <b>ZAIN AHMED</b></p>
-            <p style="font-size:22px; font-weight:bold; margin:5px 0;">0348-5491217</p>
-            <small>Send screenshot after payment for fast delivery.</small>
-        </div>
-    </div>
-
-    <div id="returns-page" class="page">
-        <h2 style="color:var(--primary); margin-bottom:20px;">Return & Exchange</h2>
-        <div class="return-card">
-            <i class="fas fa-calendar-check" style="color:var(--primary);"></i>
-            <div><b>7 Days Policy</b><br><small>Hassle-free exchange within 7 days.</small></div>
-        </div>
-        <div class="return-card">
-            <i class="fas fa-box-open" style="color:var(--primary);"></i>
-            <div><b>Damaged Products</b><br><small>Instant replacement for faulty items.</small></div>
-        </div>
-        <div class="return-card">
-            <i class="fas fa-headset" style="color:var(--primary);"></i>
-            <div><b>Customer Support</b><br><small>Reach us 24/7 on WhatsApp for returns.</small></div>
-        </div>
-    </div>
-
-    <div id="detail-page" class="page" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:8000; background:#000; overflow-y:auto; display:none;">
-        <div style="background:var(--primary); padding:15px; display:flex; align-items:center; gap:15px;">
+    <div id="detail-page" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:8000; background:#000; overflow-y:auto; display:none;">
+        <div style="background:var(--primary); padding:15px; display:flex; align-items:center; gap:15px; position:sticky; top:0;">
             <i class="fas fa-arrow-left" onclick="closeDetail()"></i> <b>Product Details</b>
         </div>
-        <img id="d-img" style="width:100%; height:300px; object-fit:contain; background:#fff;">
+        <img id="d-img" style="width:100%; height:320px; object-fit:contain; background:#fff;">
+        
         <div style="padding:20px;">
             <h2 id="d-name"></h2>
-            <h1 id="d-price" style="color:var(--primary);"></h1>
-            <div style="margin-top:15px;">
-                <input type="text" id="c-name" class="input-style" placeholder="Your Name">
+            <h1 id="d-price" style="color:var(--primary); margin:10px 0;"></h1>
+            <p style="color:#888; font-size:13px; margin-bottom:20px;">Delivery: 2-4 Days | Verified Product</p>
+
+            <div style="background:#111; padding:15px; border-radius:15px; margin-bottom:25px;">
+                <h4 style="margin-bottom:15px; color:var(--primary);">Shipping Details</h4>
+                <input type="text" id="c-name" class="input-style" placeholder="Full Name">
                 <input type="number" id="c-phone" class="input-style" placeholder="WhatsApp Number">
-                <textarea id="c-addr" class="input-style" placeholder="Shipping Address" style="height:80px;"></textarea>
+                <textarea id="c-addr" class="input-style" placeholder="Complete Address" style="height:80px;"></textarea>
+                <button onclick="sendOrder()" style="width:100%; padding:18px; background:var(--success); color:#fff; border:none; border-radius:12px; font-weight:bold; font-size:16px;">
+                    <i class="fab fa-whatsapp"></i> CONFIRM VIA WHATSAPP
+                </button>
             </div>
-            <button onclick="sendOrder()" style="width:100%; padding:18px; background:var(--success); color:#fff; border:none; border-radius:12px; font-weight:bold;"><i class="fab fa-whatsapp"></i> CONFIRM VIA WHATSAPP</button>
+
+            <div class="review-section">
+                <h3 style="margin-bottom:15px;">Customer Reviews & Ratings</h3>
+                <div class="stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    <span style="color:#888; font-size:12px; margin-left:10px;">(No reviews yet)</span>
+                </div>
+                
+                <input type="text" class="input-style" placeholder="Your Name">
+                <textarea class="input-style" placeholder="How was your experience?" style="height:100px;"></textarea>
+                
+                <div class="upload-btn">
+                    <i class="fas fa-cloud-upload-alt"></i> Add Photo from Gallery
+                </div>
+                
+                <button style="width:100%; padding:14px; background:var(--primary); color:#fff; border:none; border-radius:10px; font-weight:bold;">SUBMIT YOUR REVIEW</button>
+            </div>
         </div>
     </div>
 
     <div class="bottom-nav">
-        <div class="nav-item active" onclick="showPage('home')"><i class="fas fa-home"></i><br>Home</div>
-        <div class="nav-item" onclick="showPage('spin')"><i class="fas fa-dharmachakra"></i><br>Spin</div>
-        <div class="nav-item" onclick="showPage('pay')"><i class="fas fa-wallet"></i><br>Pay</div>
-        <div class="nav-item" onclick="showPage('returns')"><i class="fas fa-undo"></i><br>Help</div>
+        <div class="nav-item active"><i class="fas fa-home"></i><br>Home</div>
+        <div class="nav-item"><i class="fas fa-dharmachakra"></i><br>Spin</div>
+        <div class="nav-item"><i class="fas fa-wallet"></i><br>Pay</div>
+        <div class="nav-item"><i class="fas fa-undo"></i><br>Help</div>
     </div>
 
     <script>
         const CSV_URL = 'https://docs.google.com/spreadsheets/d/13J6c7r2r6-1jN5czgo8fn0Tmn-XFj7BFhLaUHe4kkRY/gviz/tq?tqx=out:csv';
         let products = [];
-        let isUSD = false;
-        let currentCat = 'All';
 
         async function init() {
-            const res = await fetch(CSV_URL);
-            const data = await res.text();
-            const rows = data.split('\n').slice(1);
-            products = rows.map(r => {
-                const c = r.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                return { 
-                    n: c[0].replace(/"/g,""), 
-                    p: c[1].replace(/"/g,""), 
-                    i: c[2].replace(/"/g,""),
-                    cat: c[3] ? c[3].replace(/"/g,"").trim() : 'All'
-                };
-            });
-            render();
-            setTimeout(() => { document.getElementById('loader').style.display='none'; }, 1500);
+            try {
+                const res = await fetch(CSV_URL);
+                const data = await res.text();
+                const rows = data.split('\n').slice(1);
+                products = rows.map(r => {
+                    const c = r.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                    return { n: c[0].replace(/"/g,""), p: c[1].replace(/"/g,""), i: c[2].replace(/"/g,"") };
+                });
+                render();
+                startTimer(18 * 3600); // 18 Hours timer
+            } catch(e) { console.log("Error loading data"); }
         }
 
         function render() {
             const grid = document.getElementById('productGrid');
-            const query = document.getElementById('mainSearch').value.toLowerCase();
-            const filtered = products.filter(p => (currentCat === 'All' || p.cat === currentCat) && p.n.toLowerCase().includes(query));
-            grid.innerHTML = filtered.map(p => `
+            grid.innerHTML = products.map(p => `
                 <div class="card" onclick="openDetail('${p.n.replace(/'/g,"\\'")}','${p.p}','${p.i}')">
                     <div class="img-box"><img src="${p.i}"></div>
-                    <div class="info" style="padding:12px;">
+                    <div style="padding:12px;">
                         <div style="font-size:11px; height:32px; overflow:hidden;">${p.n}</div>
-                        <div style="color:var(--primary); font-weight:800; margin-top:5px;">${isUSD ? '$ '+(parseInt(p.p)/280).toFixed(2) : 'Rs '+p.p}</div>
+                        <div style="color:var(--primary); font-weight:800; margin-top:5px;">Rs ${p.p}</div>
+                        <div style="font-size:10px; color:var(--accent); margin-top:4px;">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> (14)
+                        </div>
                     </div>
                 </div>`).join('');
         }
 
-        function filterCat(cat, btn) {
-            currentCat = cat;
-            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            render();
+        function startTimer(duration) {
+            let timer = duration, hours, minutes, seconds;
+            setInterval(() => {
+                hours = Math.floor(timer / 3600);
+                minutes = Math.floor((timer % 3600) / 60);
+                seconds = Math.floor(timer % 60);
+                document.getElementById('timer').textContent = 
+                    (hours < 10 ? "0" + hours : hours) + ":" + 
+                    (minutes < 10 ? "0" + minutes : minutes) + ":" + 
+                    (seconds < 10 ? "0" + seconds : seconds);
+                if (--timer < 0) timer = duration;
+            }, 1000);
         }
 
         function openDetail(n, p, i) {
             document.getElementById('d-name').innerText = n;
-            document.getElementById('d-price').innerText = isUSD ? '$ '+(parseInt(p)/280).toFixed(2) : 'Rs '+p;
+            document.getElementById('d-price').innerText = 'Rs ' + p;
             document.getElementById('d-img').src = i;
             document.getElementById('detail-page').style.display = 'block';
+            window.scrollTo(0,0);
         }
 
         function closeDetail() { document.getElementById('detail-page').style.display = 'none'; }
@@ -223,27 +173,11 @@
             const cN = document.getElementById('c-name').value;
             const cP = document.getElementById('c-phone').value;
             const cA = document.getElementById('c-addr').value;
-            if(!cN || !cP || !cA) return alert("Details fill karein!");
+            if(!cN || !cP || !cA) return alert("Please fill all details!");
             const msg = `*ZAIN STORE ORDER*%0A📦*Item:* ${n}%0A💰*Price:* ${p}%0A👤*Name:* ${cN}%0A📞*Phone:* ${cP}%0A📍*Addr:* ${cA}`;
             window.location.href = `https://wa.me/923485491217?text=${msg}`;
         }
 
-        function spinWheel() {
-            const w = document.getElementById('wheel');
-            const deg = Math.floor(Math.random() * 5000) + 2000;
-            w.style.transform = `rotate(${deg}deg)`;
-            setTimeout(() => { document.getElementById('spinMsg').innerText = "Winner! Use code: ZAIN10"; }, 4100);
-        }
-
-        function showPage(id) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(id + '-page').classList.add('active');
-            toggleSidebar(false);
-            window.scrollTo(0,0);
-        }
-
-        function toggleSidebar(v) { document.getElementById('sidebar').classList.toggle('active', v); }
-        function toggleCurrency() { isUSD = !isUSD; document.getElementById('currBtn').innerText = isUSD ? "USD" : "PKR"; render(); }
         init();
     </script>
 </body>

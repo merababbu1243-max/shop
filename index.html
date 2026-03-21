@@ -11,8 +11,10 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
         body { background: var(--bg); color: var(--text); padding-bottom: 80px; overflow-x: hidden; }
 
-        /* Header & Sidebar */
+        /* Header */
         header { background: var(--primary); padding: 15px; position: sticky; top: 0; z-index: 2000; border-radius: 0 0 20px 20px; }
+        
+        /* Sidebar */
         .sidebar { position: fixed; top: 0; left: -100%; width: 280px; height: 100%; background: #111; z-index: 9000; transition: 0.4s; padding: 25px; border-right: 2px solid var(--primary); }
         .sidebar.active { left: 0; }
         .sidebar-link { display: flex; align-items: center; gap: 15px; padding: 15px 0; color: #ccc; cursor: pointer; border-bottom: 1px solid #222; }
@@ -25,31 +27,40 @@
         .slide { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-weight: bold; background-size: cover; background-position: center; }
         @keyframes slide { 0%, 30% { transform: translateX(0); } 33%, 63% { transform: translateX(-33.33%); } 66%, 100% { transform: translateX(-66.66%); } }
 
-        /* Categories (Now Fully Active) */
+        /* Categories Bar */
         .categories-bar { display: flex; gap: 10px; overflow-x: auto; padding: 10px 15px; scrollbar-width: none; }
-        .cat-btn { padding: 8px 18px; background: #1a1a1a; border-radius: 20px; border: 1px solid #333; white-space: nowrap; font-size: 12px; cursor: pointer; color: #fff; transition: 0.3s; }
-        .cat-btn.active { background: var(--primary); border-color: var(--primary); font-weight: bold; }
+        .cat-btn { padding: 8px 18px; background: #1a1a1a; border-radius: 20px; border: 1px solid #333; white-space: nowrap; font-size: 12px; cursor: pointer; color: #fff; }
+        .cat-btn.active { background: var(--primary); border-color: var(--primary); }
 
-        /* Product Grid */
+        /* Pages System */
+        .page { display: none; min-height: 100vh; animation: fadeIn 0.3s; }
+        .page.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Product Cards */
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 15px; }
-        .card { background: var(--card); border-radius: 15px; overflow: hidden; border: 1px solid #222; animation: fadeIn 0.5s; }
+        .card { background: var(--card); border-radius: 15px; overflow: hidden; border: 1px solid #222; }
         .img-box { height: 140px; background: #fff; display: flex; align-items: center; justify-content: center; }
         .img-box img { width: 80%; height: 80%; object-fit: contain; }
 
-        /* Bottom Nav */
+        /* Review Section */
+        .review-box { margin-top: 20px; border-top: 1px solid #333; padding-top: 20px; }
+        .stars { color: var(--accent); margin-bottom: 10px; }
+        .upload-btn { width: 100%; padding: 12px; background: #1a1a1a; border: 2px dashed #444; color: #ccc; border-radius: 10px; margin-bottom: 10px; text-align: center; font-size: 12px; }
+
+        /* Return Cards */
+        .return-card { background: #111; padding: 15px; border-radius: 12px; margin-bottom: 10px; display: flex; align-items: center; gap: 15px; border-left: 4px solid var(--primary); }
+
+        .input-style { width: 100%; padding: 12px; background: #1a1a1a; border: 1px solid #333; color: #fff; border-radius: 10px; margin-bottom: 10px; outline: none; }
         .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #000; display: flex; justify-content: space-around; padding: 12px; border-top: 2px solid var(--primary); z-index: 4000; }
         .nav-item { color: #888; text-align: center; font-size: 10px; cursor: pointer; }
         .nav-item.active { color: var(--primary); }
-
-        .page { display: none; min-height: 100vh; }
-        .page.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
     <div class="sidebar" id="sidebar">
-        <h2 style="color:var(--primary);">ZAIN STORE</h2>
+        <h2 style="color:var(--primary); margin-bottom:20px;">ZAIN STORE</h2>
         <div class="sidebar-link" onclick="showPage('home')"><i class="fas fa-home"></i> Home</div>
         <div class="sidebar-link" onclick="showPage('spin')"><i class="fas fa-dharmachakra"></i> Lucky Spin</div>
         <div class="sidebar-link" onclick="showPage('pay')"><i class="fas fa-wallet"></i> Payment</div>
@@ -58,7 +69,7 @@
     </div>
 
     <header>
-        <div style="display:flex; justify-content:space-between; align-items:center; color:#fff;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
             <i class="fas fa-bars" onclick="toggleSidebar(true)"></i>
             <b>ZAIN STORE</b>
             <i class="fas fa-shopping-bag"></i>
@@ -69,38 +80,43 @@
     </header>
 
     <div id="home-page" class="page active">
-        <div class="timer-box"><span style="font-size:10px; color:var(--primary);">OFFER ENDS:</span> <div id="timer">00:00:00</div></div>
+        <div class="timer-box"><div id="timer">00:00:00</div></div>
 
         <div class="slider">
             <div class="slides">
-                <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url('https://img.freepik.com/free-vector/gradient-purple-sale-background_23-2149117180.jpg');">BEST GADGETS 2024</div>
-                <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url('https://img.freepik.com/free-vector/flat-sale-background-with-abstract-shapes_23-2149117181.jpg');">UP TO 50% OFF</div>
-                <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url('https://img.freepik.com/free-vector/modern-sale-banner-design_23-2149117182.jpg');">FREE SHIPPING</div>
+                <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url('https://img.freepik.com/free-vector/gradient-purple-sale-background_23-2149117180.jpg');">RAMADAN SALE</div>
+                <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url('https://img.freepik.com/free-vector/flat-sale-background-with-abstract-shapes_23-2149117181.jpg');">GADGETS HUB</div>
+                <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url('https://img.freepik.com/free-vector/modern-sale-banner-design_23-2149117182.jpg');">FAST DELIVERY</div>
             </div>
         </div>
 
-        <div class="categories-bar" id="categoryBar">
+        <div class="categories-bar">
             <div class="cat-btn active" onclick="filterCat('All', this)">All</div>
             <div class="cat-btn" onclick="filterCat('Beauty', this)">Beauty</div>
             <div class="cat-btn" onclick="filterCat('Electronics', this)">Electronics</div>
             <div class="cat-btn" onclick="filterCat('Covers', this)">Covers</div>
-            <div class="cat-btn" onclick="filterCat('Airpods', this)">Airpods</div>
         </div>
 
         <div class="grid" id="productGrid"></div>
 
         <div style="text-align:center; padding:30px; background:#080808; margin-top:20px;">
-            <div style="background:#fff; padding:10px; display:inline-block; border-radius:15px; border:3px solid var(--primary);">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://merababbu1243-max.github.io/shop/" alt="Store QR">
+            <div style="background:#fff; padding:10px; display:inline-block; border-radius:15px;">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://merababbu1243-max.github.io/shop/" style="display:block;">
             </div>
             <p style="margin-top:10px; font-weight:bold; color:var(--primary);">SCAN TO VISIT STORE</p>
-            <p style="font-size:10px; color:#555;">Verified Link: /shop/</p>
         </div>
+    </div>
+
+    <div id="returns-page" class="page" style="padding:20px;">
+        <h2 style="color:var(--primary); margin-bottom:20px;">Return & Exchange</h2>
+        <div class="return-card"><i class="fas fa-box-open" style="color:var(--primary);"></i><div><b>7 Days Return</b><br><small>Asaan exchange policy.</small></div></div>
+        <div class="return-card"><i class="fas fa-video" style="color:var(--primary);"></i><div><b>Video Proof</b><br><small>Parcel open karne ki video lazmi hai.</small></div></div>
+        <div class="return-card"><i class="fas fa-headset" style="color:var(--primary);"></i><div><b>24/7 Support</b><br><small>WhatsApp par rabta karein.</small></div></div>
     </div>
 
     <div id="spin-page" class="page" style="padding:20px; text-align:center;">
         <h2>Lucky Spin</h2>
-        <div id="wheel" style="width:250px; height:250px; border-radius:50%; border:8px solid #333; margin:20px auto; background:conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00); transition:4s cubic-bezier(0.1,0,0.1,1);"></div>
+        <div id="wheel" style="width:220px; height:220px; border-radius:50%; border:8px solid #333; margin:20px auto; background:conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00); transition:4s;"></div>
         <button onclick="spin()" style="width:100%; padding:15px; background:var(--primary); color:#fff; border:none; border-radius:50px; font-weight:bold;">SPIN NOW</button>
     </div>
 
@@ -114,13 +130,22 @@
     </div>
 
     <div id="detail-page" class="page" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:8000; background:#000; overflow-y:auto;">
-        <div style="background:var(--primary); padding:15px; display:flex; align-items:center; gap:15px;"><i class="fas fa-arrow-left" onclick="closeDetail()"></i> <b>Product Detail</b></div>
+        <div style="background:var(--primary); padding:15px; display:flex; align-items:center; gap:15px;"><i class="fas fa-arrow-left" onclick="closeDetail()"></i> <b>Checkout</b></div>
         <img id="d-img" style="width:100%; height:300px; object-fit:contain; background:#fff;">
         <div style="padding:20px;">
-            <h2 id="d-name"></h2><h1 id="d-price" style="color:var(--primary);"></h1>
-            <input type="text" id="c-name" class="input-style" placeholder="Your Name" style="width:100%; padding:12px; background:#111; border:1px solid #333; color:#fff; margin:10px 0; border-radius:8px;">
-            <textarea id="c-addr" class="input-style" placeholder="Full Address" style="width:100%; padding:12px; background:#111; border:1px solid #333; color:#fff; margin:10px 0; border-radius:8px; height:70px;"></textarea>
-            <button onclick="sendOrder()" style="width:100%; padding:15px; background:var(--success); color:#fff; border:none; border-radius:10px; font-weight:bold;">ORDER ON WHATSAPP</button>
+            <h2 id="d-name"></h2><h1 id="d-price" style="color:var(--primary); margin:10px 0;"></h1>
+            
+            <input type="text" id="c-name" class="input-style" placeholder="Your Name">
+            <textarea id="c-addr" class="input-style" placeholder="Full Address" style="height:70px;"></textarea>
+            <button onclick="sendOrder()" style="width:100%; padding:15px; background:var(--success); color:#fff; border:none; border-radius:10px; font-weight:bold;"><i class="fab fa-whatsapp"></i> ORDER VIA WHATSAPP</button>
+
+            <div class="review-box">
+                <h3>Customer Reviews</h3>
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> (4.8/5)</div>
+                <input type="text" class="input-style" placeholder="Your experience...">
+                <div class="upload-btn"><i class="fas fa-camera"></i> Upload Product Photo</div>
+                <button style="width:100%; padding:12px; background:#222; border:none; color:#fff; border-radius:8px;">Submit Review</button>
+            </div>
         </div>
     </div>
 
@@ -128,6 +153,7 @@
         <div class="nav-item active" onclick="showPage('home')"><i class="fas fa-home"></i><br>Home</div>
         <div class="nav-item" onclick="showPage('spin')"><i class="fas fa-dharmachakra"></i><br>Spin</div>
         <div class="nav-item" onclick="showPage('pay')"><i class="fas fa-wallet"></i><br>Pay</div>
+        <div class="nav-item" onclick="showPage('returns')"><i class="fas fa-undo"></i><br>Returns</div>
     </div>
 
     <script>
@@ -149,7 +175,7 @@
                 };
             });
             render();
-            startTimer(15 * 3600);
+            startTimer(16 * 3600);
         }
 
         function render() {
@@ -188,7 +214,7 @@
             const p = document.getElementById('d-price').innerText;
             const cN = document.getElementById('c-name').value;
             const cA = document.getElementById('c-addr').value;
-            if(!cN || !cA) return alert("Details bharain!");
+            if(!cN || !cA) return alert("Fill details!");
             window.location.href = `https://wa.me/923485491217?text=*ZAIN STORE ORDER*%0A📦*Item:* ${n}%0A💰*Price:* ${p}%0A👤*Name:* ${cN}%0A📍*Addr:* ${cA}`;
         }
 
@@ -211,7 +237,6 @@
             const deg = Math.random()*5000 + 2000;
             document.getElementById('wheel').style.transform = `rotate(${deg}deg)`;
         }
-
         init();
     </script>
 </body>

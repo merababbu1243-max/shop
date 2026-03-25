@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+b<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -239,5 +239,70 @@
         }
         init();
     </script>
+    <!-- Floating Feature Start -->
+<div id="featureBox">
+  <p>🔥 New Feature Added!</p>
+  <button onclick="showMessage()">Click Me</button>
+</div>
+
+<style>
+#featureBox {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #222;
+  color: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  z-index: 9999;
+  text-align: center;
+  width: 160px;
+  animation: fadeIn 1s ease;
+}
+
+#featureBox button {
+  margin-top: 8px;
+  padding: 6px 10px;
+  border: none;
+  background: #00a8ff;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#featureBox button:hover {
+  background: #0097e6;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(20px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+</style>
+
+<script>
+function showMessage() {
+  const msg = document.createElement("div");
+  msg.innerText = "✅ Website Updated Successfully!";
+  
+  msg.style.position = "fixed";
+  msg.style.bottom = "100px";
+  msg.style.right = "20px";
+  msg.style.background = "#2ed573";
+  msg.style.color = "#fff";
+  msg.style.padding = "10px 15px";
+  msg.style.borderRadius = "6px";
+  msg.style.zIndex = "9999";
+  msg.style.boxShadow = "0 0 8px rgba(0,0,0,0.2)";
+  
+  document.body.appendChild(msg);
+
+  setTimeout(() => {
+    msg.remove();
+  }, 3000);
+}
+</script>
+<!-- Floating Feature End -->
 </body>
 </html>
